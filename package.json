@@ -1,0 +1,35 @@
+{
+  "name": "zerotwobot",
+  "version": "1.0.0",
+  "description": "A simple multi-functional Discord bot using the Discord.JS library",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pinnouse/ZeroTwoBot.git"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "javascript",
+    "ai",
+    "music",
+    "games",
+    "anime",
+    "zero",
+    "two"
+  ],
+  "author": "Nicholas Wong",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/pinnouse/ZeroTwoBot/issues"
+  },
+  "homepage": "https://github.com/pinnouse/ZeroTwoBot#readme",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "node-opus": "^0.3.0",
+    "uws": "^10.148.0"
+  }
+}

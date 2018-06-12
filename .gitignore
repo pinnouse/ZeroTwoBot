@@ -1,0 +1,9 @@
+*.log
+*.lock
+*.tmp
+.DS_Store
+Thumbs.db
+
+/node_modules
+
+config.json
