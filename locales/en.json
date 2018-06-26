@@ -1,0 +1,125 @@
+{
+  "botInternal": {
+    "setLocale": {
+      "title": "Language",
+      "content": ":flag_gb: Set preferred server language to: ` {0} `"
+    },
+    "notPermissible": {
+      "title": "NOT ALLOWED",
+      "content": ":no_entry_sign: You require the following permissions to use this command: {0}"
+    },
+    "tooFewArgs": {
+      "title": "COMMAND ERROR",
+      "content": "Not enough parameters specified, correct usage:\n  {0}"
+    },
+    "tooManyArgs": {
+      "title": "COMMAND ERROR",
+      "content": "Too many parameters specified, correct usage:\n  {0}"
+    },
+    "commandHelpFormat": {
+      "content": "**` {0} `** {1}",
+      "divider": "`** | **` ",
+      "requiredArgs": "` <{0}> ` ",
+      "optionalArgs": "` [{0}] ` "
+    }
+  },
+  "general": {
+    "help": {
+      "successAll": {
+        "title": "Help",
+        "content": "Here is a list of the categories:\n{0}\nTo select a category, use: {1}",
+        "categoryListItem": "  ` [{0}] ` : **{1}**"
+      },
+      "successCategory": {
+        "title": "Help",
+        "content": "Here are the commands for the category: **` {0} `**",
+        "listItem": {
+          "title": "*{0}*",
+          "content": "{0}\nUsage: {1}"
+        }
+      },
+      "errorIndex": {
+        "title": "Help",
+        "content": "Sorry that category does not exist.\nTo see a list of categories, use: {0}"
+      }
+    },
+    "locale": {
+      "getLocale": {
+        "title": "Language",
+        "content": "The current language for this server is: ` {0} `\nAvailable languages: {1}"
+      },
+      "localeNotExist": {
+        "title": "Language",
+        "content": ":no_entry_sign: Sorry that language is not supported.\nSupported languages are: {0}\nWant to contribute? Email me at __`cupofpho@gmail.com`__"
+      },
+      "alreadySetError": {
+        "title": "Language",
+        "content": ":no_entry_sign: The preferred language for this server is already: ` {0} `"
+      }
+    },
+    "ping": {
+      "ping": {
+        "title": "Ping",
+        "content": "Pinging..."
+      },
+      "pong": {
+        "title": "Ping",
+        "content": ":sparkles: The current ping is: **` {0}ms `** (API latency: ` {1}ms `)"
+      }
+    },
+    "prefix": {
+      "success": {
+        "title": "Prefix",
+        "content": "The prefix for this server is: ` {0} `"
+      },
+      "successSet": {
+        "title": "Prefix",
+        "content": "Set prefix for this server to: ` {0} `"
+      },
+      "alreadySetError": {
+        "title": "Prefix",
+        "content": ":no_entry_sign: Prefix is already set to {0}"
+      },
+      "tooLongError": {
+        "title": "NOT ALLOWED",
+        "content":":no_entry_sign: Custom prefix can only have a maximum length of 3"
+      }
+    },
+    "kill": {
+      "success": {
+        "title": "Kill",
+        "content": "See you!"
+      },
+      "ownerError": {
+        "title": "NOT ALLOWED",
+        "content": ":no_entry_sign: You need to be included as an 'Owner' of the bot to use this"
+      }
+    }
+  },
+  "voice": {
+    "join": {
+      "connecting": {
+        "title": "Join",
+        "content": "Joining voice channel: ` {0} `"
+      },
+      "failed": {
+        "title": "Join",
+        "content": ":no_entry_sign: Could not connect to voice channel: ` {0} `"
+      },
+      "noChannel": {
+        "title": "Join",
+        "content": ":no_entry_sign: You must be connected to a voice channel to use this command"
+      }
+    },
+    "leave": {
+      "success": {
+        "title": "Leave",
+        "content": "Left voice channel: ` {0} `"
+      },
+      "noChannel": {
+        "title": "Leave",
+        "content":":no_entry_sign: Could not find a voice channel you are connected to"
+      }
+    }
+  }
+}
