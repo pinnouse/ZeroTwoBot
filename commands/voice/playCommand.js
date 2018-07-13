@@ -20,6 +20,6 @@ module.exports = {
   permissions: [],
   description: 'Searches YouTube for the song requested or adds song to queue',
   executeCommand: async (args) => {
-    
+    let playLocale = args.locale.voice.play;
   }
 }

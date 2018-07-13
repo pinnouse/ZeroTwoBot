@@ -1,7 +1,5 @@
 'use strict';
 
-const { RichEmbed } = require('discord.js');
-
 const utils = require('../../framework/utils');
 
 module.exports = {

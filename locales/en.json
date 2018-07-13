@@ -120,6 +120,12 @@
         "title": "Leave",
         "content":":no_entry_sign: Could not find a voice channel you are connected to"
       }
+    },
+    "play": {
+      "noResults": {
+        "title": "Play",
+        "content": "Sorry, no results were found for your query: ` {0} `"
+      }
     }
   }
 }
