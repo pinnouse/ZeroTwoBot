@@ -16,7 +16,7 @@ For a working bot, you can hit up: [ReinaBot](http://www.gnowbros.com/reinabot)
 ## Contact
 
 > HMU on Discord: **pinnouse#7766**
-<br />
+>
 > Join the support channel: ~~[Doesn't exist yet]()~~
-<br />
+>
 > YouTube channel: [link](https://www.youtube.com/channel/UCJSOrfnWGCBDAnpnxpIjsBQ)
