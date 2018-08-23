@@ -4,7 +4,8 @@
   "description": "A simple multi-functional Discord bot using the Discord.JS library",
   "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bot.js"
   },
   "repository": {
     "type": "git",
@@ -28,10 +29,9 @@
   },
   "homepage": "https://github.com/pinnouse/ZeroTwoBot#readme",
   "dependencies": {
-    "discord.js": "^11.3.2",
+    "discord.js": "^11.4.2",
     "glob": "^7.1.2",
     "node-opus": "^0.3.0",
-    "uws": "^10.148.0",
     "ytdl-core": "^0.20.4"
   }
 }
