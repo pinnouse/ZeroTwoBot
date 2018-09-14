@@ -3,12 +3,13 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-const fs = require('fs'); // File stream
-
 const { token } = require('./config.json');
 
 const CommandParser = require('./framework/commandParser');
 var cp = new CommandParser(client);
+
+const ChatModule = require('./framework/chatbot');
+var chatModule = new ChatModule(client);
 
 client.on('ready', () => {
   console.log(`Bot is ready, logged in as: ${client.user.tag}`);
@@ -28,7 +29,12 @@ client.on('guildDelete', guild => {
 client.on('message', async message => {
   if (message.author.bot) return;
 
-  await cp.receiveMessage(message);
+  //Mention, that means use the chatbot
+  if (message.content.startsWith(`<@${client.user.id}>`))
+    await chatModule.sendMessage(message);
+  //For parsing commands
+  else
+    await cp.receiveMessage(message);
 });
 
 client.login(token).catch(console.log);

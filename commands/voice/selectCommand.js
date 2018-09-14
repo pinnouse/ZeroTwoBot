@@ -7,7 +7,6 @@ const request = require("request-promise-native");
 const config = require('../../config.json');
 
 const joinCommand = require('./joinCommand');
-const selectCommand = require('./selectCommand');
 
 const fs = require('fs');
 const { promisify } = require('util');
@@ -21,14 +20,14 @@ const urlPrefices = {
 };
 
 module.exports = {
-  name: 'play',
+  name: 'select',
   category: 'voice',
-  aliases: ['play', 'p'],
+  aliases: ['s', 'sel', 'select'],
   optArgs: [],
-  reqArgs: ['search term or url'],
-  unlimitedArgs: true,
+  reqArgs: ['selection of song'],
+  unlimitedArgs: false,
   permissions: [],
-  description: 'Searches YouTube for the song requested or adds song to queue',
+  description: 'Selects a song searched by the ` play ` command',
   executeCommand: async (args) => {
     let playLocale = args.locale.voice.play;
     if (!args.playlists.has(args.message.guild.id)) {
@@ -54,22 +53,10 @@ module.exports = {
           
           console.log(value);
 
-          let selectUsage = `\`${args.prefix}`;
-          selectCommand.aliases.forEach((alias, ind) => {
-            if (ind > 0) selectUsage += " | `";
-            selectUsage += `${alias}\``;
-          });
-          selectUsage += " `" + ((value.length > 1) ? `<1-${value.length}>` : "<1>") + "`";
-
-          let songList = "";
-          value.forEach((song, i) => {
-            songList += `\n\`[\`[\`${i+1}\`](${urlPrefices[song.source]+song.id})\`]\`  -  \` ${song.duration} \`  ${song.title}`;
-          });
-
           args.message.channel.send(
             utils.getRichEmbed(args.client, 0xcccccc, playLocale.listResults.title, 
               utils.replace(playLocale.listResults.content, 
-                query, selectUsage, songList
+                query, 'sel <1-5>'
               )
             )
           );
@@ -134,29 +121,11 @@ async function searchYouTube(query) {
       request(searchOptions)
       .then(results => {
         results.items.forEach(tempVal => {
-          let tempDuration = tempVal.contentDetails.duration;
-          let days = tempDuration.match(/[0-9]{1,2}(?=D)/) || "00";
-          console.log(days);
-          let hours = tempDuration.match(/[0-9]{1,2}(?=H)/) || "00";
-          let minutes = tempDuration.match(/[0-9]{1,2}(?=M)/) || "00";
-          let seconds = tempDuration.match(/[0-9]{1,2}(?=S)/) || "00";
-          
-          let formattedTime = "";
-          if (days !== "00")
-            formattedTime = [days, hours, minutes, seconds].join(":");
-          else if (hours !== "00")
-            formattedTime = [hours, minutes, seconds].join(":");
-          else
-            formattedTime = [minutes, seconds].join(":");
-
-          formattedTime = formattedTime
-          .replace(/^([0-9])(?=:)/gm, "0$1")
-          .replace(/:([0-9]):/gm, ":0$1:")
-          .replace(/:([0-9])$/gm, ":0$1");
+          let formattedTime = tempVal.contentDetails.duration.substr(0, tempVal.contentDetails.duration.length - 1);
+          formattedTime = formattedTime.replace(/([0-9]{1,2})[A-Z]([0-9]{1,2})/gim, "$1:$2").replace(/\:([0-9])(?:$|:)/gim, ":0$1").replace(/[^0-9]([0-9])\:/gim, "0$1:").replace(/[A-Z]/gim, "");
           tempSongs.forEach((val, i) => {
             if (val.id == tempVal.id) { 
               tempSongs[i].duration = formattedTime;
-              // tempSongs[i].original = tempVal.contentDetails.duration;
             }
           });
         });

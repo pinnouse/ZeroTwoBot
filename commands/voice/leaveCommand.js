@@ -24,14 +24,14 @@ module.exports = {
       await channels.forEach(async (channel) => {
         if (channel.members.has(args.message.author.id)) {
           channel.leave();
-          await args.message.channel.send(utils.getRichEmbed(args.client, 0x0affda, leaveLocale.success.title, utils.replace(leaveLocale.noChannel.content, channel.name)));
+          args.message.channel.send(utils.getRichEmbed(args.client, 0x0affda, leaveLocale.success.title, utils.replace(leaveLocale.success.content, channel.name)));
           leftChannel = true;
         }
       });
 
       //If gotten here, the channel hasn't been left
       if (!leftChannel)
-        await args.message.channel.send(utils.getRichEmbed(args.client, 0x0affda, leaveLocale.noChannel.title, leaveLocale.noChannel.content));
+        await args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, leaveLocale.noChannel.title, leaveLocale.noChannel.content));
 
       return leftChannel;
     } else {

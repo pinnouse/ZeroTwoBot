@@ -50,7 +50,7 @@
       },
       "localeNotExist": {
         "title": "Language",
-        "content": ":no_entry_sign: Sorry that language is not supported.\nSupported languages are: {0}\nWant to contribute? Email me at __`cupofpho@gmail.com`__"
+        "content": ":no_entry_sign: Sorry that language is not supported.\nSupported languages are: {0}\nWant to contribute? Email me at __`[cupofpho@gmail.com](mailto:cupofpho@gmail.com)`__"
       },
       "alreadySetError": {
         "title": "Language",
@@ -125,6 +125,10 @@
       "noResults": {
         "title": "Play",
         "content": "Sorry, no results were found for your query: ` {0} `"
+      },
+      "listResults": {
+        "title": "Play",
+        "content": "Results found for the query: ` {0} `\nUse {1} to select one of the following.\n{2}"
       }
     }
   }

@@ -29,14 +29,30 @@ var locales = new Map();
   player: {
     status: 'STREAMING_VIDEO',
     songs: [{
-      songName: 'Never Gonna Give You Up:'
+      title: 'Never Gonna Give You Up:'
       source: 'youtube',
       id: 'dQw4w9WgXcQ',
-      length: '03:32'
+      duration: '03:32'
     }, ...]
   }>
 */
 var playlists = new Map();
+
+//Map of searched songs <GuildID, list of songs> ex:
+/* <287562879284857,
+  songs: {
+    songs: [
+      {
+        title: 'asdf',
+        source: 'youtube',
+        id: 'asdf...',
+        duration: '0:12'
+      }, ...
+    ],
+    timeout: setTimeout() => clear this value
+  }>
+*/
+var selectList = new Map();
 
 class CommandParser {
   constructor(client) {
@@ -111,14 +127,17 @@ class CommandParser {
               let lang = langPrefs.has(message.guild.id) ? langPrefs.get(message.guild.id) : config.defaultLang;
               let locale = locales.get(lang);
               let hasArgs = tempCmd.optArgs && tempCmd.reqArgs;
+
+              //Check if user has permission to use the command
               if (tempCmd.permissions && tempCmd.permissions.length > 0 && message.member && !message.member.hasPermission(tempCmd.permissions, false, false)) {
-                //The user does not have permission to use the command
                 message.channel.send(new RichEmbed()
                   .setColor(0xff0000)
                   .setTitle(locale.botInternal.notPermissible.title)
                   .setDescription(utils.replace(locale.botInternal.notPermissible.content, utils.getPermissionsString(tempCmd.permissions)))
                 );
-              } else if (hasArgs && args.length > tempCmd.optArgs.length + tempCmd.reqArgs.length) {
+              }
+              //Check too many arguments
+              else if (hasArgs && args.length > tempCmd.optArgs.length + tempCmd.reqArgs.length && !tempCmd.unlimitedArgs) {
                 let argLayout = "";
                 tempCmd.reqArgs.forEach((a) => {
                   argLayout += utils.replace(locale.botInternal.commandHelpFormat.requiredArgs, a);
@@ -135,7 +154,9 @@ class CommandParser {
                     utils.replace(locale.botInternal.tooFewArgs.content, utils.replace(locale.botInternal.commandHelpFormat.content, `${prefix}${command}`, argLayout))
                   )
                 );
-              } else if (hasArgs && args.length < tempCmd.reqArgs.length) {
+              }
+              //Check if meets amount of required arguments
+              else if (hasArgs && args.length < tempCmd.reqArgs.length) {
                 let argLayout = "";
                 tempCmd.reqArgs.forEach((a) => {
                   argLayout += utils.replace(locale.botInternal.commandHelpFormat.requiredArgs, a);
@@ -150,28 +171,34 @@ class CommandParser {
                   .setDescription(
                     utils.replace(locale.botInternal.tooFewArgs.content, utils.replace(locale.botInternal.commandHelpFormat.content, `${prefix}${command}`, argLayout))
                   ));
-              } else {
+              } 
+              //Execute the given command
+              else {
                 //try {
-                  tempCmd.executeCommand({
-                    message: message,
-                    args: args,
-                    client: this.client,
-                    commands: commands,
-                    customPrefixes: customPrefixes,
-                    langPrefs: langPrefs,
-                    language: lang,
-                    locale: locale,
-                    locales: locales,
-                    playlists: playlists
-                  }).then(success => {
-                    console.log("\n----------------[Command]----------------"
-                      + `\ncommand     : ${tempCmd.name}`
-                      + `\nuser        : ${message.author.tag} (${message.author.id})`
-                      + `\ntime        : ${new Date().toLocaleString()}`
-                      + `\nsucceeeded  : ${success || "unsure (no return value)"}`
-                      + `\npassed args : ${JSON.stringify(args)}`
-                    );
-                  });
+                message.channel.startTyping();
+                tempCmd.executeCommand({
+                  message: message,
+                  args: args,
+                  client: this.client,
+                  commands: commands,
+                  prefix: prefix,
+                  customPrefixes: customPrefixes,
+                  langPrefs: langPrefs,
+                  language: lang,
+                  locale: locale,
+                  locales: locales,
+                  playlists: playlists,
+                  selectList: selectList
+                }).then(success => {
+                  console.log("\n----------------[Command]----------------"
+                    + `\ncommand     : ${tempCmd.name}`
+                    + `\nuser        : ${message.author.tag} (${message.author.id})`
+                    + `\ntime        : ${new Date().toLocaleString()}`
+                    + `\nsucceeeded  : ${success || "unsure (no return value)"}`
+                    + `\npassed args : ${JSON.stringify(args)}`
+                  );
+                });
+                message.channel.stopTyping();
                   /* * /
                 } catch (e) {
                   console.error("Ran into error: " + e);

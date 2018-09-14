@@ -32,6 +32,8 @@
     "discord.js": "^11.4.2",
     "glob": "^7.1.2",
     "node-opus": "^0.3.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5",
     "ytdl-core": "^0.20.4"
   }
 }
