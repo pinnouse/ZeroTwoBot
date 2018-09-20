@@ -16,19 +16,19 @@ module.exports = {
   optArgs: ['new prefix'],
   reqArgs: [],
   permissions: ['MANAGE_GUILD'],
-  description: 'Gets the current server\'s prefix or sets to a new preferred prefix',
+  description: (locale) => { return locale['general']['prefix']; },
   executeCommand: async (args) => {
-    let prefixLocale = args.locale.general.prefix;
+    let prefixLocale = args.locale['general']['prefix'];
     if (args.args.length > 0) {
       let newPrefix = args.args[0];
       if (newPrefix.length > 3) {
-        await args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, prefixLocale.tooLongError.title, prefixLocale.tooLongError.content));
+        await args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, prefixLocale.title, prefixLocale['errors'].tooLong));
         return false;
       } else {
         let comparePrefix = (args.customPrefixes.has(args.message.guild.id)) ? args.customPrefixes.get(args.message.guild.id) : config.prefix;
         if (newPrefix === comparePrefix) {
           await args.message.channel.send(
-            utils.getRichEmbed(args.client, 0xff0000, prefixLocale.alreadySetError.title, utils.replace(prefixLocale.alreadySetError.content, comparePrefix))
+            utils.getRichEmbed(args.client, 0xff0000, prefixLocale.title, utils.replace(prefixLocale['errors'].alreadySet, comparePrefix))
           );
           return false;
         }
@@ -39,12 +39,12 @@ module.exports = {
         let writeFile = promisify(fs.writeFile);
         await writeFile('./prefixPrefs.json', utils.mapToJSON(args.customPrefixes), 'utf-8');
 
-        await args.message.channel.send(utils.getRichEmbed(args.client, 0x4286f4, prefixLocale.successSet.title, utils.replace(prefixLocale.successSet.content, newPrefix)));
+        await args.message.channel.send(utils.getRichEmbed(args.client, 0x4286f4, prefixLocale.title, utils.replace(prefixLocale.set, newPrefix)));
         return true;
       }
     } else {
       let prefix =  (args.customPrefixes.has(args.message.guild.id)) ? args.customPrefixes.get(args.message.guild.id) : config.prefix;
-      await args.message.channel.send(utils.getRichEmbed(args.client, 0x4286f4, prefixLocale.success.title, utils.replace(prefixLocale.success.content, prefix)));
+      await args.message.channel.send(utils.getRichEmbed(args.client, 0x4286f4, prefixLocale.title, utils.replace(prefixLocale.get, prefix)));
       return true;
     }
   }

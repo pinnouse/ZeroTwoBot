@@ -28,7 +28,7 @@ module.exports = {
   reqArgs: ['search term or url'],
   unlimitedArgs: true,
   permissions: [],
-  description: 'Searches YouTube for the song requested or adds song to queue',
+  description: (locale) => { return locale['voice']['play']; },
   executeCommand: async (args) => {
     let playLocale = args.locale.voice.play;
     if (!args.playlists.has(args.message.guild.id)) {
@@ -67,8 +67,8 @@ module.exports = {
           });
 
           args.message.channel.send(
-            utils.getRichEmbed(args.client, 0xcccccc, playLocale.listResults.title, 
-              utils.replace(playLocale.listResults.content, 
+            utils.getRichEmbed(args.client, 0xcccccc, playLocale.title, 
+              utils.replace(playLocale.listResults, 
                 query, selectUsage, songList
               )
             )

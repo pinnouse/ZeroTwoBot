@@ -4,6 +4,8 @@ const config = require('../../config.json');
 
 const utils = require('../../framework/utils');
 
+const botInternal = require('../../locales/botInternal.json');
+
 module.exports = {
   name: 'help',
   category: 'general',
@@ -11,9 +13,9 @@ module.exports = {
   optArgs: ['category (name or id)'],
   reqArgs: [],
   permissions: [],
-  description: 'Get help on using the commands of the bot',
+  description: (locale) => { return locale['general']['help']; },
   executeCommand: async (args) => {
-    let helpLocale = args.locale.general.help;
+    let helpLocale = args.locale['general']['help'];
     let prefix = args.customPrefixes.get(args.message.guild.id) || config.prefix;
     let categories = Array.from(args.commands.keys());
 
@@ -28,12 +30,12 @@ module.exports = {
 
         commands = args.commands.get(cat);
 
-        let embed = utils.getRichEmbed(args.client, 0x9e7e08, helpLocale.successCategory.title, utils.replace(helpLocale.successCategory.content, cat));
+        let embed = utils.getRichEmbed(args.client, 0x9e7e08, helpLocale.title, utils.replace(helpLocale['successCategory'].content, cat));
 
         commands.forEach(cmd => {
           embed.addField(
-            utils.replace(helpLocale.successCategory.listItem.title, cmd.name),
-            `${cmd.description}\n${utils.getCommandUsage(prefix, cmd, args.locale.botInternal.commandHelpFormat)}`
+            utils.replace(helpLocale['successCategory']['listItem'].title, cmd.name),
+            `${cmd.description(args.locale).description}\n${utils.getCommandUsage(prefix, cmd, botInternal.commandHelpFormat)}`
           );
         });
         
@@ -45,8 +47,8 @@ module.exports = {
           utils.getRichEmbed(
             args.client,
             0xff0000,
-            helpLocale.errorIndex.title,
-            utils.replace(helpLocale.errorIndex.content, utils.getCommandUsage(prefix, module.exports, args.locale.botInternal.commandHelpFormat))
+            helpLocale.title,
+            utils.replace(helpLocale['errors'].index, utils.getCommandUsage(prefix, module.exports, botInternal.commandHelpFormat))
           )
         );
 
@@ -56,15 +58,15 @@ module.exports = {
       //List all categories
       let allCategories = "";
       categories.forEach((cat, index) => {
-        allCategories += `\n${utils.replace(helpLocale.successAll.categoryListItem, index + 1, cat)}\n`;
+        allCategories += `\n${utils.replace(botInternal.commandHelpFormat.categoryListItem, index + 1, cat)}\n`;
       });
 
       await args.message.channel.send(
         utils.getRichEmbed(
           args.client,
           0x9e7e08,
-          helpLocale.successAll.title,
-          utils.replace(helpLocale.successAll.content, allCategories, utils.getCommandUsage(prefix, module.exports, args.locale.botInternal.commandHelpFormat))
+          helpLocale.title,
+          utils.replace(helpLocale['successAll'].content, allCategories, utils.getCommandUsage(prefix, module.exports, botInternal.commandHelpFormat))
         )
       )
       return true;

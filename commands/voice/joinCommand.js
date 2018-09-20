@@ -9,9 +9,9 @@ module.exports = {
   optArgs: [],
   reqArgs: [],
   permissions: [],
-  description: 'Joins the voice channel you are connected to if able to',
+  description: (locale) => { return locale['voice']['join']; },
   executeCommand: async (args) => {
-    let joinLocale = args.locale.voice.join;
+    let joinLocale = args.locale['voice']['join'];
     
     //Find author's voice channel
     if (args.message.author.client.channels.size > 0) {
@@ -26,19 +26,19 @@ module.exports = {
             if (channel.members.has(args.message.author.id) && !joinedChannel) {
               joinedChannel = true;
               args.message.channel.send(
-                utils.getRichEmbed(args.client, 0x0affda, joinLocale.connecting.title, utils.replace(joinLocale.connecting.content, channel.name))
+                utils.getRichEmbed(args.client, 0x0affda, joinLocale.title, utils.replace(joinLocale.content, channel.name))
               ).then(() => { //Message sent
                 channel.join().then(() => {
                   //Join channel
                   //Set our return value to true
                   res(`Successfully connected to voice channel: ${channel.name} (id: ${channel.id})`);
                 }).catch((reason) => { //Catch couldn't join channel
-                  args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, joinLocale.failed.title, utils.replace(joinLocale.failed.content, channel.name)));
+                  args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, joinLocale.title, utils.replace(joinLocale['errors']['failed'], channel.name)));
                   console.log("Error connecting to voice channel: " + reason);
                   res(`Error connecting to voice channel: ${reason}`);
                 });
               }).catch((reason) => { //Catch couldn't send message
-                args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, joinLocale.failed.title, utils.replace(joinLocale.failed.content)));
+                args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, joinLocale.title, utils.replace(joinLocale['errors']['failed'], channel.name)));
                 console.log("Error connecting to voice channel (sending message): " + reason);
                 res(`Error connecting to voice channel (sending message): ${reason}`);
               });
@@ -50,7 +50,7 @@ module.exports = {
 
           if (result === false) {
             args.message.channel
-            .send(utils.getRichEmbed(args.client, 0xff0000, joinLocale.noChannel.title, joinLocale.noChannel.content))
+            .send(utils.getRichEmbed(args.client, 0xff0000, joinLocale.title, joinLocale['errors'].noChannel))
             .then(() => { resolve(result); });
           }
           
@@ -60,7 +60,7 @@ module.exports = {
       
     } else {
       return new Promise((resolve, reject) => {
-        args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, joinLocale.noChannel.title, joinLocale.noChannel.content)).then(() => { resolve(false) });
+        args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, joinLocale.title, joinLocale['errors'].noChannel)).then(() => { resolve(false) });
       });
     }
   }

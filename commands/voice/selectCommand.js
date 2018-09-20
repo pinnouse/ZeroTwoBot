@@ -27,7 +27,7 @@ module.exports = {
   reqArgs: ['selection of song'],
   unlimitedArgs: false,
   permissions: [],
-  description: 'Selects a song searched by the ` play ` command',
+  description: (locale) => { return locale['voice']['select']; },
   executeCommand: async (args) => {
     let playLocale = args.locale.voice.play;
     if (!args.playlists.has(args.message.guild.id)) {

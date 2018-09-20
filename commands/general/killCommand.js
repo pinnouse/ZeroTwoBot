@@ -15,11 +15,11 @@ module.exports = {
   optArgs: [],
   reqArgs: [],
   permissions: [],
-  description: 'Terminates the bot instance (owner of bot only)',
+  description: (locale) => { return locale['general']['kill']; },
   executeCommand: async (args) => {
-    let killLocale = args.locale.general.kill;
+    let killLocale = args.locale['general']['kill'];
     if (config.owners.includes(args.message.author.id)) {
-      args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, killLocale.success.title, killLocale.success.content)).then(() => {
+      args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, killLocale.title, killLocale.content)).then(() => {
         destroyService(args.client);
       }, (reason) => {
         destroyService(args.client);
@@ -27,7 +27,7 @@ module.exports = {
       });
     } else {
       await args.message.channel.send(
-        utils.getRichEmbed(args.client, 0xff0000, killLocale.ownerError.title, killLocale.ownerError.content));
+        utils.getRichEmbed(args.client, 0xff0000, killLocale.title, killLocale['errors'].owner));
       return false;
     }
 

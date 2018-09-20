@@ -18,9 +18,9 @@ module.exports = {
   optArgs: ['new lang'],
   reqArgs: [],
   permissions: ['MANAGE_GUILD'],
-  description: 'Gets or sets the language preference for this server',
+  description: (locale) => { return locale['general']['language']; },
   executeCommand: async (args) => {
-    let langLocale = args.locale.general.locale;
+    let langLocale = args.locale['general']['language'];
 
     let availableLangs = "";
     Array.from(args.locales.keys()).forEach((tempLang) => {
@@ -30,15 +30,15 @@ module.exports = {
     if (args.args.length > 0) {
       let newLocale = args.args[0].toLowerCase();
       if (newLocale.length != 2) {
-        await args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, langLocale.localeNotExist.title, utils.replace(langLocale.localeNotExist.content, availableLangs)));
+        await args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, langLocale.title, utils.replace(langLocale['errors'].notExist, availableLangs)));
         return false;
       } else {
         let compareLang = args.langPrefs.has(args.message.guild.id) ? args.langPrefs.get(args.message.guild.id) : config.defaultLang;
         if (newLocale === compareLang) {
-          await args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, langLocale.alreadySetError.title, utils.replace(langLocale.alreadySetError.content, compareLang)));
+          await args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, langLocale.title, utils.replace(langLocale['errors'].alreadySet, compareLang)));
           return false;
         } else if (!args.locales.has(newLocale)) {
-          await args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, langLocale.localeNotExist.title, utils.replace(langLocale.localeNotExist.content, availableLangs)));
+          await args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, langLocale.title, utils.replace(langLocale['errors'].notExist, availableLangs)));
           return false;
         }
 
@@ -49,12 +49,12 @@ module.exports = {
 
         let newLocaleToUse = args.locales.get(args.langPrefs.has(args.message.guild.id) ? args.langPrefs.get(newLocale) : config.defaultLang);
 
-        await args.message.channel.send(utils.getRichEmbed(args.client, 0x4286f4, newLocaleToUse.botInternal.setLocale.title, utils.replace(newLocaleToUse.botInternal.content, newLocale)));
+        await args.message.channel.send(utils.getRichEmbed(args.client, 0x4286f4, newLocaleToUse['general']['language'].title, utils.replace(newLocaleToUse['general']['language'].set, newLocale)));
         return true;
       }
     } else {
       let lang =  args.langPrefs.has(args.message.guild.id) ? args.langPrefs.get(args.message.guild.id) : config.defaultLang;
-      await args.message.channel.send(utils.getRichEmbed(args.client, 0x4286f4, langLocale.getLocale.title, utils.replace(langLocale.getLocale.content, lang, availableLangs)));
+      await args.message.channel.send(utils.getRichEmbed(args.client, 0x4286f4, langLocale.title, utils.replace(langLocale.get, lang, availableLangs)));
       return true;
     }
   }
