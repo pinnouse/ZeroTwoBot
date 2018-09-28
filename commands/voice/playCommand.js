@@ -75,7 +75,7 @@ module.exports = {
           return;
         }
         
-        pl.player.selectList = value;
+        pl.selectList = value;
         // console.log(value);
 
         let selectUsage = `\`${args.prefix}`;
