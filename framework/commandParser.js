@@ -5,6 +5,8 @@ const utils = require('../framework/utils');
 
 const { RichEmbed } = require('discord.js');
 
+const AudioController = require('./audioController');
+
 const glob = require('glob');
 
 const fs = require('fs');
@@ -27,36 +29,22 @@ var locales = new Map();
 //Map of songs to play <GuildID, player object> ex:
 /* <287562879284857,
   player: {
-    status: 'STREAMING_VIDEO',
+    status: 'STREAMING',
     songs: [{
       title: 'Never Gonna Give You Up:'
       source: 'youtube',
       id: 'dQw4w9WgXcQ',
       duration: '03:32'
-    }, ...]
+    }, ...],
+    selectList: []
   }>
 */
 var playlists = new Map();
 
-//Map of searched songs <GuildID, list of songs> ex:
-/* <287562879284857,
-  songs: {
-    songs: [
-      {
-        title: 'asdf',
-        source: 'youtube',
-        id: 'asdf...',
-        duration: '0:12'
-      }, ...
-    ],
-    timeout: setTimeout() => clear this value
-  }>
-*/
-var selectList = new Map();
-
 class CommandParser {
   constructor(client) {
     this.client = client;
+    this.audioController = new AudioController(client);
 
     //Build commands
     console.log("Loading commands...");
@@ -175,7 +163,7 @@ class CommandParser {
               //Execute the given command
               else {
                 //try {
-                message.channel.startTyping();
+                // message.channel.startTyping();
                 tempCmd.executeCommand({
                   message: message,
                   args: args,
@@ -188,17 +176,19 @@ class CommandParser {
                   locale: locale,
                   locales: locales,
                   playlists: playlists,
-                  selectList: selectList
+                  audioController: this.audioController
                 }).then(success => {
-                  console.log("\n----------------[Command]----------------"
-                    + `\ncommand     : ${tempCmd.name}`
-                    + `\nuser        : ${message.author.tag} (${message.author.id})`
-                    + `\ntime        : ${new Date().toLocaleString()}`
-                    + `\nsucceeeded  : ${success || "unsure (no return value)"}`
-                    + `\npassed args : ${JSON.stringify(args)}`
-                  );
+                  if (config.debugmode) {
+                    console.log("\n----------------[Command]----------------"
+                      + `\ncommand     : ${tempCmd.name}`
+                      + `\nuser        : ${message.author.tag} (${message.author.id})`
+                      + `\ntime        : ${new Date().toLocaleString()}`
+                      + `\nsucceeeded  : ${success || "unsure (no return value)"}`
+                      + `\npassed args : ${JSON.stringify(args)}`
+                    );
+                  }
                 });
-                message.channel.stopTyping();
+                // message.channel.stopTyping();
                   /* * /
                 } catch (e) {
                   console.error("Ran into error: " + e);

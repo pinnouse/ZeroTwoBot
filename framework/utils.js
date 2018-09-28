@@ -80,5 +80,19 @@ module.exports = {
       .setColor(color)
       .setAuthor(title, client.user.displayAvatarURL)
       .setDescription(description)
+  },
+  getVoiceChannel: function(client, users) {
+    if (users.constructor === Array) {
+      let channels = new Map();
+      users.forEach(uid => {
+        let channel = client.channels.filter(channel => channel.type === 'voice' && channel.members.find(member => member.id === uid)).first();
+        if (channel)
+          channels.set(uid, channel);
+      });
+  
+      return (channels.size > 0) ? channels : false;
+    } else {
+      return client.channels.filter(channel => channel.type === 'voice' && channel.members.find(member => member.id === users)).first() || false;
+    }
   }
 }

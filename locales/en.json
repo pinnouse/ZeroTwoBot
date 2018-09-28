@@ -95,8 +95,22 @@
       "description": "Selects a song searched by the ` play ` command",
       "content": "You have selected: ` {0} `",
       "errors": {
-        "notIndex": "Sorry that item does not exist, make sure to select from: ` {0} `"
+        "notIndex": "Sorry that item does not exist, make sure to select from: {0}"
       }
+    },
+    "skip": {
+      "title": "Skip",
+      "description": "Skips the current song playing"
+    }
+  },
+  "audioController": {
+    "title": "Audio Controller",
+    "nowPlaying": "**Now Playing:** {0}\n**Duration:** {1}",
+    "addToQueue": "**Added to Queue:** {0}\n**Duration:** {1}",
+    "doneStream": "Stream finished, no more songs in queue.",
+    "skip": {
+      "success": "**Skipped:** {0}",
+      "noSong": "There is nothing playing."
     }
   }
 }
