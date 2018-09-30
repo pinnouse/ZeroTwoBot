@@ -1,9 +1,6 @@
 'use strict';
 
 const config = require('../../config.json');
-//const locales = require('../../locales');
-
-const { RichEmbed } = require('discord.js');
 
 const utils = require('../../framework/utils');
 

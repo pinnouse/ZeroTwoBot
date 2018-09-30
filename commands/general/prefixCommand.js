@@ -1,11 +1,11 @@
 'use strict';
 
-const { RichEmbed } = require('discord.js');
-
 const config = require('../../config.json');
 
 const fs = require('fs');
 const { promisify } = require('util');
+
+const writeFile = promisify(fs.writeFile);
 
 const utils = require('../../framework/utils');
 
@@ -35,8 +35,7 @@ module.exports = {
 
         if (newPrefix === config.prefix) args.customPrefixes.delete(args.message.guild.id);
         else args.customPrefixes.set(args.message.guild.id, newPrefix);
-
-        let writeFile = promisify(fs.writeFile);
+        
         await writeFile('./prefixPrefs.json', utils.mapToJSON(args.customPrefixes), 'utf-8');
 
         await args.message.channel.send(utils.getRichEmbed(args.client, 0x4286f4, prefixLocale.title, utils.replace(prefixLocale.set, newPrefix)));

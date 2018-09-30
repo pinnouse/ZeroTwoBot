@@ -2,6 +2,7 @@
 
 const config = require('../config.json');
 const utils = require('../framework/utils');
+const botInternalLocale = require('../locales/botInternal.json');
 
 const { RichEmbed } = require('discord.js');
 
@@ -13,7 +14,6 @@ const fs = require('fs');
 const { promisify } = require('util');
 
 const readFile = promisify(fs.readFile);
-
 
 //Map of commands with keys being command categories
 var commands = new Map();
@@ -54,14 +54,20 @@ class CommandParser {
       process.stdout.write(`'${tempCommand.name}' command... `)
 
       let catCommands = commands.get(tempCommand.category) || [];
+      if (catCommands.find(cmd => { return tempCommand.name === cmd.name; }))
+        throw new Error(`Commands sharing same name: ${tempCommand.name}`);
+      
       catCommands.push(tempCommand);
       commands.set(tempCommand.category, catCommands);
 
       //Check for duplicate aliases
       commands.forEach((category) => {
-        category.forEach((cmd) => {
+        category.filter(cmd => { return tempCommand.name !== cmd.name; }).forEach((cmd) => {
           cmd.aliases.forEach((cmdAlias) => {
-            if (tempCommand.aliases.includes(cmdAlias) && tempCommand.name != cmd.name) {
+            if (tempCommand.aliases.includes(cmdAlias) && //Aliases
+              (!tempCommand.superCmd && !cmd.superCmd) || //Have different super commands so it doesn't matter sharing aliases
+              (tempCommand.superCmd || cmd.superCmd && tempCommand.superCmd === cmd.superCmd)
+              ) {
               throw new Error(`Commands '${cmd.name}' and '${tempCommand.name}' share the alias: '${cmdAlias}'`);
             }
           });
@@ -73,7 +79,7 @@ class CommandParser {
 
     console.log("Loading locales...");
     glob.sync('locales/*.json').forEach((file) => {
-      let lang = file.match(/([a-z]+)\.json/gim)[0].substring(0, 2);
+      let lang = file.match(/([a-z]+)\.json/)[1];
       process.stdout.write(`'${lang}' locale... `)
       locales.set(lang, require('../' + file));
       process.stdout.write("DONE!\r\n");
@@ -111,53 +117,41 @@ class CommandParser {
             return;
 
           category.forEach(async (tempCmd) => {
-            if (tempCmd.aliases && tempCmd.aliases.includes(command) && !executedCommand) {
+            if (!executedCommand && tempCmd.aliases && //Check if haven't executed command yet and command has aliases
+              (!tempCmd.superCmd && tempCmd.aliases.includes(command)) || //Check if just plain command
+              (tempCmd.superCmd && tempCmd.superCmd.includes(command) && tempCmd.aliases.includes(args[0])) //Check if command has a super command (i.e. anime)
+              ) { //Begin if command is recognized
               let lang = langPrefs.has(message.guild.id) ? langPrefs.get(message.guild.id) : config.defaultLang;
               let locale = locales.get(lang);
               let hasArgs = tempCmd.optArgs && tempCmd.reqArgs;
+              if (tempCmd.superCmd && tempCmd.superCmd.length > 0)
+                args.shift();
 
               //Check if user has permission to use the command
               if (tempCmd.permissions && tempCmd.permissions.length > 0 && message.member && !message.member.hasPermission(tempCmd.permissions, false, false)) {
                 message.channel.send(new RichEmbed()
                   .setColor(0xff0000)
-                  .setTitle(locale.botInternal.notPermissible.title)
-                  .setDescription(utils.replace(locale.botInternal.notPermissible.content, utils.getPermissionsString(tempCmd.permissions)))
+                  .setTitle(locale.botInternal.errorTitle)
+                  .setDescription(utils.replace(locale.botInternal.notPermissible, utils.getPermissionsString(tempCmd.permissions)))
                 );
               }
               //Check too many arguments
               else if (hasArgs && args.length > tempCmd.optArgs.length + tempCmd.reqArgs.length && !tempCmd.unlimitedArgs) {
-                let argLayout = "";
-                tempCmd.reqArgs.forEach((a) => {
-                  argLayout += utils.replace(locale.botInternal.commandHelpFormat.requiredArgs, a);
-                });
-
-                tempCmd.optArgs.forEach((a) => {
-                  argLayout += utils.replace(locale.botInternal.commandHelpFormat.optionalArgs, a);
-                });
-
                 message.channel.send(new RichEmbed()
                   .setColor(0xff0000)
-                  .setTitle(locale.botInternal.tooManyArgs.title)
+                  .setTitle(locale.botInternal.errorTitle)
                   .setDescription(
-                    utils.replace(locale.botInternal.tooFewArgs.content, utils.replace(locale.botInternal.commandHelpFormat.content, `${prefix}${command}`, argLayout))
+                    utils.replace(locale.botInternal.tooManyArgs, utils.getCommandUsage(prefix, tempCmd, botInternalLocale.commandHelpFormat))
                   )
                 );
               }
               //Check if meets amount of required arguments
               else if (hasArgs && args.length < tempCmd.reqArgs.length) {
-                let argLayout = "";
-                tempCmd.reqArgs.forEach((a) => {
-                  argLayout += utils.replace(locale.botInternal.commandHelpFormat.requiredArgs, a);
-                });
-
-                tempCmd.optArgs.forEach((a) => {
-                  argLayout += utils.replace(locale.botInternal.commandHelpFormat.optionalArgs, a);
-                });
                 message.channel.send(new RichEmbed()
                   .setColor(0xff0000)
-                  .setTitle(locale.botInternal.tooFewArgs.title)
+                  .setTitle(locale.botInternal.errorTitle)
                   .setDescription(
-                    utils.replace(locale.botInternal.tooFewArgs.content, utils.replace(locale.botInternal.commandHelpFormat.content, `${prefix}${command}`, argLayout))
+                    utils.replace(locale.botInternal.tooFewArgs, utils.getCommandUsage(prefix, tempCmd, botInternalLocale.commandHelpFormat))
                   ));
               } 
               //Execute the given command

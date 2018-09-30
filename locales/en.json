@@ -1,17 +1,9 @@
 {
   "botInternal": {
     "errorTitle": "NOT ALLOWED",
-    "notPermissible": {
-      "content": ":no_entry_sign: You require the following permissions to use this command: {0}"
-    },
-    "tooFewArgs": {
-      "title": "COMMAND ERROR",
-      "content": "Not enough parameters specified, correct usage:\n  {0}"
-    },
-    "tooManyArgs": {
-      "title": "COMMAND ERROR",
-      "content": "Too many parameters specified, correct usage:\n  {0}"
-    }
+    "notPermissible": ":no_entry_sign: You require the following permissions to use this command: {0}",
+    "tooFewArgs": "Not enough parameters specified, correct usage:\n  {0}",
+    "tooManyArgs": "Too many parameters specified, correct usage:\n  {0}"
   },
   "general": {
     "help": {
@@ -111,6 +103,13 @@
     "skip": {
       "success": "**Skipped:** {0}",
       "noSong": "There is nothing playing."
+    }
+  },
+  "anime": {
+    "search": {
+      "title": "Search",
+      "description": "Searches AniList for the given anime",
+      "errorResponse": "Encountered an error while connecting to AniList API"
     }
   }
 }

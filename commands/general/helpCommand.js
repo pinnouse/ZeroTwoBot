@@ -19,6 +19,7 @@ module.exports = {
     let prefix = args.customPrefixes.get(args.message.guild.id) || config.prefix;
     let categories = Array.from(args.commands.keys());
 
+    //List category
     if (args.args.length > 0) {
       if ((utils.isInt(args.args[0]) && args.args[0] > 0 && args.args[0] <= categories.length) || args.commands.has(args.args[0].toLowerCase())) {
         let cat = "";

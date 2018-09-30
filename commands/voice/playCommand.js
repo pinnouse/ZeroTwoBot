@@ -1,7 +1,5 @@
 'use strict';
 
-const { RichEmbed } = require('discord.js');
-
 const request = require("request-promise-native");
 
 const config = require('../../config.json');
@@ -9,11 +7,6 @@ const GOOGLE_API = config.gapi;
 
 const joinCommand = require('./joinCommand');
 const selectCommand = require('./selectCommand');
-
-const fs = require('fs');
-const { promisify } = require('util');
-
-const writeFile = promisify(fs.writeFile);
 
 const utils = require('../../framework/utils');
 
@@ -87,7 +80,7 @@ module.exports = {
 
         let songList = "";
         value.forEach((song, i) => {
-          songList += `\n\`[\`[\`${i+1}\`](${urlPrefices[song.source].replace('{URL}', song.id)})\`]\`  -  \` ${song.duration} \`  ${song.title}`;
+          songList += `\n\`[\`\`[${i+1}]\`(${urlPrefices[song.source].replace('{URL}', song.id)})\`]\`  -  \` ${song.duration} \`  ${song.title}`;
         });
 
         args.message.channel.send(
