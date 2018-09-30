@@ -9,8 +9,9 @@ You have come across my wonderful, beautiful Discord bot. Based off the star dar
 For a working bot, you can hit up: [ReinaBot](http://www.gnowbros.com/reinabot)
 
 ## Features (or lack thereof)
-- Uhhhh music.... WIP
-- Ummmm sorta chatbot??
+- Music (youtube)
+- Chatbot
+- Anime (WIP)
 - everything is WIP, even this README
 
 ## Contact
