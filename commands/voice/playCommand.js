@@ -80,7 +80,7 @@ module.exports = {
 
         let songList = "";
         value.forEach((song, i) => {
-          songList += `\n\`[\`\`[${i+1}]\`(${urlPrefices[song.source].replace('{URL}', song.id)})\`]\`  -  \` ${song.duration} \`  ${song.title}`;
+          songList += `\n\`[\`[\` ${i+1} \`](${urlPrefices[song.source].replace('{URL}', song.id)})\`]\`  -  \` ${song.duration} \`  ${song.title}`;
         });
 
         args.message.channel.send(
