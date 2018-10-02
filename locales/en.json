@@ -106,9 +106,15 @@
     }
   },
   "anime": {
+    "list": {
+      "title": "Anime List",
+      "description": "Searches AniList for a list of anime based on the query",
+      "results": "Results for query: {0}",
+      "errorResponse": "Encountered an error while connecting to AniList API"
+    },
     "search": {
-      "title": "Search",
-      "description": "Searches AniList for the given anime",
+      "title": "Anime",
+      "description": "Searches AniList for the best match of anime for the given query",
       "errorResponse": "Encountered an error while connecting to AniList API"
     }
   }

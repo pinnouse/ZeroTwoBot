@@ -65,8 +65,8 @@ class CommandParser {
         category.filter(cmd => { return tempCommand.name !== cmd.name; }).forEach((cmd) => {
           cmd.aliases.forEach((cmdAlias) => {
             if (tempCommand.aliases.includes(cmdAlias) && //Aliases
-              (!tempCommand.superCmd && !cmd.superCmd) || //Have different super commands so it doesn't matter sharing aliases
-              (tempCommand.superCmd || cmd.superCmd && tempCommand.superCmd === cmd.superCmd)
+              ((!tempCommand.superCmd && !cmd.superCmd) || //Have different super commands so it doesn't matter sharing aliases
+              (tempCommand.superCmd || cmd.superCmd && tempCommand.superCmd === cmd.superCmd))
               ) {
               throw new Error(`Commands '${cmd.name}' and '${tempCommand.name}' share the alias: '${cmdAlias}'`);
             }
@@ -79,7 +79,7 @@ class CommandParser {
 
     console.log("Loading locales...");
     glob.sync('locales/*.json').forEach((file) => {
-      let lang = file.match(/([a-z]+)\.json/)[1];
+      let lang = file.match(/([a-zA-Z]+)\.json/)[1];
       process.stdout.write(`'${lang}' locale... `)
       locales.set(lang, require('../' + file));
       process.stdout.write("DONE!\r\n");
