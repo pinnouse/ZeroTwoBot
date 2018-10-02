@@ -34,7 +34,9 @@ module.exports = {
         }
       });
     }
-    let joined = utils.getVoiceChannel(args.client, args.message.author.id).members.find(guildMember => guildMember.id === args.client.user.id);
+
+    let vChannel = utils.getVoiceChannel(args.client, args.message.author.id).members.find(guildMember => guildMember.id === args.client.user.id);
+    let joined = vChannel && vChannel.connection;
     if (!joined)
       await joinCommand.executeCommand(args);
       
