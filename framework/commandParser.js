@@ -47,7 +47,7 @@ class CommandParser {
     this.audioController = new AudioController(client);
 
     //Clear all voice channels first
-    client.channels.filter(channel => channel.type === 'voice').values().forEach(channel => { channel.leave(); });
+    client.channels.filter(channel => { return channel.type === 'voice'; }).forEach(channel => { channel.leave(); });
 
     //Build commands
     console.log("Loading commands...");
