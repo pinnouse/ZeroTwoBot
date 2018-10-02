@@ -35,10 +35,8 @@ module.exports = {
       });
     }
 
-    console.log(args.client.voiceConnections);
-
     let vChannel = utils.getVoiceChannel(args.client, args.message.author.id);
-    let joined = vChannel && args.client.voiceConnections.has(vChannel.id);
+    let joined = vChannel && args.client.voiceConnections.find(vConn => { return vConn.channel.id === vChannel.id; });
     if (!joined)
       await joinCommand.executeCommand(args);
       
