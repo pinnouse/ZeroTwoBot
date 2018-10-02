@@ -82,6 +82,9 @@
       "noResults": ":x: Sorry, no results were found for your query: ` {0} `",
       "listResults": "Results found for the query: ` {0} `\nUse {1} to select one of the following.\n{2}"
     },
+    "playlist": {
+      
+    },
     "select": {
       "title": "Select",
       "description": "Selects a song searched by the ` play ` command",
@@ -99,7 +102,7 @@
     "title": "Audio Controller",
     "nowPlaying": ":arrow_forward: **Now Playing:** {0}\n**Duration:** {1}",
     "addToQueue": ":arrow_down_small: **Added to Queue:** {0}\n**Duration:** {1}",
-    "doneStream": ":heavy_check_mark: Stream finished, no more songs in queue.",
+    "doneStream": ":white_check_mark: Stream finished, no more songs in queue.",
     "skip": {
       "success": ":fast_forward: **Skipped:** {0}",
       "noSong": ":no_entry_sign: There is nothing playing."

@@ -2,6 +2,8 @@
 
 const ytdl = require('ytdl-core');
 
+const config = require('../config.json');
+
 const utils = require('./utils');
 
 const urlPrefices = {
@@ -37,35 +39,42 @@ class AudioController {
       );
       
       this.dispatchers.get(textChannel.guild.id).once('end', (reason) => {
-        playlist.songs.splice(0, 1);
-        if (playlist.songs.length > 0) {
+        if (reason !== 'leave') playlist.songs.splice(0, 1);
+        if (playlist.songs.length > 0 && playlist.status !== 'OFF') {
           playlist.status = 'NEXT'
           this.playSong(playlist.songs[0], playlist, voiceConnection, textChannel, localeToUse);
         } else {
           playlist.status = 'OFF';
-          textChannel.send(
-            utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
-              localeToUse['audioController'].doneStream
-            )
-          );
+          if (reason !== 'leave') {
+            textChannel.send(
+              utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
+                localeToUse['audioController'].doneStream
+              )
+            );
+          }
         }
-        console.log('song end: ' + reason);
+        if (config.debugmode)
+          console.log('song end: ' + reason);
       });
 
       this.dispatchers.get(textChannel.guild.id).once('error', (reason) => {
-        playlist.songs.splice(0, 1);
-        if (playlist.songs.length > 0) {
+        if (reason !== 'leave') playlist.songs.splice(0, 1);
+        if (playlist.songs.length > 0 && playlist.status !== 'OFF') {
           playlist.status = 'NEXT'
           this.playSong(playlist.songs[0], playlist, voiceConnection, textChannel, localeToUse);
         } else {
           playlist.status = 'OFF';
-          textChannel.send(
-            utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
-              localeToUse['audioController'].doneStream
-            )
-          );
+          if (reason !== 'leave') {
+            textChannel.send(
+              utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
+                localeToUse['audioController'].doneStream
+              )
+            );
+          }
         }
-        console.log('song end (error): ' + reason);
+
+        if (config.debugmode)
+          console.log('song end (error): ' + reason);
       });
     } //end 'OFF' || 'NEXT'
     else if (playlist.status === 'STREAMING') {

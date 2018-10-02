@@ -12,8 +12,20 @@ module.exports = {
   description: (locale) => { return locale['voice']['leave']; },
   executeCommand: async (args) => {
     let leaveLocale = args.locale['voice']['leave'];
+    if (!args.playlists.has(args.message.guild.id)) {
+      args.playlists.set(args.message.guild.id, {
+        player: {
+          status: 'OFF',
+          songs: [],
+          selectList: []
+        }
+      });
+    }
     
-    if (args.message.author.client.channels.size > 0) {
+    args.playlists.get(args.message.guild.id)['player'].status = 'OFF';
+    args.audioController.dispatchers.get(args.message.guild.id).end('leave');
+    
+    if (args.message.author.client.channels.filter(ch => { return ch.type === 'voice'; }).size > 0) {
       let leftChannel = false;
 
       //Find author's voice channel
