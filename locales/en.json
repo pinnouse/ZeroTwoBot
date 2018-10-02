@@ -62,7 +62,7 @@
     "join": {
       "title": "Join",
       "description": "Joins the voice channel you are connected to if able to",
-      "content": "Joining voice channel: ` {0} `",
+      "content": ":speaker: Joining voice channel: ` {0} `",
       "errors": {
         "failed": ":no_entry_sign: Could not connect to voice channel: ` {0} `",
         "noChannel": ":no_entry_sign: You must be connected to a voice channel to use this command"
@@ -71,7 +71,7 @@
     "leave": {
       "title": "Leave",
       "description": "Leaves the voice channel you are connected to",
-      "content": "Left voice channel: ` {0} `",
+      "content": ":mute: Left voice channel: ` {0} `",
       "errors": {
         "noChannel": ":no_entry_sign: Could not find a voice channel you are connected to"
       }
@@ -79,7 +79,7 @@
     "play": {
       "title": "Play",
       "description": "Searches YouTube for the song requested or adds song to queue",
-      "noResults": "Sorry, no results were found for your query: ` {0} `",
+      "noResults": ":x: Sorry, no results were found for your query: ` {0} `",
       "listResults": "Results found for the query: ` {0} `\nUse {1} to select one of the following.\n{2}"
     },
     "select": {
@@ -87,7 +87,7 @@
       "description": "Selects a song searched by the ` play ` command",
       "content": "You have selected: ` {0} `",
       "errors": {
-        "notIndex": "Sorry that item does not exist, make sure to select from: {0}"
+        "notIndex": ":no_entry_sign: Sorry that item does not exist, make sure to select from: {0}"
       }
     },
     "skip": {
@@ -97,12 +97,12 @@
   },
   "audioController": {
     "title": "Audio Controller",
-    "nowPlaying": "**Now Playing:** {0}\n**Duration:** {1}",
-    "addToQueue": "**Added to Queue:** {0}\n**Duration:** {1}",
-    "doneStream": "Stream finished, no more songs in queue.",
+    "nowPlaying": ":arrow_forward: **Now Playing:** {0}\n**Duration:** {1}",
+    "addToQueue": ":arrow_down_small: **Added to Queue:** {0}\n**Duration:** {1}",
+    "doneStream": ":heavy_check_mark: Stream finished, no more songs in queue.",
     "skip": {
-      "success": "**Skipped:** {0}",
-      "noSong": "There is nothing playing."
+      "success": ":fast_forward: **Skipped:** {0}",
+      "noSong": ":no_entry_sign: There is nothing playing."
     }
   },
   "anime": {
@@ -110,12 +110,12 @@
       "title": "Anime List",
       "description": "Searches AniList for a list of anime based on the query",
       "results": "Results for query: {0}",
-      "errorResponse": "Encountered an error while connecting to AniList API"
+      "errorResponse": ":warning: Encountered an error while connecting to AniList API"
     },
     "search": {
       "title": "Anime",
       "description": "Searches AniList for the best match of anime for the given query",
-      "errorResponse": "Encountered an error while connecting to AniList API"
+      "errorResponse": ":warning: Encountered an error while connecting to AniList API"
     }
   }
 }
