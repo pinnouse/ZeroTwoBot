@@ -8,6 +8,11 @@ const urlPrefices = {
   'youtube': 'https://youtube.com/watch?v={URL}'
 };
 
+var options = {
+  filter: 'audioonly',
+  quaity: 251
+};
+
 class AudioController {
   constructor(client) {
     this.client = client;
@@ -17,7 +22,7 @@ class AudioController {
     // console.log('playlist');
     // console.log(playlist);
     if (playlist.status === 'OFF' || playlist.status === 'NEXT') {
-      let stream = ytdl(urlPrefices[song.source].replace('{URL}', song.id), { filter : 'audioonly' });
+      let stream = ytdl(urlPrefices[song.source].replace('{URL}', song.id), options);
       
       playlist.status = 'STREAMING';
       let streamOptions = { seek: 0, volume: 1 };
