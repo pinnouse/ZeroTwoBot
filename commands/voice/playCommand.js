@@ -37,7 +37,7 @@ module.exports = {
 
     console.log(args.client.voiceConnections);
 
-    let vChannel = utils.getVoiceChannel(args.client, args.message.author.id).members.find(guildMember => guildMember.id === args.client.user.id);
+    let vChannel = utils.getVoiceChannel(args.client, args.message.author.id);
     let joined = vChannel && args.client.voiceConnections.has(vChannel.id);
     if (!joined)
       await joinCommand.executeCommand(args);
