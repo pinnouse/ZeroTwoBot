@@ -40,7 +40,6 @@ module.exports = {
       
     let pl = args.playlists.get(args.message.guild.id)['player']; //Current playlist
     let query = args.args.join(" ");
-    // let regex = /(?:youtu\.be\/|youtube\.[a-zA-Z]{2,3}\/(watch\?(.*&)?v=|(embed|v)\/))([^\?&"'>]+)/;
     let regex = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\v|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9\_\-]{11})/;
     if (regex.test(query)) {
       getSong(query.match(regex)[1]).then(result => {
