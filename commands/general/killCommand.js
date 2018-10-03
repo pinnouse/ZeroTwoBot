@@ -17,9 +17,9 @@ module.exports = {
     let killLocale = args.locale['general']['kill'];
     if (config.owners.includes(args.message.author.id)) {
       args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, killLocale.title, killLocale.content)).then(() => {
-        await destroyService(args.client);
+        destroyService(args.client);
       }, (reason) => {
-        await destroyService(args.client);
+        destroyService(args.client);
         console.log('could not send message: ' + reason);
       });
     } else {
