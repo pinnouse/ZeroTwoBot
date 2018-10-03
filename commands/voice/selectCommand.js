@@ -17,6 +17,7 @@ module.exports = {
       args.playlists.set(args.message.guild.id, {
         player: {
           status: 'OFF',
+          loopMode: 'NONE',
           songs: [],
           selectList: []
         }

@@ -24,11 +24,12 @@ module.exports = {
   permissions: [],
   description: (locale) => { return locale['voice']['play']; },
   executeCommand: async (args) => {
-    let playLocale = args.locale.voice.play;
+    let playLocale = args.locale['voice']['play'];
     if (!args.playlists.has(args.message.guild.id)) {
       args.playlists.set(args.message.guild.id, {
         player: {
           status: 'OFF',
+          loopMode: 'NONE',
           songs: [],
           selectList: []
         }

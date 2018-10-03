@@ -76,6 +76,15 @@
         "noChannel": ":no_entry_sign: Could not find a voice channel you are connected to"
       }
     },
+    "loop": {
+      "title": "Loop",
+      "description": "Gets or sets the loop mode for the server",
+      "get": ":repeat: **Looping Mode:** {0}",
+      "set": ":repeat: **Set Looping Mode:** {0}",
+      "errors": {
+        "notValid": ":no_entry_sign: Sorry, that is not a valid looping mode.\nValid loop modes are: {0}"
+      }
+    },
     "play": {
       "title": "Play",
       "description": "Searches YouTube for the song requested or adds song to queue",
@@ -83,7 +92,10 @@
       "listResults": "Results found for the query: ` {0} `\nUse {1} to select one of the following.\n{2}"
     },
     "playlist": {
-      
+      "title": "Playlist",
+      "content": ":minidisc: **Now Playing:** {0}\n**Duration:** {1}\n**Loop:** {2}\n**Queue:**\n{2}",
+      "noSongs": "There are no songs in queue.",
+      "noPlaying": ":minidisc: There are no songs playing right now. You can queue songs using the ` play ` command."
     },
     "select": {
       "title": "Select",

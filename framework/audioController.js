@@ -38,8 +38,26 @@ class AudioController {
         )
       );
       
-      this.dispatchers.get(textChannel.guild.id).once('end', (reason) => {
-        if (reason !== 'leave') playlist.songs.splice(0, 1);
+      this.dispatchers.get(textChannel.guild.id).once('end', songEndHandler);
+
+      this.dispatchers.get(textChannel.guild.id).once('error', songEndHandler);
+
+      function sondEndHandler(reason) {
+        if (reason !== 'leave') {
+          switch (playlist.loopMode) {
+            case 'LIST':
+              playlist.songs.push(playlist.songs.shift());
+              break;
+            case 'SINGLE':
+              //Do Nothing
+              break;
+            case 'NONE':
+            default:
+              playlist.songs.splice(0, 1);
+              break;
+          }
+        }
+
         if (playlist.songs.length > 0 && playlist.status !== 'OFF') {
           playlist.status = 'NEXT'
           this.playSong(playlist.songs[0], playlist, voiceConnection, textChannel, localeToUse);
@@ -53,29 +71,10 @@ class AudioController {
             );
           }
         }
+
         if (config.debugmode)
           console.log('song end: ' + reason);
-      });
-
-      this.dispatchers.get(textChannel.guild.id).once('error', (reason) => {
-        if (reason !== 'leave') playlist.songs.splice(0, 1);
-        if (playlist.songs.length > 0 && playlist.status !== 'OFF') {
-          playlist.status = 'NEXT'
-          this.playSong(playlist.songs[0], playlist, voiceConnection, textChannel, localeToUse);
-        } else {
-          playlist.status = 'OFF';
-          if (reason !== 'leave') {
-            textChannel.send(
-              utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
-                localeToUse['audioController'].doneStream
-              )
-            );
-          }
-        }
-
-        if (config.debugmode)
-          console.log('song end (error): ' + reason);
-      });
+      }
     } //end 'OFF' || 'NEXT'
     else if (playlist.status === 'STREAMING') {
       textChannel.send(
