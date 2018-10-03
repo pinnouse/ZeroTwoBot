@@ -34,12 +34,10 @@ module.exports = {
                   res(`Successfully connected to voice channel: ${channel.name} (id: ${channel.id})`);
                 }).catch((reason) => { //Catch couldn't join channel
                   args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, joinLocale.title, utils.replace(joinLocale['errors']['failed'], channel.name)));
-                  console.log("Error connecting to voice channel: " + reason);
                   res(`Error connecting to voice channel: ${reason}`);
                 });
               }).catch((reason) => { //Catch couldn't send message
                 args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, joinLocale.title, utils.replace(joinLocale['errors']['failed'], channel.name)));
-                console.log("Error connecting to voice channel (sending message): " + reason);
                 res(`Error connecting to voice channel (sending message): ${reason}`);
               });
             }

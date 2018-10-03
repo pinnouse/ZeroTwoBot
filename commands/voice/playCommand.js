@@ -55,7 +55,7 @@ module.exports = {
           args.locale
         );
       });
-      return 'was a link';
+      return 'Was a link';
     } else {
       //Search for a song
       searchYouTube(query)
@@ -93,7 +93,9 @@ module.exports = {
           )
         );
       }).catch(reason => {
-        console.log(reason);
+        args.message.channel.send(
+          utils.getRichEmbed(args.client, 0xff0000, playLocale.title, playLocale['errors'].searchFail)
+        );
       });
       return 'Searched Songs';
     }

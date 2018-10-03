@@ -112,7 +112,6 @@ module.exports = {
           utils.getRichEmbed(args.client, 0xff0000, locale.title, locale.errorResponse)
         );
         returnValue = 'failure: ' + reason.message;
-        console.log(reason.message);
       });
 
     return returnValue;
