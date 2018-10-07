@@ -8,7 +8,8 @@ module.exports = {
   },
   replace: function(strToReplace) {
     for(let i = 1; i < arguments.length; i++) {
-      strToReplace = strToReplace.replace(`{${i - 1}}`, arguments[i]);
+      let regex = new RegExp(`\\{${i - 1}\\}`, 'g');
+      strToReplace = strToReplace.replace(regex, arguments[i]);
     }
 
     return strToReplace;

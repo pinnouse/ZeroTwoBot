@@ -96,7 +96,7 @@
     },
     "playlist": {
       "title": "Playlist",
-      "content": ":minidisc: **Now Playing:** {0}\n**Duration:** {1}\n**Loop:** {2}\n**Queue:**\n{2}",
+      "content": ":minidisc: **Now Playing:** {0}\n**Duration:** {1}\n**Loop:** {2}\n**Queue:**\n{3}",
       "noSongs": "There are no songs in queue.",
       "noPlaying": ":minidisc: There are no songs playing right now. You can queue songs using the ` play ` command."
     },

@@ -43,6 +43,7 @@ module.exports = {
             locale.content,
             pl.songs[0].title,
             pl.songs[0].duration,
+            pl.loopMode,
             songList
           )
         )
