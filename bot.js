@@ -3,7 +3,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-const { prefix, token } = require('./config.json');
+const { prefix, token, serverPort, accessKey } = require('./config.json');
 
 const CommandParser = require('./framework/commandParser');
 var cp = new CommandParser(client);
@@ -38,3 +38,34 @@ client.on('message', async message => {
 });
 
 client.login(token).catch(console.log);
+
+///Server portion
+const express = require('express');
+const bodyParser = require('body-parser');
+var app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post('/', (req, res) => {
+  console.log(req.body);
+
+  
+  if (req.body.key === accessKey) {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    var botInfo = {
+      guilds: Array.from(client.guilds.entries()),
+      ping: client.ping,
+      avatar: client.user.avatarURL,
+      username: client.user.username,
+      tag: client.user.tag
+    };
+    
+    res.write(JSON.stringify(botInfo));
+  } else {
+    res.writeHead(401, { 'Content-Type': 'text/html' });
+    res.write('<h1>Sorry, you are unauthorized to access this site</h1>');
+  }
+  res.end();
+});
+
+app.listen(serverPort);

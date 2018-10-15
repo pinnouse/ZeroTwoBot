@@ -29,7 +29,9 @@
   },
   "homepage": "https://github.com/pinnouse/ZeroTwoBot#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "discord.js": "^11.4.2",
+    "express": "^4.16.4",
     "glob": "^7.1.2",
     "node-opus": "^0.3.0",
     "request": "^2.88.0",

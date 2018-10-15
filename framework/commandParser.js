@@ -118,86 +118,95 @@ class CommandParser {
         commands.forEach(async (category) => {
           if (executedCommand)
             return;
+          let cmd = category.find(cmd => { return cmd.superCmd && cmd.aliases && cmd.superCmd.includes(command) && cmd.aliases.includes(args[0]); });
+          if (cmd) {
+            this.callCommand(cmd, message, args, prefix);
+            executedCommand = true;
+          }
+        });
 
-          category.forEach(async (tempCmd) => {
-            if (!executedCommand && tempCmd.aliases && //Check if haven't executed command yet and command has aliases
-              (!tempCmd.superCmd && tempCmd.aliases.includes(command)) || //Check if just plain command
-              (tempCmd.superCmd && tempCmd.superCmd.includes(command) && tempCmd.aliases.includes(args[0])) //Check if command has a super command (i.e. anime)
-              ) { //Begin if command is recognized
-              let lang = langPrefs.has(message.guild.id) ? langPrefs.get(message.guild.id) : config.defaultLang;
-              let locale = locales.get(lang);
-              let hasArgs = tempCmd.optArgs && tempCmd.reqArgs;
-              if (tempCmd.superCmd && tempCmd.superCmd.length > 0)
-                args.shift();
-
-              //Check if user has permission to use the command
-              if (tempCmd.permissions && tempCmd.permissions.length > 0 && message.member && !message.member.hasPermission(tempCmd.permissions, false, false)) {
-                message.channel.send(new RichEmbed()
-                  .setColor(0xff0000)
-                  .setTitle(locale.botInternal.errorTitle)
-                  .setDescription(utils.replace(locale.botInternal.notPermissible, utils.getPermissionsString(tempCmd.permissions)))
-                );
-              }
-              //Check too many arguments
-              else if (hasArgs && args.length > tempCmd.optArgs.length + tempCmd.reqArgs.length && !tempCmd.unlimitedArgs) {
-                message.channel.send(new RichEmbed()
-                  .setColor(0xff0000)
-                  .setTitle(locale.botInternal.errorTitle)
-                  .setDescription(
-                    utils.replace(locale.botInternal.tooManyArgs, utils.getCommandUsage(prefix, tempCmd, botInternalLocale.commandHelpFormat))
-                  )
-                );
-              }
-              //Check if meets amount of required arguments
-              else if (hasArgs && args.length < tempCmd.reqArgs.length) {
-                message.channel.send(new RichEmbed()
-                  .setColor(0xff0000)
-                  .setTitle(locale.botInternal.errorTitle)
-                  .setDescription(
-                    utils.replace(locale.botInternal.tooFewArgs, utils.getCommandUsage(prefix, tempCmd, botInternalLocale.commandHelpFormat))
-                  ));
-              } 
-              //Execute the given command
-              else {
-                //try {
-                // message.channel.startTyping();
-                tempCmd.executeCommand({
-                  message: message,
-                  args: args,
-                  client: this.client,
-                  commands: commands,
-                  prefix: prefix,
-                  customPrefixes: customPrefixes,
-                  langPrefs: langPrefs,
-                  language: lang,
-                  locale: locale,
-                  locales: locales,
-                  playlists: playlists,
-                  audioController: this.audioController
-                }).then(success => {
-                  if (config.debugmode) {
-                    console.log("\n----------------[Command]----------------"
-                      + `\ncommand     : ${tempCmd.name}`
-                      + `\nuser        : ${message.author.tag} (${message.author.id})`
-                      + `\ntime        : ${new Date().toLocaleString()}`
-                      + `\nsucceeeded  : ${success || "unsure (no return value)"}`
-                      + `\npassed args : ${JSON.stringify(args)}`
-                    );
-                  }
-                });
-                // message.channel.stopTyping();
-                  /* * /
-                } catch (e) {
-                  console.error("Ran into error: " + e);
-                }/* */
-              }
-
-              //Done a command, don't need to continue looping
+        if (!executedCommand) {
+          commands.forEach(async (category) => {
+            if (executedCommand)
+              return;
+            let cmd = category.find(cmd => { return cmd.aliases && cmd.aliases.includes(command); });
+            if (cmd) {
+              this.callCommand(cmd, message, args, prefix);
               executedCommand = true;
             }
           });
-        });
+        }
       }
+    }
+  }
+  
+  async callCommand(command, message, args, prefix) {
+    let lang = langPrefs.has(message.guild.id) ? langPrefs.get(message.guild.id) : config.defaultLang;
+    let locale = locales.get(lang);
+    let hasArgs = command.optArgs && command.reqArgs;
+    if (command.superCmd && command.superCmd.length > 0)
+      args.shift();
+
+    //Check if user has permission to use the command
+    if (command.permissions && command.permissions.length > 0 && message.member && !message.member.hasPermission(command.permissions, false, false)) {
+      message.channel.send(new RichEmbed()
+        .setColor(0xff0000)
+        .setTitle(locale.botInternal.errorTitle)
+        .setDescription(utils.replace(locale.botInternal.notPermissible, utils.getPermissionsString(command.permissions)))
+      );
+    }
+    //Check too many arguments
+    else if (hasArgs && args.length > command.optArgs.length + command.reqArgs.length && !command.unlimitedArgs) {
+      message.channel.send(new RichEmbed()
+        .setColor(0xff0000)
+        .setTitle(locale.botInternal.errorTitle)
+        .setDescription(
+          utils.replace(locale.botInternal.tooManyArgs, utils.getCommandUsage(prefix, command, botInternalLocale.commandHelpFormat))
+        )
+      );
+    }
+    //Check if meets amount of required arguments
+    else if (hasArgs && args.length < command.reqArgs.length) {
+      message.channel.send(new RichEmbed()
+        .setColor(0xff0000)
+        .setTitle(locale.botInternal.errorTitle)
+        .setDescription(
+          utils.replace(locale.botInternal.tooFewArgs, utils.getCommandUsage(prefix, command, botInternalLocale.commandHelpFormat))
+        ));
+    } 
+    //Execute the given command
+    else {
+      //try {
+      // message.channel.startTyping();
+      command.executeCommand({
+        message: message,
+        args: args,
+        client: this.client,
+        commands: commands,
+        prefix: prefix,
+        customPrefixes: customPrefixes,
+        langPrefs: langPrefs,
+        language: lang,
+        locale: locale,
+        locales: locales,
+        playlists: playlists,
+        audioController: this.audioController
+      }).then(success => {
+        if (config.debugmode) {
+          console.log("\n----------------[Command]----------------"
+            + `\ncommand     : ${command.name}`
+            + `\nuser        : ${message.author.tag} (${message.author.id})`
+            + `\ntime        : ${new Date().toLocaleString()}`
+            + `\nsucceeeded  : ${success || "unsure (no return value)"}`
+            + `\npassed args : ${JSON.stringify(args)}`
+          );
+        }
+      });
+      // message.channel.stopTyping();
+        /* * /
+      } catch (e) {
+        console.error("Ran into error: " + e);
+      }/* */
     }
   }
 }
