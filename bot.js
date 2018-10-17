@@ -56,8 +56,8 @@ app.post('/', (req, res) => {
       guilds: Array.from(client.guilds.entries()),
       ping: client.ping,
       avatar: client.user.avatarURL,
-      username: client.user.username,
-      tag: client.user.tag
+      tag: client.user.tag,
+      commands: cp.getCommands()
     };
     
     res.write(JSON.stringify(botInfo));

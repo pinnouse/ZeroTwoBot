@@ -209,6 +209,28 @@ class CommandParser {
       }/* */
     }
   }
+
+  getCommands() {
+    var returnCommands = new Map();
+    commands.forEach((cmdArray, category) => {
+      returnCommands.set(
+        category,
+        cmdArray.map((cmd) => {
+          return {
+            name: cmd.name,
+            description: cmd.description(locales.get("en")),
+            superCmd: cmd.superCmd,
+            aliases: cmd.aliases,
+            optArgs: cmd.optArgs,
+            reqArgs: cmd.reqArgs,
+            permissions: cmd.permissions
+          }
+        })
+      );
+    });
+
+    return returnCommands;
+  }
 }
 
 module.exports = CommandParser
