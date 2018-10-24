@@ -218,7 +218,7 @@ class CommandParser {
         cmdArray.map((cmd) => {
           return {
             name: cmd.name,
-            description: cmd.description(locales.get("en")),
+            description: cmd.description(locales.get("en")).description,
             superCmd: cmd.superCmd,
             aliases: cmd.aliases,
             optArgs: cmd.optArgs,
