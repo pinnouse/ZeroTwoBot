@@ -229,7 +229,7 @@ class CommandParser {
       );
     });
 
-    return returnCommands;
+    return Array.from(returnCommands);
   }
 }
 

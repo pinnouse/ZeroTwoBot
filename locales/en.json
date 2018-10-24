@@ -94,7 +94,7 @@
         "searchFail": ":no_entry_sign: Could not connect to YouTube, an error has occured. Please try again later."
       }
     },
-    "playlist": {
+    "nowplaying": {
       "title": "Playlist",
       "content": ":minidisc: **Now Playing:** {0}\n**Duration:** {1}\n**Loop:** {2}\n**Queue:**\n{3}",
       "noSongs": "There are no songs in queue.",

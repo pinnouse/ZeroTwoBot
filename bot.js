@@ -26,15 +26,25 @@ client.on('guildDelete', guild => {
   client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
 })
 
-client.on('message', async message => {
+client.on('message', message => {
   if (message.author.bot) return;
 
   //Mention, that means use the chatbot
   if (message.content.startsWith(`<@${client.user.id}>`))
-    await chatModule.sendMessage(message);
+    chatModule.sendMessage(message);
   //For parsing commands
   else
-    await cp.receiveMessage(message);
+    cp.receiveMessage(message);
+});
+
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+  console.log("what happened");
+  if (client.voiceConnections.has(oldMember.guild.id)) {
+    var voiceChannel = client.voiceConnections.get(oldMember.guild.id).channel;
+    if (voiceChannel.members.filter(mem => { return mem.id != client.id; }).size <= 0) {
+      cp.audioController.endPlayback(oldMember.guild.id);
+    }
+  }
 });
 
 client.login(token).catch(console.log);

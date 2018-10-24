@@ -3,15 +3,15 @@
 const utils = require('../../framework/utils');
 
 module.exports = {
-  name: 'playlist',
+  name: 'now playing',
   category: 'voice',
-  aliases: ['pl', 'playlist', 'queue'],
+  aliases: ['np', 'nowplaying', 'q', 'queue'],
   optArgs: [],
   reqArgs: [],
   permissions: [],
-  description: (locale) => { return locale['voice']['playlist']; },
+  description: (locale) => { return locale['voice']['nowplaying']; },
   executeCommand: async (args) => {
-    let locale = args.locale['voice']['playlist'];
+    let locale = args.locale['voice']['nowplaying'];
     if (!args.playlists.has(args.message.guild.id)) {
       args.playlists.set(args.message.guild.id, {
         player: {
@@ -59,6 +59,6 @@ module.exports = {
       );
     }
 
-    return 'Returned playlist';
+    return 'Returned now playing';
   }
 }

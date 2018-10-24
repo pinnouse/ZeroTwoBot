@@ -20,6 +20,7 @@ class AudioController {
     this.client = client;
     this.dispatchers = new Map();
   }
+
   playSong (song, playlist, voiceConnection, textChannel, localeToUse) {
     // console.log('playlist');
     // console.log(playlist);
@@ -37,12 +38,8 @@ class AudioController {
           )
         )
       );
-      
-      this.dispatchers.get(textChannel.guild.id).once('end', songEndHandler);
 
-      this.dispatchers.get(textChannel.guild.id).once('error', songEndHandler);
-
-      function sondEndHandler(reason) {
+      var endHandler = function (reason) {
         if (reason !== 'leave') {
           switch (playlist.loopMode) {
             case 'LIST':
@@ -75,6 +72,10 @@ class AudioController {
         if (config.debugmode)
           console.log('song end: ' + reason);
       }
+      
+      this.dispatchers.get(textChannel.guild.id).on('end', endHandler);
+
+      this.dispatchers.get(textChannel.guild.id).on('error', endHandler);
     } //end 'OFF' || 'NEXT'
     else if (playlist.status === 'STREAMING') {
       textChannel.send(
@@ -86,6 +87,7 @@ class AudioController {
       );
     } //end 'STREAMING'
   }
+
   skipSong (textChannel, playlist, localeToUse) {
     if (playlist.status === 'OFF') {
       textChannel.send(
@@ -103,6 +105,10 @@ class AudioController {
       );
       this.dispatchers.get(textChannel.guild.id).end('skip');
     }
+  }
+
+  endPlayback (guildId) {
+    this.dispatchers.get(guildId).end('leave');
   }
 }
 
