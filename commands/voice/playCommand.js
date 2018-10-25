@@ -116,21 +116,17 @@ async function getSong(url) {
     json: true
   };
 
-  return new Promise((resolve, reject) => {
-    request(options)
-      .then(results => {
-        let item = results.items[0];
-        resolve({
-            title: item.snippet.title,
-            source: 'youtube',
-            id: url,
-            duration: parseTime(item.contentDetails.duration)
-        });
-      }).catch(reason => {
-        reject(reason)
-      });
-    }
-  );
+  try {
+    var results = await request(options);
+    return {
+      title: results.items[0].snippet.title,
+      source: 'youtube',
+      id: url,
+      duration: parseTime(results.items[0].contentDetails.duration)
+    };
+  } catch(e) {
+    return e;
+  }
 }
 
 async function searchYouTube(query) {
@@ -150,52 +146,46 @@ async function searchYouTube(query) {
     json: true
   };
 
-  return new Promise((resolve, reject) => {
-    request(options)
-    .then(results => {
-      let tempSongs = [];
-      let ids = [];
-      results.items.forEach((val, i) => {
-        tempSongs[i] = {
-          title: val.snippet.title,
-          source: 'youtube',
-          id: val.id.videoId,
-          duration: '00:00'
-        };
-        ids.push(val.id.videoId);
-      });
-
-      var searchOptions = {
-        uri: 'https://www.googleapis.com/youtube/v3/videos',
-        qs: {
-          part: 'contentDetails',
-          id: ids.join(','),
-          key: GOOGLE_API
-        },
-        headers: {
-          'User-Agent': 'Request'
-        },
-        json: true
+  try {
+    var results = await request(options);
+    let tempSongs = [];
+    let ids = [];
+    results.items.forEach((val, i) => {
+      tempSongs[i] = {
+        title: val.snippet.title,
+        source: 'youtube',
+        id: val.id.videoId,
+        duration: '00:00'
       };
-      request(searchOptions)
-      .then(results => {
-        results.items.forEach(tempVal => {
-          tempSongs.forEach((val, i) => {
-            if (val.id == tempVal.id) { 
-              tempSongs[i].duration = parseTime(tempVal.contentDetails.duration);
-              // tempSongs[i].original = tempVal.contentDetails.duration;
-            }
-          });
-        });
-        resolve(tempSongs);
-      }).catch(reason => {
-        reject(reason);
-      });
-      
-    }).catch(reason => {
-      reject(reason);
+      ids.push(val.id.videoId);
     });
-  });
+
+    // Get times of videos
+    var searchOptions = {
+      uri: 'https://www.googleapis.com/youtube/v3/videos',
+      qs: {
+        part: 'contentDetails',
+        id: ids.join(','),
+        key: GOOGLE_API
+      },
+      headers: {
+        'User-Agent': 'Request'
+      },
+      json: true
+    };
+    results = await request(searchOptions);
+    results.items.forEach(tempVal => {
+      tempSongs.forEach((val, i) => {
+        if (val.id == tempVal.id) { 
+          tempSongs[i].duration = parseTime(tempVal.contentDetails.duration);
+          // tempSongs[i].original = tempVal.contentDetails.duration;
+        }
+      });
+    });
+    return tempSongs;
+  } catch (e) {
+    return e;
+  }
 }
 
 function parseTime(tempDuration) {

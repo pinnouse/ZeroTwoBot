@@ -23,5 +23,6 @@ module.exports = {
 
     let playlist = args.playlists.get(args.message.guild.id)['player'];
     args.audioController.skipSong(args.message.channel, playlist, args.locale);
+    return 'song skip';
   }
 }

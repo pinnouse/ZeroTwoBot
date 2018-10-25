@@ -12,6 +12,7 @@ module.exports = {
   optArgs: [],
   reqArgs: [],
   permissions: [],
+  showCommand: false,
   description: (locale) => { return locale['general']['kill']; },
   executeCommand: async (args) => {
     let killLocale = args.locale['general']['kill'];
