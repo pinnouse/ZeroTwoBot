@@ -1,0 +1,12 @@
+{
+  "delete": {
+    "title": "Delete Messages",
+    "description": "Deletes 'x' amount of messages where 'x' is an optional number (bot requires 'Manage Messages' permission as well)",
+    "success": "Successfully deleted {0} messages...\nThis message will delete in 5 seconds.",
+    "errors": {
+      "amount": "Please make sure you are deleting (1-100) messages (one to one hundred messages exclusive)",
+      "noPermission": "Please make sure that this bot has the 'Manage Messages' permission",
+      "NaN": "Number of messages must be a number"
+    }
+  }
+}

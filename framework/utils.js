@@ -92,9 +92,9 @@ module.exports = {
   },
   getRichEmbed: function(client, color, title, description) {
     return new RichEmbed()
-      .setColor(color)
-      .setAuthor(title, client.user.displayAvatarURL)
-      .setDescription(description)
+      .setColor(color || 0xffffff)
+      .setAuthor(title || client.user.username, client.user.displayAvatarURL)
+      .setDescription(description || "");
   },
   getVoiceChannel: function(client, users) {
     if (users.constructor === Array) {

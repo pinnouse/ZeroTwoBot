@@ -61,10 +61,9 @@ module.exports = {
       json: true
     };
 
-    let returnValue = "";
-    await request(options)
-      .then(result => {
-        let anime = result.data.Media;
+    try {
+      var result = await request(options);
+      let anime = result.data.Media;
         
         let animeTitle = [];
         if (anime.title.english)
@@ -105,16 +104,14 @@ module.exports = {
           output.addField('Aired', dateStr);
         }
         output.addField('Score', `${anime.meanScore / 10.0}/10`)
-        returnValue = 'success';
         args.message.channel.send(output);
-      }).catch(reason => {
-        args.message.channel.send(
-          utils.getRichEmbed(args.client, 0xff0000, locale.title, locale.errorResponse)
-        );
-        returnValue = 'failure: ' + reason.message;
-      });
-
-    return returnValue;
+        return 'success';
+    } catch (e) {
+      args.message.channel.send(
+        utils.getRichEmbed(args.client, 0xff0000, locale.title, locale.errorResponse)
+      );
+      return 'failure: ' + reason.message;
+    }
   }
 }
 

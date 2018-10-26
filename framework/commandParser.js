@@ -181,8 +181,6 @@ class CommandParser {
     } 
     //Execute the given command
     else {
-      //try {
-      // message.channel.startTyping();
       command.executeCommand({
         message: message,
         args: args,
@@ -206,12 +204,17 @@ class CommandParser {
             + `\npassed args : ${JSON.stringify(args)}`
           );
         }
+      }).catch(e => {
+        if (config.debugmode) {
+          console.log("\n----------------[ Error ]----------------"
+            + `\ncommand     : ${command.name}`
+            + `\nuser        : ${message.author.tag} (${message.author.id})`
+            + `\ntime        : ${new Date().toLocaleString()}`
+            + `\nsucceeeded  : ${e}`
+            + `\npassed args : ${JSON.stringify(args)}`
+          );
+        }
       });
-      // message.channel.stopTyping();
-        /* * /
-      } catch (e) {
-        console.error("Ran into error: " + e);
-      }/* */
     }
   }
 
