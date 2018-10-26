@@ -45,7 +45,8 @@ module.exports = {
     let query = args.args.join(" ");
     let regex = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\v|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9\_\-]{11})/;
     if (regex.test(query)) {
-      getSong(query.match(regex)[1]).then(result => {
+      let result = await getSong(query.match(regex)[1]);
+      if (result) {
         pl.songs.push(result);
         args.audioController.playSong(
           result,
@@ -54,13 +55,22 @@ module.exports = {
           args.message.channel,
           args.locale
         );
-      });
+        return 'Searched song (link)';
+      }
+
+      args.message.channel.send(
+        utils.getRichEmbed(
+          args.client,
+          0xff0000,
+          playLocale.title,
+          playLocale['errors'].incorrectURL
+        )
+      );
       return 'Was a link';
     } else {
       //Search for a song
-      searchYouTube(query)
-      .then(value => {
-
+      var value = await searchYouTube(query);
+      try {
         if (value.length < 1) {
           args.message.channel.send(
             utils.getRichEmbed(args.client, 0xff0000, playLocale.title,
@@ -92,12 +102,14 @@ module.exports = {
             )
           )
         );
-      }).catch(reason => {
+
+        return 'Searched songs';
+      } catch (e) {
         args.message.channel.send(
           utils.getRichEmbed(args.client, 0xff0000, playLocale.title, playLocale['errors'].searchFail)
         );
-      });
-      return 'Searched Songs';
+        return `false (search failed ${e})`
+      };
     }
   }
 }
@@ -118,14 +130,14 @@ async function getSong(url) {
 
   try {
     var results = await request(options);
-    return {
+    return results ? {
       title: results.items[0].snippet.title,
       source: 'youtube',
       id: url,
       duration: parseTime(results.items[0].contentDetails.duration)
-    };
+    } : false;
   } catch(e) {
-    return e;
+    return false;
   }
 }
 

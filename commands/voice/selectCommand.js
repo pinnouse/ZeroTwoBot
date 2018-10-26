@@ -41,7 +41,7 @@ module.exports = {
         );
         return 'Played song';
       } else {
-        await args.message.channel.send(
+        args.message.channel.send(
           utils.getRichEmbed(args.client, 0xff0000, selLocale.title, 
             utils.replace(selLocale.errors.notIndex,
               (pl.selectList.length === 1) ? '<1>' : `<1-${pl.selectList.length}`

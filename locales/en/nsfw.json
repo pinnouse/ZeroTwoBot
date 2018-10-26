@@ -5,9 +5,9 @@
     "loading": "Getting image...",
     "success": "Received image\nsearched tag(s): {0}",
     "errors": {
-      "fail": "Failed response from rule34.xxx",
-      "noResults": "Could not find any results for the tag(s): {0}",
-      "specialCharacters": "Please do not include special characters in the tags"
+      "fail": ":no_entry_sign: Failed response from rule34.xxx",
+      "noResults": ":no_entry_sign: Could not find any results for the tag(s): {0}",
+      "specialCharacters": ":no_entry_sign: Please do not include special characters in the tags."
     }
   }
 }

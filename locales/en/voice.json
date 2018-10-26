@@ -31,7 +31,8 @@
     "noResults": ":x: Sorry, no results were found for your query: ` {0} `",
     "listResults": "Results found for the query: ` {0} `\nUse {1} to select one of the following.\n{2}",
     "errors": {
-      "searchFail": ":no_entry_sign: Could not connect to YouTube, an error has occured. Please try again later."
+      "searchFail": ":no_entry_sign: Could not connect to YouTube, an error has occured. Please try again later.",
+      "incorrectURL": ":no_entry_sign: Could not read video from URL."
     }
   },
   "nowplaying": {
