@@ -89,6 +89,7 @@ module.exports = {
             anime.status
             .replace('FINISHED', 'finished')
             .replace('RELEASING', 'airing')
+            .replace('NOT_YET_RELEASED', 'not released')
           })` : "";
 
           animeDescription += anime.description;

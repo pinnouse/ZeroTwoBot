@@ -92,7 +92,10 @@ module.exports = {
         
         animeDescription += anime.description;
         
-        let animeStatus = anime.status ? anime.status.replace('FINISHED', 'finished').replace('RELEASING', 'airing') : "";
+        let animeStatus = anime.status ? anime.status
+          .replace('FINISHED', 'finished')
+          .replace('RELEASING', 'airing')
+          .replace('NOT_YET_RELEASED', 'not released') : "";
           
         var output = utils.getRichEmbed(args.client, 0x00a1ff, locale.title, animeDescription).setThumbnail(anime.coverImage['large']);
         
