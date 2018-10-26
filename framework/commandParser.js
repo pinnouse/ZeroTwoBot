@@ -81,10 +81,15 @@ class CommandParser {
     });
 
     console.log("Loading locales...");
-    glob.sync('locales/*.json').forEach((file) => {
-      let lang = file.match(/([a-zA-Z]+)\.json/)[1];
-      process.stdout.write(`'${lang}' locale... `)
-      locales.set(lang, require('../' + file));
+    let localeDir = 'locales/';
+    fs.readdirSync(localeDir).filter(file => fs.lstatSync(localeDir + file).isDirectory()).forEach((folder) => {
+      let tempLocale = {};
+      process.stdout.write(`'${folder}' locale... `);
+      glob.sync(`${localeDir}${folder}/*.json`).forEach(file => {
+        var localeModule = /\/([a-zA-Z]+)\.json/g.exec(file);
+        tempLocale[localeModule[1]] = require('../' + file);
+      });
+      locales.set(folder, tempLocale);
       process.stdout.write("DONE!\r\n");
     });
 
@@ -144,7 +149,7 @@ class CommandParser {
     let lang = langPrefs.has(message.guild.id) ? langPrefs.get(message.guild.id) : config.defaultLang;
     let locale = locales.get(lang);
     let hasArgs = command.optArgs && command.reqArgs;
-    if (command.superCmd && command.superCmd.length > 0)
+    if (command.superCmd && command.superCmd.length)
       args.shift();
 
     //Check if user has permission to use the command
@@ -156,7 +161,7 @@ class CommandParser {
       );
     }
     //Check too many arguments
-    else if (hasArgs && args.length > command.optArgs.length + command.reqArgs.length && !command.unlimitedArgs) {
+    else if (hasArgs && args.length > command.optArgs.length + command.reqArgs.length && command.unlimitedArgs !== true) {
       message.channel.send(new RichEmbed()
         .setColor(0xff0000)
         .setTitle(locale.botInternal.errorTitle)

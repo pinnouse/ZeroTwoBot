@@ -1,0 +1,10 @@
+{
+  "title": "Audio Controller",
+  "nowPlaying": ":arrow_forward: **Now Playing:** {0}\n**Duration:** {1}",
+  "addToQueue": ":arrow_down_small: **Added to Queue:** {0}\n**Duration:** {1}",
+  "doneStream": ":white_check_mark: Stream finished, no more songs in queue.",
+  "skip": {
+    "success": ":fast_forward: **Skipped:** {0}",
+    "noSong": ":no_entry_sign: There is nothing playing."
+  }
+}

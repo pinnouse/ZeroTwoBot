@@ -1,0 +1,6 @@
+{
+  "errorTitle": "NOT ALLOWED",
+  "notPermissible": ":no_entry_sign: You require the following permissions to use this command: {0}",
+  "tooFewArgs": "Not enough parameters specified, correct usage:\n  {0}",
+  "tooManyArgs": "Too many parameters specified, correct usage:\n  {0}"
+}
