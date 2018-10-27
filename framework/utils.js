@@ -77,13 +77,13 @@ module.exports = {
 
     let usage = prefix;
     if (command.superCmd) {
-      command.superCmd.forEach((alias, index) => {
+      command.superCmd.sort().forEach((alias, index) => {
         if (index > 0)
           usage += commandLayoutLocale.divider;
         usage += `${alias} `;
       });
     }
-    command.aliases.forEach((alias, index) => {
+    command.aliases.sort().forEach((alias, index) => {
       if (index > 0)
         usage += commandLayoutLocale.divider;
       usage += `${alias} `;
