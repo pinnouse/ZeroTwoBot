@@ -87,7 +87,7 @@ module.exports = {
     command.aliases.sort().forEach((alias, index) => {
       if (index > 0)
         usage += commandLayoutLocale.divider;
-      usage += `${alias} `;
+      usage += `${alias}`;
     });
     usage += " ";
     return this.replace(commandLayoutLocale.content, usage, argsLayout);
