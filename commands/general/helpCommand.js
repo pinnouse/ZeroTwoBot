@@ -37,7 +37,7 @@ module.exports = {
           let perms = cmd.permissions && cmd.permissions.length ? "\nPermissions: " + utils.getPermissionsString(cmd.permissions) : "";
           embed.addField(
             utils.replace(helpLocale['successCategory']['listItem'].title, cmd.name),
-            `${cmd.description(args.locale).description}\n${utils.getCommandUsage(prefix, cmd, botInternal.commandHelpFormat)}${perms}`
+            `${cmd.description(args.locale).description}${perms}\n${utils.getCommandUsage(prefix, cmd, botInternal.commandHelpFormat)}`
           );
         });
         
