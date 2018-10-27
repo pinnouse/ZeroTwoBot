@@ -12,7 +12,7 @@ module.exports = {
   reqArgs: [],
   unlimitedArgs: true,
   nsfw: true,
-  getDescription: (locale) => { return locale['nsfw']['yandere']; },
+  description: (locale) => { return locale['nsfw']['yandere']; },
   executeCommand: async (args) => {
     let locale = args.locale['nsfw']['yandere'];
     var allowableCharacters = /^[\w\.\(\)\&\+\s]+$/;
