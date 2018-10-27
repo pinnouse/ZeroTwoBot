@@ -34,7 +34,7 @@ module.exports = {
         let embed = utils.getRichEmbed(args.client, 0x9e7e08, helpLocale.title, utils.replace(helpLocale['successCategory'].content, cat));
 
         cmds.filter(cmd => cmd.showCommand !== false).forEach(cmd => {
-          let perms = cmd.permissions && cmd.permissions.length ? utils.getPermissionsString(cmd.permissions) : "*none*";
+          let perms = cmd.permissions && cmd.permissions.length ? utils.getPermissionsString(cmd.permissions) : "*`none`*";
           embed.addField(
             cmd.name,
             utils.replace(
