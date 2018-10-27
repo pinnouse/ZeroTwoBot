@@ -34,10 +34,15 @@ module.exports = {
         let embed = utils.getRichEmbed(args.client, 0x9e7e08, helpLocale.title, utils.replace(helpLocale['successCategory'].content, cat));
 
         cmds.filter(cmd => cmd.showCommand !== false).forEach(cmd => {
-          let perms = cmd.permissions && cmd.permissions.length ? "\nPermissions: " + utils.getPermissionsString(cmd.permissions) : "";
+          let perms = cmd.permissions && cmd.permissions.length ? utils.getPermissionsString(cmd.permissions) : "*none*";
           embed.addField(
-            utils.replace(helpLocale['successCategory']['listItem'].title, cmd.name),
-            `${cmd.description(args.locale).description}${perms}\n${utils.getCommandUsage(prefix, cmd, botInternal.commandHelpFormat)}`
+            cmd.name,
+            utils.replace(
+              helpLocale['successCategory'].listItem,
+              cmd.description(args.locale).description,
+              perms,
+              utils.getCommandUsage(prefix, cmd, botInternal.commandHelpFormat)
+            )
           );
         });
         
