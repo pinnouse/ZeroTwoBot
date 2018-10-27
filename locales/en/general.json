@@ -7,7 +7,8 @@
     },
     "successCategory": {
       "content": "Here are the commands for the category: **` {0} `**",
-      "listItem": "{0}\nPermissions: {1}\nUsage: {2}"
+      "listItem": "{0}\nPermissions: {1}\nUsage: {2}",
+      "noPerms": "none"
     },
     "errors": {
       "index": "Sorry that category does not exist.\nTo see a list of categories, use: {0}"
