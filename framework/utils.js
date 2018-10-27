@@ -14,10 +14,10 @@ module.exports = {
 
     return strToReplace;
   },
-  getPermissionsString: function(permissionArray) {
+  getPermissionsString: function(permissionArray, rawString) {
     let permStr = "";
-    permissionArray.forEach((permission) => {
-      permStr += `\` ${
+    permissionArray.forEach((permission, index) => {
+      permStr += `${(rawString===true) ? ((index>0) ? "+": "") : "` "}${
         permission
           .replace("ADMINISTRATOR", "Administrator")
           .replace("CREATE_INSTANT_INVITE", "Create Instant Invite")
@@ -47,7 +47,7 @@ module.exports = {
           .replace("MANAGE_ROLES", "Manage Roles")
           .replace("MANAGE_WEBHOOKS", "Manage Webhooks")
           .replace("MANAGE_EMOJIS", "Manage Emojis")
-        } \` `;
+        } ${(rawString===true) ? "" : " ` "}`;
     });
 
     return permStr;

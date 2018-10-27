@@ -231,7 +231,7 @@ class CommandParser {
             aliases: cmd.aliases,
             optArgs: cmd.optArgs,
             reqArgs: cmd.reqArgs,
-            permissions: cmd.permissions
+            permissions: utils.getPermissionsString(cmd.permissions, true)
           }
         })
       );
