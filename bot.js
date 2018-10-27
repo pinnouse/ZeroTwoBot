@@ -66,7 +66,8 @@ app.post('/', (req, res) => {
       ping: client.ping,
       avatar: client.user.avatarURL,
       tag: client.user.tag,
-      commands: cp.getCommands()
+      commands: cp.getCommands(),
+      prefix: prefix
     };
     
     res.write(JSON.stringify(botInfo));

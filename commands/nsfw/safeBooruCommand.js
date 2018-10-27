@@ -5,17 +5,17 @@ const utils = require('../../framework/utils');
 const request = require('request-promise-native');
 
 module.exports = {
-  name: 'rule34',
+  name: 'safebooru',
   category: 'nsfw',
-  aliases: ['r34', 'rul34', 'lewds'],
+  aliases: ['sb', 'safebooru'],
   optArgs: ['search tags'],
   reqArgs: [],
   unlimitedArgs: true,
-  nsfw: true,
+  nsfw: false,
   permissions: [],
-  description: (locale) => { return locale['nsfw']['rule34']; },
+  description: (locale) => { return locale['nsfw']['safebooru']; },
   executeCommand: async (args) => {
-    let locale = args.locale['nsfw']['rule34'];
+    let locale = args.locale['nsfw']['safebooru'];
     var allowableCharacters = /^[\w\.\(\)\&\+\s]+$/;
     var tags = args.args.join(" ");
     if (tags && !allowableCharacters.test(tags)) {
@@ -40,7 +40,7 @@ module.exports = {
     );
 
     var options = {
-      uri: 'https://rule34.xxx/index.php',
+      uri: 'https://safebooru.org/index.php',
       qs: {
         page: 'dapi',
         s: 'post',
@@ -84,7 +84,7 @@ module.exports = {
       )
     );
     richEmbed
-      .setImage(`https://rule34.xxx/images/${choice.directory}/${choice.image}`)
+      .setImage(`https://safebooru.org/images/${choice.directory}/${choice.image}`)
       .setFooter(`Requested by: ${args.message.author.username}`, args.message.author.displayAvatarURL)
       .setTimestamp(new Date().toISOString());
     if (!searchingMessage.deleted)

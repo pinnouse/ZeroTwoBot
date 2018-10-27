@@ -50,8 +50,12 @@ module.exports = {
     }
 
     let channel = args.message.channel;
-    args.message.delete();
-    channel.bulkDelete(Number(args.args[0]) | 2);
+    await args.message.delete();
+    try {
+      await channel.bulkDelete(Number(args.args[0]) | 2);
+    } catch (e) {
+      return `caught exception (${e})`;
+    }
 
     channel.send(
       utils.getRichEmbed(
