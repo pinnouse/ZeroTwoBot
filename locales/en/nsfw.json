@@ -1,9 +1,9 @@
 {
   "rule34": {
     "title": "Rule34",
-    "description": "Searches rule34.xxx for an nsfw image",
+    "description": "Searches rule34.xxx for an NSFW image",
     "loading": "Getting image...",
-    "success": "Received image\nsearched tag(s): {0}",
+    "success": "Received image.\nSearched tag(s): {0}",
     "errors": {
       "fail": ":no_entry_sign: Failed response from rule34.xxx",
       "noResults": "Could not find any results for the tag(s): {0}",
@@ -14,9 +14,20 @@
     "title": "SafeBooru",
     "description": "Searches safebooru.org for an image (safe for work)",
     "loading": "Getting image...",
-    "success": "Received image\nsearched tag(s): {0}",
+    "success": "Received image.\nSearched tag(s): {0}",
     "errors": {
       "fail": ":no_entry_sign: Failed response from safebooru.org",
+      "noResults": "Could not find any results for the tag(s): {0}",
+      "specialCharacters": ":no_entry_sign: Please do not include special characters in the tags."
+    }
+  },
+  "yandere": {
+    "title": "Yandere",
+    "description": "Searches yande.re for an NSFW image",
+    "loading": "Getting image...",
+    "success": "Received image.\nSearched tag(s): {0}",
+    "errors": {
+      "fail": ":no_entry_sign: Failed response from yande.re",
       "noResults": "Could not find any results for the tag(s): {0}",
       "specialCharacters": ":no_entry_sign: Please do not include special characters in the tags."
     }
