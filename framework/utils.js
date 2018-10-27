@@ -80,14 +80,16 @@ module.exports = {
       command.superCmd.sort().forEach((alias, index) => {
         if (index > 0)
           usage += commandLayoutLocale.divider;
-        usage += `${alias} `;
+        usage += `${alias}`;
       });
+      usage += " ";
     }
     command.aliases.sort().forEach((alias, index) => {
       if (index > 0)
         usage += commandLayoutLocale.divider;
       usage += `${alias} `;
     });
+    usage += " ";
     return this.replace(commandLayoutLocale.content, usage, argsLayout);
   },
   getRichEmbed: function(client, color, title, description) {

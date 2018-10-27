@@ -1,7 +1,7 @@
 {
   "commandHelpFormat": {
     "content": "**` {0} `** {1}",
-    "divider": "`** | **` ",
+    "divider": "`**|**`",
     "requiredArgs": "` <{0}> ` ",
     "optionalArgs": "` [{0}] ` ",
     "categoryListItem": "  ` [{0}] ` : **{1}**"
