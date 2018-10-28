@@ -16,7 +16,7 @@ module.exports = {
   },
   getPermissionsString: function(permissionArray, rawString) {
     let permStr = "";
-    if (!permissionsArray || !permissionsArray.length)
+    if (!permissionArray || !permissionArray.length)
       return "";
     permissionArray.forEach((permission, index) => {
       permStr += `${(rawString===true) ? ((index>0) ? "+": "") : "` "}${
