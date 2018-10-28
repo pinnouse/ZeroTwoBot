@@ -1,4 +1,5 @@
 {
+  "nsfwServer": "This text channel must be NSFW or 'NSFW All Channels' must be enabled in the dashboard (TBI)",
   "rule34": {
     "title": "Rule34",
     "description": "Searches rule34.xxx for an NSFW image",

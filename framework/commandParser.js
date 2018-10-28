@@ -120,25 +120,15 @@ class CommandParser {
 
         var executedCommand = false;
 
-        commands.forEach(async (category) => {
-          if (executedCommand)
-            return;
+        commands.some((category) => {
           let cmd = category.find(cmd => { return cmd.superCmd && cmd.aliases && cmd.superCmd.includes(command) && cmd.aliases.includes(args[0]); });
-          if (cmd) {
-            this.callCommand(cmd, message, args, prefix);
-            executedCommand = true;
-          }
+          return cmd;
         });
 
         if (!executedCommand) {
-          commands.forEach(async (category) => {
-            if (executedCommand)
-              return;
+          commands.some((category) => {
             let cmd = category.find(cmd => { return cmd.aliases && cmd.aliases.includes(command); });
-            if (cmd) {
-              this.callCommand(cmd, message, args, prefix);
-              executedCommand = true;
-            }
+            return cmd;
           });
         }
       }
@@ -224,6 +214,7 @@ class CommandParser {
       returnCommands.set(
         category,
         cmdArray.map((cmd) => {
+          console.log(cmd.name);
           return {
             name: cmd.name,
             description: cmd.description(locales.get("en")).description,

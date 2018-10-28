@@ -64,7 +64,7 @@ app.post('/', (req, res) => {
     var botInfo = {
       guilds: Array.from(client.guilds.entries()),
       ping: client.ping,
-      avatar: client.user.avatarURL,
+      avatar: client.user.displayAvatarURL,
       tag: client.user.tag,
       commands: cp.getCommands(),
       prefix: prefix
