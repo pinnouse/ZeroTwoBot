@@ -110,7 +110,6 @@ class CommandParser {
       prefix = customPrefixes.get(message.guild.id);
     }
 
-    
     if (message.content.startsWith(prefix)) {
       var regex = new RegExp("^" + utils.escapeRegExp(prefix) + "[a-zA-Z][a-zA-Z0-9 _\\-\\/]*", "im");
       if (regex.test(message.content)) {
@@ -118,18 +117,15 @@ class CommandParser {
         var args = msg.split(" ");
         var command = args.shift();
 
-        var executedCommand = false;
-
-        commands.some((category) => {
-          let cmd = category.find(cmd => { return cmd.superCmd && cmd.aliases && cmd.superCmd.includes(command) && cmd.aliases.includes(args[0]); });
-          return cmd;
-        });
-
-        if (!executedCommand) {
-          commands.some((category) => {
-            let cmd = category.find(cmd => { return cmd.aliases && cmd.aliases.includes(command); });
-            return cmd;
-          });
+        for (let category of commands.values()) {
+          let cmd = category.find((cmd) => { return cmd.superCmd && cmd.aliases && cmd.superCmd.includes(command) && cmd.aliases.includes(args[0]); });
+          if (cmd === undefined) {
+            cmd = category.find(cmd => { return cmd.aliases && cmd.aliases.includes(command); });
+          }
+          if (cmd) {
+            this.callCommand(cmd, message, args, prefix);
+            return;
+          }
         }
       }
     }
@@ -194,7 +190,7 @@ class CommandParser {
             + `\npassed args : ${JSON.stringify(args)}`
           );
         }
-      }).catch(e => {
+      })/*.catch(e => {
         if (config.debugmode) {
           console.log("\n----------------[ Error ]----------------"
             + `\ncommand     : ${command.name}`
@@ -204,7 +200,7 @@ class CommandParser {
             + `\npassed args : ${JSON.stringify(args)}`
           );
         }
-      });
+      })*/;
     }
   }
 
