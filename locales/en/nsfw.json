@@ -1,5 +1,16 @@
 {
   "nsfwServer": "This text channel must be NSFW or 'NSFW All Channels' must be enabled in the dashboard (TBI)",
+  "danbooru": {
+    "title": "Danbooru",
+    "description": "Searches Danbooru for an NSFW image, use '_' for multiword tags",
+    "loading": "Getting image...",
+    "success": "Received image.\nSearched tag(s): {0}",
+    "errors": {
+      "fail": ":no_entry_sign: Failed response from danbooru.donmai.us",
+      "noResults": "Could not find any results for the tag(s): {0}",
+      "specialCharacters": ":no_entry_sign: Please do not include special characters in the tags."
+    }
+  },
   "rule34": {
     "title": "Rule34",
     "description": "Searches rule34.xxx for an NSFW image",

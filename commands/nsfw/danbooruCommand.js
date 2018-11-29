@@ -5,17 +5,17 @@ const utils = require('../../framework/utils');
 const request = require('request-promise-native');
 
 module.exports = {
-  name: 'rule34',
+  name: 'danbooru',
   category: 'nsfw',
-  aliases: ['r34', 'rul34'],
+  aliases: ['danbooru', 'db'],
   optArgs: ['search tags'],
   reqArgs: [],
   unlimitedArgs: true,
   nsfw: true,
   permissions: [],
-  description: (locale) => { return locale['nsfw']['rule34']; },
+  description: (locale) => { return locale['nsfw']['danbooru'] },
   executeCommand: async (args) => {
-    let locale = args.locale['nsfw']['rule34'];
+    let locale = args.locale['nsfw']['danbooru'];
     var allowableCharacters = /^[\w\.\(\)\&\+\s]+$/;
     var tags = args.args.join(" ");
     if (tags && !allowableCharacters.test(tags)) {
@@ -40,14 +40,10 @@ module.exports = {
     );
 
     var options = {
-      uri: 'https://rule34.xxx/index.php',
+      uri: 'https://danbooru.donmai.us/posts.json',
       qs: {
-        page: 'dapi',
-        s: 'post',
-        q: 'index',
-        tags: tags,
-        limit: 50,
-        json: 1
+        limit: 10,
+        tags: tags
       }, headers: {
         'User-Agent': 'Request'
       },
@@ -55,6 +51,7 @@ module.exports = {
     };
 
     let response = await request(options);
+    console.log(response);
     if (!response || !response.length) {
       var richEmbed = utils.getRichEmbed(
         args.client,
@@ -83,8 +80,9 @@ module.exports = {
         `\`${(tags) ? tags.split(' ').join('`, `') : "none"}\``
       )
     );
+    console.log(choice.file_url);
     richEmbed
-      .setImage(`https://rule34.xxx/images/${choice.directory}/${choice.image}`)
+      .setImage(choice.file_url)
       .setFooter(`Requested by: ${args.message.author.username}`, args.message.author.displayAvatarURL)
       .setTimestamp(new Date().toISOString());
     if (!searchingMessage.deleted)
