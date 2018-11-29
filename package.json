@@ -27,12 +27,13 @@
   "bugs": {
     "url": "https://github.com/pinnouse/ZeroTwoBot/issues"
   },
-  "homepage": "https://github.com/pinnouse/ZeroTwoBot#readme",
+  "homepage": "http://gnwobros.com/zerotwo",
   "dependencies": {
     "body-parser": "^1.18.3",
     "discord.js": "^11.4.2",
     "express": "^4.16.4",
     "glob": "^7.1.2",
+    "jimp": "^0.6.0",
     "node-opus": "^0.3.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",

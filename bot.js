@@ -46,7 +46,10 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
   }
 });
 
-client.login(token).catch(console.log);
+client.login(token).catch(err => {
+  console.log(err);
+  process.exit(1);
+});
 
 ///Server portion
 const express = require('express');
