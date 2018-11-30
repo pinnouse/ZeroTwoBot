@@ -120,7 +120,7 @@ class CommandParser {
         for (let category of commands.values()) {
           let cmd = category.find((cmd) => { return cmd.superCmd && cmd.aliases && cmd.superCmd.includes(command) && cmd.aliases.includes(args[0]); });
           if (cmd === undefined) {
-            cmd = category.find(cmd => { return cmd.aliases && cmd.aliases.includes(command); });
+            cmd = category.find(cmd => { return !cmd.superCmd && cmd.aliases && cmd.aliases.includes(command); });
           }
           if (cmd) {
             this.callCommand(cmd, message, args, prefix);
