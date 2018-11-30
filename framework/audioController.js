@@ -39,43 +39,11 @@ class AudioController {
         )
       );
 
-      var endHandler = function (reason) {
-        if (reason !== 'leave') {
-          switch (playlist.loopMode) {
-            case 'LIST':
-              playlist.songs.push(playlist.songs.shift());
-              break;
-            case 'SINGLE':
-              //Do Nothing
-              break;
-            case 'NONE':
-            default:
-              playlist.songs.splice(0, 1);
-              break;
-          }
-        }
-
-        if (playlist.songs.length > 0 && playlist.status !== 'OFF') {
-          playlist.status = 'NEXT'
-          this.playSong(playlist.songs[0], playlist, voiceConnection, textChannel, localeToUse);
-        } else {
-          playlist.status = 'OFF';
-          if (reason !== 'leave') {
-            textChannel.send(
-              utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
-                localeToUse['audioController'].doneStream
-              )
-            );
-          }
-        }
-
-        if (config.debugmode)
-          console.log('song end: ' + reason);
-      }
+      var controller = this;
       
-      this.dispatchers.get(textChannel.guild.id).on('end', endHandler);
+      this.dispatchers.get(textChannel.guild.id).on('end', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeToUse, controller) });
 
-      this.dispatchers.get(textChannel.guild.id).on('error', endHandler);
+      this.dispatchers.get(textChannel.guild.id).on('error', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeTouse, controller) });
     } //end 'OFF' || 'NEXT'
     else if (playlist.status === 'STREAMING') {
       textChannel.send(
@@ -86,6 +54,40 @@ class AudioController {
         )
       );
     } //end 'STREAMING'
+  }
+
+  endHandler (reason, playlist, voiceConnection, textChannel, localeToUse, controller) {
+    if (reason !== 'leave') {
+      switch (playlist.loopMode) {
+        case 'LIST':
+          playlist.songs.push(playlist.songs.shift());
+          break;
+        case 'SINGLE':
+          //Do Nothing
+          break;
+        case 'NONE':
+        default:
+          playlist.songs.splice(0, 1);
+          break;
+      }
+    }
+
+    if (playlist.songs.length > 0 && playlist.status !== 'OFF') {
+      playlist.status = 'NEXT'
+      controller.playSong(playlist.songs[0], playlist, voiceConnection, textChannel, localeToUse);
+    } else {
+      playlist.status = 'OFF';
+      if (reason !== 'leave') {
+        textChannel.send(
+          utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
+            localeToUse['audioController'].doneStream
+          )
+        );
+      }
+    }
+
+    if (config.debugmode)
+      console.log('song end: ' + reason);
   }
 
   skipSong (textChannel, playlist, localeToUse) {
