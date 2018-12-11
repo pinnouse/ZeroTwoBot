@@ -7,7 +7,7 @@ const request = require('request-promise-native');
 module.exports = {
   name: 'rule34',
   category: 'nsfw',
-  aliases: ['r34', 'rul34'],
+  aliases: ['r34', 'rule34'],
   optArgs: ['search tags'],
   reqArgs: [],
   unlimitedArgs: true,
