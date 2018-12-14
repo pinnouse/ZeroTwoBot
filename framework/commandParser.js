@@ -111,7 +111,7 @@ class CommandParser {
     }
 
     if (message.content.startsWith(prefix)) {
-      var regex = new RegExp("^" + utils.escapeRegExp(prefix) + "[a-zA-Z][a-zA-Z0-9 _\\-\\/]*", "im");
+      var regex = new RegExp("^" + utils.escapeRegExp(prefix) + "[a-zA-Z0-9][a-zA-Z0-9 _\\-\\/]*", "im");
       if (regex.test(message.content)) {
         var msg = message.content.substring(prefix.length).trim();
         var args = msg.split(" ");
