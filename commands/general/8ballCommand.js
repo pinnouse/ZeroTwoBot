@@ -20,7 +20,7 @@ module.exports = {
     args.message.channel.send(
       utils.getRichEmbed(
         args.client,
-        0x000000,
+        0x101010,
         locale.title,
         response
       )
