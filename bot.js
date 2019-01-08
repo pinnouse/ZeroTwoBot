@@ -5,7 +5,7 @@ const client = new Discord.Client();
 
 const { prefix, token, testToken, serverPort, accessKey } = require('./config.json');
 
-var usedToken = (process.argv[2] == '--test' || process.argv[2] == '-t') ? testToken : token;
+var usedToken = (process.argv[2] == '--testing' || process.argv[2] == '-t') ? testToken : token;
 
 const CommandParser = require('./framework/commandParser');
 var cp = new CommandParser(client);

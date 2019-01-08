@@ -28,27 +28,41 @@ Working and functioning, not like the super bestest, but it sorta kinda maybe wo
 - everything is WIP, even this README
 
 ## Self-Hosting
-### (Installation)
+### Installation
 
 Prerequisites:
-- ffmpeg
+- [ffmpeg](https://www.ffmpeg.org)
 - [nodejs](https://nodejs.org)
 
 ### Configuration
 The bot requires a configuration file named ` config.json ` to be placed in the root directory.
 <br />
-Example:
+Example (do not include the `"// ..."`):
+
 ```js
 {
     "prefix": "$", //Default prefix, change if you want
     "token": "INSERT_DISCORD_BOT_TOKEN", //https://discordapp.com/developers
     "gapi": "GOOGLE_API_KEY", //YouTube functionality
     "oapi": "OSU_API_KEY", //osu! functionality
-    "owners": ["ARRAY_OF_OWNER_IDS (can be obtained by doing '\\@username#tag'"], //So you can use the kill command
+    "owners": ["ARRAY_OF_OWNER_IDS (can be obtained by doing '\@username#tag'"], //So you can use the kill command
     "chatbotUrl": "URL_OF_CHATBOT" //Configured like ReinaChat (https://github.com/pinnoues/ReinaChat)
     "serverPort": 8080, //Port for the builtin backend HTML server
     "accessKey": "SECRET", //Set a key to keep the bot server safe passed as a GET 'key=' argument
     "defaultLan": "en" //Set to whichever language is supported (found in ./locales/)
+}
+```
+
+### Testing
+If testing the bot, the script you should use is: `npm test`
+<br />
+**Note:** This requires you to have in your ` config.json `:
+
+```js
+{
+    ...
+    "testToken": "DISCORD_BOT_TOKEN"
+    ...
 }
 ```
 

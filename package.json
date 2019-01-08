@@ -4,7 +4,7 @@
   "description": "A simple multi-functional Discord bot using the Discord.JS library",
   "main": "bot.js",
   "scripts": {
-    "test": "node bot.js --test",
+    "test": "node bot.js -t",
     "start": "node bot.js"
   },
   "repository": {
