@@ -46,7 +46,7 @@ Example:
     "oapi": "OSU_API_KEY", //osu! functionality
     "owners": ["ARRAY_OF_OWNER_IDS (can be obtained by doing '\\@username#tag'"], //So you can use the kill command
     "chatbotUrl": "URL_OF_CHATBOT" //Configured like ReinaChat (https://github.com/pinnoues/ReinaChat)
-    "serverPort": 8080, //Port for the builtin backend webhook server
+    "serverPort": 8080, //Port for the builtin backend HTML server
     "accessKey": "SECRET", //Set a key to keep the bot server safe passed as a GET 'key=' argument
     "defaultLan": "en" //Set to whichever language is supported (found in ./locales/)
 }
