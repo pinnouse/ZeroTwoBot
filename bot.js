@@ -3,7 +3,9 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-const { prefix, token, serverPort, accessKey } = require('./config.json');
+const { prefix, token, testToken, serverPort, accessKey } = require('./config.json');
+
+var usedToken = (process.argv[2] == '--test' || process.argv[2] == '-t') ? testToken : token;
 
 const CommandParser = require('./framework/commandParser');
 var cp = new CommandParser(client);
@@ -46,7 +48,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
   }
 });
 
-client.login(token).catch(err => {
+client.login(usedToken).catch(err => {
   console.log(err);
   process.exit(1);
 });
