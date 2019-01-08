@@ -13,19 +13,18 @@
 You have come across my wonderful, beautiful Discord bot. Based off the star darling in the anime: Darling in the FranXX, this bot is packed to the brim with unfinished functionality.
 <br />
 <br />
-~~For a working bot, you can hit up: [ReinaBot](http://www.gnowbros.com/reinabot)~~ (Depracated)
-<br />
-<br />
 Working and functioning, not like the super bestest, but it sorta kinda maybe works
 
 ## Features
 ### (or lack thereof)
 - Music (youtube)
 - Chatbot
+- 8 Ball
 - Anime (AniList)
 - Osu! (Players, WIP)
 - League of Legends (WIP)
-- everything is WIP, even this README
+
+For a full list of commands, visit the website: [here](http://gnowbros.com/zerotwo)
 
 ## Self-Hosting
 ### Installation
@@ -42,7 +41,7 @@ Example (do not include the `"// ..."`):
 ```js
 {
     "prefix": "$", //Default prefix, change if you want
-    "token": "INSERT_DISCORD_BOT_TOKEN", //https://discordapp.com/developers
+    "token": "DISCORD_BOT_TOKEN", //https://discordapp.com/developers
     "gapi": "GOOGLE_API_KEY", //YouTube functionality
     "oapi": "OSU_API_KEY", //osu! functionality
     "owners": ["ARRAY_OF_OWNER_IDS (can be obtained by doing '\@username#tag'"], //So you can use the kill command
