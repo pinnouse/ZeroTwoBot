@@ -26,7 +26,7 @@ client.on('guildCreate', guild => {
 client.on('guildDelete', guild => {
   console.log(`Left guild: ${guild.name} (id:${guild.id})`);
   client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
-})
+});
 
 client.on('message', message => {
   if (message.author.bot) return;
