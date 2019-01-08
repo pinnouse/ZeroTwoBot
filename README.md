@@ -40,8 +40,8 @@ The bot requires a configuration file named ` config.json ` to be placed in the 
 Example:
 ```js
 {
-    "prefix": "$",
-    "token": "INSERT_DISCORD_BOT_TOKEN",
+    "prefix": "$", //Default prefix, change if you want
+    "token": "INSERT_DISCORD_BOT_TOKEN", //https://discordapp.com/developers
     "gapi": "GOOGLE_API_KEY", //YouTube functionality
     "oapi": "OSU_API_KEY", //osu! functionality
     "owners": ["ARRAY_OF_OWNER_IDS (can be obtained by doing '\\@username#tag'"], //So you can use the kill command
@@ -54,11 +54,15 @@ Example:
 
 ## Contact
 
-> HMU on Discord: **pinnouse#7766**
+> **Discord:** `pinnouse#7766`
 >
-> Join the support channel: ~~[Doesn't exist yet]()~~
+> **Support Channel:** ~~[Doesn't exist yet]()~~
 >
-> YouTube channel: [link](https://www.youtube.com/channel/UCJSOrfnWGCBDAnpnxpIjsBQ)
+> **Home Website:** [link](http://gnowbros.com)
+>
+> **Email:** Just message me on Discord 👍
 
 ## License
+GPL v3
+
 [license](./LICENSE)
