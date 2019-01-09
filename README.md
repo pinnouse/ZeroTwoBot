@@ -43,7 +43,7 @@ Example (do not include the `"// ..."`):
 
 ```js
 {
-    "prefix": "$", //Default prefix, change if you want
+    "prefix": "?", //Default prefix, change if you want
     "token": "DISCORD_BOT_TOKEN", //https://discordapp.com/developers
     "gapi": "GOOGLE_API_KEY", //YouTube functionality
     "oapi": "OSU_API_KEY", //osu! functionality
@@ -56,7 +56,7 @@ Example (do not include the `"// ..."`):
 ```
 
 ### Testing
-If testing the bot, the script you should use is: `npm test`
+If testing the bot, the script you should use is: `node bot.js -t`
 <br />
 **Note:** This requires you to have in your ` config.json `:
 
