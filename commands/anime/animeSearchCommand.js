@@ -106,7 +106,7 @@ module.exports = {
             dateStr += ` to ${getMonth(anime.endDate.month)}-${anime.endDate.day}-${anime.endDate.year}`;
           output.addField('Aired', dateStr);
         }
-        output.addField('Score', `${anime.meanScore / 10.0}/10`)
+        output.addField('Score', `${anime.meanScore / 10.0}/10`);
         args.message.channel.send(output);
         return 'success';
     } catch (e) {

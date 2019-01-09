@@ -67,7 +67,7 @@ module.exports = {
 
           let animeDescription = "";
           if (animeNames.length > 1) {
-            animeDescription += "**also known as:** "
+            animeDescription += "**also known as:** ";
             animeNames.slice(1).forEach((name, index) => {
               if (index > 0)
                 animeDescription += ", ";
