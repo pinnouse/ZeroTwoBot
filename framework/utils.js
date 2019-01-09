@@ -2,6 +2,8 @@
 
 const { RichEmbed } = require('discord.js');
 
+const { homeUrl } = require('../config.json');
+
 module.exports = {
   escapeRegExp: function(strToReplace) {
     return strToReplace.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
@@ -38,11 +40,11 @@ module.exports = {
           .replace("READ_MESSAGE_HISTORY", "Read Message History")
           .replace("MENTION_EVERYONE", "Mention Everyone")
           .replace("USE_EXTERNAL_EMOJIS", "Use External Emojis")
-          .replace("CONNECT", "Administrator")
-          .replace("SPEAK", "Administrator")
-          .replace("MUTE_MEMBERS", "Administrator")
-          .replace("DEAFEN_MEMBERS", "Administrator")
-          .replace("MOVE_MEMBERS", "Administrator")
+          .replace("CONNECT", "Connect")
+          .replace("SPEAK", "Speak")
+          .replace("MUTE_MEMBERS", "Mute Members")
+          .replace("DEAFEN_MEMBERS", "Deafen Members")
+          .replace("MOVE_MEMBERS", "Move Members")
           .replace("USE_VAD", "Use Voice Activation Detection")
           .replace("CHANGE_NICKNAME", "Change Nickname")
           .replace("MANAGE_NICKNAMES", "Manage Other Nicknames")
@@ -97,7 +99,7 @@ module.exports = {
   getRichEmbed: function(client, color, title, description) {
     return new RichEmbed()
       .setColor(color || 0xffffff)
-      .setAuthor(title || client.user.username, client.user.displayAvatarURL)
+      .setAuthor(title || client.user.username, client.user.displayAvatarURL, homeUrl || "")
       .setDescription(description || "");
   },
   getVoiceChannel: function(client, users) {

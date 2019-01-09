@@ -43,7 +43,8 @@ Example (do not include the `"// ..."`):
 
 ```js
 {
-    "prefix": "?", //Default prefix, change if you want
+    "prefix": "?", //Default prefix, change if you 
+    "homeUrl": "OPTIONAL_HOME_URL", //Website URL for RichEmbed author links
     "token": "DISCORD_BOT_TOKEN", //https://discordapp.com/developers
     "gapi": "GOOGLE_API_KEY", //YouTube functionality
     "oapi": "OSU_API_KEY", //osu! functionality

@@ -27,7 +27,7 @@
   "bugs": {
     "url": "https://github.com/pinnouse/ZeroTwoBot/issues"
   },
-  "homepage": "http://gnwobros.com/zerotwo",
+  "homepage": "http://gnowbros.com/zerotwo",
   "dependencies": {
     "body-parser": "^1.18.3",
     "discord.js": "^11.4.2",
