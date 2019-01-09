@@ -50,6 +50,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
 client.login(usedToken).catch(err => {
   console.log(err);
+  console.log('Failed to connect');
   process.exit(1);
 });
 
