@@ -4,9 +4,20 @@
     "description": "Deletes 'x' amount of messages where 'x' is an optional number (bot requires 'Manage Messages' permission as well)",
     "success": "Successfully deleted {0} messages...\nThis message will delete in 5 seconds.",
     "errors": {
-      "amount": ":no_entry_sign: Please make sure you are deleting (1-100) messages (one to one hundred messages exclusive)",
+      "amount": ":warning: Please make sure you are deleting (1-100) messages (one to one hundred messages exclusive)",
       "noPermission": ":no_entry_sign: Please make sure that this bot has the 'Manage Messages' permission",
       "NaN": ":no_entry_sign: Number of messages must be a number"
+    }
+  },
+  "kick": {
+    "title": "Kick",
+    "description": "Kick a member from the guild if you have permission to",
+    "success": "**{0}** kicked **{1}**:\n`{2}`",
+    "errors": {
+      "noPermission": ":no_entry_sign: Please make sure that this bot has the 'Manage Members' permission",
+      "noMember": ":warning: No member was found",
+      "notKickable": "no_entry_sign: That user is not kickable",
+      "failed": ":no_entry_sign: Unable to kick, an error occured"
     }
   }
 }

@@ -13,7 +13,7 @@ module.exports = {
   description: (locale) => { return locale['moderation']['delete']; },
   executeCommand: async (args) => {
     let locale = args.locale['moderation']['delete'];
-    if (!args.message.guild.members.get(args.client.user.id).hasPermission('MANAGE_MESSAGES')) {
+    if (!args.message.guild.me.hasPermission('MANAGE_MESSAGES')) {
       args.message.channel.send(
         utils.getRichEmbed(
           args.client,
@@ -57,7 +57,7 @@ module.exports = {
       return `caught exception (${e})`;
     }
 
-    channel.send(
+    let message = await channel.send(
       utils.getRichEmbed(
         args.client,
         0x682828,
@@ -67,11 +67,11 @@ module.exports = {
           `\`${args.args[0]}\``
         )
       )
-    ).then(message => {
-      message.delete(5000).catch(reason => {
-        //Error deleting self message ignored
-      });
+    )
+    
+    message.delete(5000).catch(reason => {
+      //Error deleting self message ignored
     });
-    return `success (cleared ${args.args[0]} messages)`;
+    return `Success (cleared ${args.args[0]} messages)`;
   }
 }
