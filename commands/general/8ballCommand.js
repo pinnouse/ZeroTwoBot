@@ -1,7 +1,5 @@
 'use strict';
 
-const config = require('../../config.json');
-
 const utils = require('../../framework/utils');
 
 module.exports = {

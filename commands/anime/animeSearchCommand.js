@@ -77,7 +77,7 @@ module.exports = {
           animeTitle.push("*no title*");
 
           
-        let animeDescription = `[link](${ANILIST_PREFIX}${anime.id})\n`;
+        let animeDescription = "";
         if (animeTitle.length > 1) {
           animeDescription += "**also known as:** ";
           animeTitle.slice(1).forEach((name, index) => {
@@ -87,6 +87,8 @@ module.exports = {
           });
           animeDescription += '\n';
         }
+
+        animeDescription += `[link](${ANILIST_PREFIX}${anime.id})\n`;
         
         anime.description = (anime.description || "").replace(/<[a-zA-Z0-9]+>/g, '').replace(/[\r\n]/g, ' ');
         
@@ -98,6 +100,7 @@ module.exports = {
           .replace('NOT_YET_RELEASED', 'not released') : "";
           
         var output = utils.getRichEmbed(args.client, 0x00a1ff, locale.title, animeDescription).setThumbnail(anime.coverImage['large']);
+        output.setTitle(animeTitle[0]);
         
         output.addField('Status', animeStatus, true).addField('Episodes', `${anime.episodes != 1 ? anime.episodes + "eps (" + anime.duration + "mins)" : anime.duration + "mins"}`, true);
         if (anime.startDate) {
@@ -113,7 +116,7 @@ module.exports = {
       args.message.channel.send(
         utils.getRichEmbed(args.client, 0xff0000, locale.title, locale.errorResponse)
       );
-      return 'failure: ' + reason.message;
+      return 'failure: ' + e.message;
     }
   }
 }

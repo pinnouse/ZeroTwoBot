@@ -49,11 +49,10 @@ module.exports = {
     let returnValue = "";
     await request(options)
       .then(result => {
-        console.log(result.data.Page.media);
         var output = utils.getRichEmbed(args.client, 0x00a1ff, locale.title,
           utils.replace(locale.results, `\` ${args.args.join(" ")} \``)
         );
-        result.data.Page['media'].forEach(anime => {
+        result.data.Page.media.forEach(anime => {
           let animeNames = [];
           if (anime.title.english)
             animeNames.push(anime.title.english);

@@ -54,7 +54,18 @@ class CommandParser {
     glob.sync('commands/*/*.js').forEach((file) => {
       let tempCommand = require('../' + file);
 
-      process.stdout.write(`'${tempCommand.name}' command... `)
+      if (
+        !tempCommand.name ||
+        !tempCommand.category ||
+        !tempCommand.aliases ||
+        typeof tempCommand.description !== 'function' ||
+        typeof tempCommand.executeCommand !== 'function'
+        ) {
+        console.log(`Skipping '${tempCommand.name || file}', incorrect formatting`);
+        return;
+      }
+
+      process.stdout.write(`'${tempCommand.name}' command... `);
 
       let catCommands = commands.get(tempCommand.category) || [];
       if (catCommands.find(cmd => { return tempCommand.name === cmd.name; }))
