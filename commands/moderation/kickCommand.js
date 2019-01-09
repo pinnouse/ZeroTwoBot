@@ -10,12 +10,20 @@ module.exports = {
   aliases: ['kick'],
   reqArgs: ['user to kick'],
   optArgs: ['reason'],
+  unlimitedArgs: true,
   permissions: ['KICK_MEMBERS'],
   description: (locale) => { return locale['moderation']['kick']; },
   executeCommand: async (args) => {
     let locale = args.locale['moderation']['kick'];
     if (!args.message.guild.me.hasPermission('KICK_MEMBERS')) {
-
+      args.message.channel.send(
+        utils.getRichEmbed(
+          args.client,
+          0xff0000,
+          locale.title,
+          locale['errors'].noPermission
+        )
+      );
       return 'Failed to kick (missing permissions)';
     }
 
@@ -23,6 +31,7 @@ module.exports = {
     let userToKick;
     try {
       userToKick = await args.message.channel.guild.fetchMember(userMention);
+      if (!userToKick) throw new Error("No user found");
     } catch(e) {
       args.message.channel.send(
         utils.getRichEmbed(
@@ -54,7 +63,7 @@ module.exports = {
     }
 
     try {
-      await userToKick.kick();
+      await userToKick.kick(kickReason);
     } catch(e) {
       args.message.channel.send(
         utils.getRichEmbed(
