@@ -2,6 +2,8 @@
 
 const utils = require('../../framework/utils');
 
+const { Role } = require('discord.js');
+
 module.exports = {
   name: 'ban',
   category: 'moderation',
