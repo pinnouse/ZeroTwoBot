@@ -34,7 +34,7 @@ Example:
 }
 ```
 
-For the command impermissible messages: `botInternal.json`
+For the command impermissible messages: `commandFormat.json`
 <br />
 Example (en):
 

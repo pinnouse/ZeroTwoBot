@@ -1,7 +1,7 @@
 # ZeroTwoBot
 ### Designed and created by: pinnouse
 
-[![Build Status](https://travis-ci.com/pinnouse/ZeroTwoBot.svg?branch=master)](https://travis-ci.com/pinnouse/ZeroTwoBot) [![Dependencies](https://david-dm.org/pinnouse/ZeroTwoBot.svg)](https://david-dm.org)
+[![Build Status](https://travis-ci.com/pinnouse/ZeroTwoBot.svg?branch=master)](https://travis-ci.com/pinnouse/ZeroTwoBot) [![Dependencies](https://david-dm.org/pinnouse/ZeroTwoBot.svg)](https://david-dm.org/pinnouse/ZeroTwoBot)
 
 **[Website](http://gnowbros.com/zerotwo)**
 
