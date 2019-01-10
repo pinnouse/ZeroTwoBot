@@ -2,7 +2,7 @@
 
 const config = require('../config.json');
 const utils = require('../framework/utils');
-const botInternalLocale = require('../locales/botInternal.json');
+const botInternalLocale = require('../locales/commandFormat.json');
 
 const { RichEmbed } = require('discord.js');
 
@@ -151,31 +151,37 @@ class CommandParser {
 
     //Check if user has permission to use the command
     if (command.permissions && command.permissions.length > 0 && message.member && !message.member.hasPermission(command.permissions, false, false)) {
-      message.channel.send(new RichEmbed()
-        .setColor(0xff0000)
-        .setTitle(locale.botInternal.errorTitle)
-        .setDescription(utils.replace(locale.botInternal.notPermissible, utils.getPermissionsString(command.permissions)))
+      message.channel.send(
+        utils.getRichEmbed(
+          this.client,
+          0xff0000,
+          locale.botInternal.errorTitle,
+          utils.replace(locale.botInternal.notPermissible, utils.getPermissionsString(command.permissions))
+        )
       );
     }
     //Check too many arguments
     else if (hasArgs && args.length > command.optArgs.length + command.reqArgs.length && command.unlimitedArgs !== true) {
-      message.channel.send(new RichEmbed()
-        .setColor(0xff0000)
-        .setTitle(locale.botInternal.errorTitle)
-        .setDescription(
+      message.channel.send(
+        utils.getRichEmbed(
+          this.client,
+          0xff0000,
+          locale.botInternal.errorTitle,
           utils.replace(locale.botInternal.tooManyArgs, utils.getCommandUsage(prefix, command, botInternalLocale.commandHelpFormat))
         )
       );
     }
     //Check if meets amount of required arguments
     else if (hasArgs && args.length < command.reqArgs.length) {
-      message.channel.send(new RichEmbed()
-        .setColor(0xff0000)
-        .setTitle(locale.botInternal.errorTitle)
-        .setDescription(
+      message.channel.send(
+        utils.getRichEmbed(
+          this.client,
+          0xff0000,
+          locale.botInternal.errorTitle,
           utils.replace(locale.botInternal.tooFewArgs, utils.getCommandUsage(prefix, command, botInternalLocale.commandHelpFormat))
-        ));
-    } 
+        )
+      );
+    }
     //Execute the given command
     else {
       command.executeCommand({

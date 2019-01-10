@@ -67,15 +67,15 @@ module.exports = {
   },
   getCommandUsage: function(prefix, command, commandLayoutLocale) {
     let argsLayout = "";
-    if (command.optArgs) {
-      command.optArgs.forEach(arg => {
-        argsLayout += this.replace(commandLayoutLocale.optionalArgs, arg);
-      });
-    }
-    
     if (command.reqArgs) {
       command.reqArgs.forEach(arg => {
         argsLayout += this.replace(commandLayoutLocale.requiredArgs, arg);
+      });
+    }
+
+    if (command.optArgs) {
+      command.optArgs.forEach(arg => {
+        argsLayout += this.replace(commandLayoutLocale.optionalArgs, arg);
       });
     }
 

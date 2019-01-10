@@ -4,7 +4,7 @@ const config = require('../../config.json');
 
 const utils = require('../../framework/utils');
 
-const botInternal = require('../../locales/botInternal.json');
+const commandFormat = require('../../locales/commandFormat.json');
 
 module.exports = {
   name: 'help',
@@ -41,7 +41,7 @@ module.exports = {
               helpLocale['successCategory'].listItem,
               cmd.description(args.locale).description,
               perms,
-              utils.getCommandUsage(prefix, cmd, botInternal.commandHelpFormat)
+              utils.getCommandUsage(prefix, cmd, commandFormat.commandHelpFormat)
             )
           );
         });
@@ -55,7 +55,7 @@ module.exports = {
             args.client,
             0xff0000,
             helpLocale.title,
-            utils.replace(helpLocale['errors'].index, utils.getCommandUsage(prefix, module.exports, botInternal.commandHelpFormat))
+            utils.replace(helpLocale['errors'].index, utils.getCommandUsage(prefix, module.exports, commandFormat.commandHelpFormat))
           )
         );
 
@@ -65,7 +65,7 @@ module.exports = {
       //List all categories
       let allCategories = "";
       categories.forEach((cat, index) => {
-        allCategories += `\n${utils.replace(botInternal.commandHelpFormat.categoryListItem, index + 1, cat)}\n`;
+        allCategories += `\n${utils.replace(commandFormat.commandHelpFormat.categoryListItem, index + 1, cat)}\n`;
       });
 
       await args.message.channel.send(
@@ -73,7 +73,7 @@ module.exports = {
           args.client,
           0x9e7e08,
           helpLocale.title,
-          utils.replace(helpLocale['successAll'].content, allCategories, utils.getCommandUsage(prefix, module.exports, botInternal.commandHelpFormat))
+          utils.replace(helpLocale['successAll'].content, allCategories, utils.getCommandUsage(prefix, module.exports, commandFormat.commandHelpFormat))
         )
       )
       return true;
