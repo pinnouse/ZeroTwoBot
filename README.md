@@ -52,7 +52,7 @@ Example (do not include the `"// ..."`):
     "chatbotUrl": "URL_OF_CHATBOT" //Configured like ReinaChat (https://github.com/pinnoues/ReinaChat)
     "serverPort": 8080, //Port for the builtin backend HTML server
     "accessKey": "SECRET", //Set a key to keep the bot server safe passed as a GET 'key=' argument
-    "defaultLan": "en" //Set to whichever language is supported (found in ./locales/)
+    "defaultLang": "en" //Set to whichever language is supported (found in ./locales/)
 }
 ```
 
