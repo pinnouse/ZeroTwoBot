@@ -108,8 +108,8 @@ module.exports = {
         args.message.channel.send(
           utils.getRichEmbed(args.client, 0xff0000, playLocale.title, playLocale['errors'].searchFail)
         );
-        return `false (search failed ${e})`
-      };
+        return `false (search failed ${e})`;
+      }
     }
   }
 }

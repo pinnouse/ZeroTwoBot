@@ -116,4 +116,4 @@ module.exports = {
       return client.channels.filter(channel => channel.type === 'voice' && channel.members.find(member => member.id === users)).first() || false;
     }
   }
-}
+};

@@ -4,7 +4,7 @@
   "description": "A simple multi-functional Discord bot using the Discord.JS library",
   "main": "bot.js",
   "scripts": {
-    "test": "jshint .",
+    "test": "eslint .",
     "start": "node bot.js"
   },
   "repository": {
@@ -40,6 +40,6 @@
     "ytdl-core": "^0.29.0"
   },
   "devDependencies": {
-    "jshint": "^2.9.7"
+    "eslint": "^5.12.0"
   }
 }

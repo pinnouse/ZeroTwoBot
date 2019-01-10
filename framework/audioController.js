@@ -43,7 +43,7 @@ class AudioController {
       
       this.dispatchers.get(textChannel.guild.id).on('end', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeToUse, controller) });
 
-      this.dispatchers.get(textChannel.guild.id).on('error', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeTouse, controller) });
+      this.dispatchers.get(textChannel.guild.id).on('error', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeToUse, controller) });
     } //end 'OFF' || 'NEXT'
     else if (playlist.status === 'STREAMING') {
       textChannel.send(
@@ -65,7 +65,6 @@ class AudioController {
         case 'SINGLE':
           //Do Nothing
           break;
-        case 'NONE':
         default:
           playlist.songs.splice(0, 1);
           break;

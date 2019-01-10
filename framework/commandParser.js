@@ -2,9 +2,7 @@
 
 const config = require('../config.json');
 const utils = require('../framework/utils');
-const botInternalLocale = require('../locales/commandFormat.json');
-
-const { RichEmbed } = require('discord.js');
+const commandFormat = require('../locales/commandFormat.json');
 
 const AudioController = require('./audioController');
 
@@ -115,7 +113,7 @@ class CommandParser {
     });
   }
 
-  async receiveMessage(message) {
+  receiveMessage(message) {
     var prefix = config.prefix;
     if (customPrefixes.has(message.guild.id)) {
       prefix = customPrefixes.get(message.guild.id);
@@ -142,7 +140,7 @@ class CommandParser {
     }
   }
   
-  async callCommand(command, message, args, prefix) {
+  callCommand(command, message, args, prefix) {
     let lang = langPrefs.has(message.guild.id) ? langPrefs.get(message.guild.id) : config.defaultLang;
     let locale = locales.get(lang);
     let hasArgs = command.optArgs && command.reqArgs;
@@ -167,7 +165,7 @@ class CommandParser {
           this.client,
           0xff0000,
           locale.botInternal.errorTitle,
-          utils.replace(locale.botInternal.tooManyArgs, utils.getCommandUsage(prefix, command, botInternalLocale.commandHelpFormat))
+          utils.replace(locale.botInternal.tooManyArgs, utils.getCommandUsage(prefix, command, commandFormat.commandHelpFormat))
         )
       );
     }
@@ -178,7 +176,7 @@ class CommandParser {
           this.client,
           0xff0000,
           locale.botInternal.errorTitle,
-          utils.replace(locale.botInternal.tooFewArgs, utils.getCommandUsage(prefix, command, botInternalLocale.commandHelpFormat))
+          utils.replace(locale.botInternal.tooFewArgs, utils.getCommandUsage(prefix, command, commandFormat.commandHelpFormat))
         )
       );
     }
@@ -198,17 +196,17 @@ class CommandParser {
         playlists: playlists,
         audioController: this.audioController
       }).then(success => {
-        if (config.debugmode) {
-          console.log("\n----------------[Command]----------------"
-            + `\ncommand     : ${command.name}`
-            + `\nuser        : ${message.author.tag} (${message.author.id})`
-            + `\ntime        : ${new Date().toLocaleString()}`
-            + `\nsucceeeded  : ${success || "unsure (no return value)"}`
-            + `\npassed args : ${JSON.stringify(args)}`
+        if (this.client.testing) {
+          console.log("\n----------------[Command]----------------" +
+            `\ncommand     : ${command.name}` +
+            `\nuser        : ${message.author.tag} (${message.author.id})` +
+            `\ntime        : ${new Date().toLocaleString()}` +
+            `\nsucceeeded  : ${success || "unsure (no return value)"}` +
+            `\npassed args : ${JSON.stringify(args)}`
           );
         }
       })/*.catch(e => {
-        if (config.debugmode) {
+        if (this.client.testing) {
           console.log("\n----------------[ Error ]----------------"
             + `\ncommand     : ${command.name}`
             + `\nuser        : ${message.author.tag} (${message.author.id})`
@@ -236,7 +234,7 @@ class CommandParser {
             optArgs: cmd.optArgs,
             reqArgs: cmd.reqArgs,
             permissions: utils.getPermissionsString(cmd.permissions, true)
-          }
+          };
         })
       );
     });
@@ -245,4 +243,4 @@ class CommandParser {
   }
 }
 
-module.exports = CommandParser
+module.exports = CommandParser;

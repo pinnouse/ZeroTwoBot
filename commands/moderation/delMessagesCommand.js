@@ -69,9 +69,7 @@ module.exports = {
       )
     )
     
-    message.delete(5000).catch(reason => {
-      //Error deleting self message ignored
-    });
+    message.delete(5000);
     return `Success (cleared ${args.args[0]} messages)`;
   }
 }
