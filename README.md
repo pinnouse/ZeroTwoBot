@@ -43,16 +43,16 @@ Example (do not include the `"// ..."`):
 
 ```js
 {
-    "prefix": "?", //Default prefix, change if you want
-    "homeUrl": "OPTIONAL_HOME_URL", //Website URL for RichEmbed author links
-    "token": "DISCORD_BOT_TOKEN", //https://discordapp.com/developers
-    "gapi": "GOOGLE_API_KEY", //YouTube functionality
-    "oapi": "OSU_API_KEY", //osu! functionality
-    "owners": ["ARRAY_OF_OWNER_IDS (can be obtained by doing '\@username#tag'"], //So you can use the kill command
-    "chatbotUrl": "URL_OF_CHATBOT" //Configured like ReinaChat (https://github.com/pinnoues/ReinaChat)
-    "serverPort": 8080, //Port for the builtin backend HTML server
-    "accessKey": "SECRET", //Set a key to keep the bot server safe passed as a GET 'key=' argument
-    "defaultLang": "en" //Set to whichever language is supported (found in ./locales/)
+    "prefix"      : "?", //Default prefix, change if you want
+    "homeUrl"     : "OPTIONAL_HOME_URL", //Website URL for RichEmbed author links
+    "token"       : "DISCORD_BOT_TOKEN", //https://discordapp.com/developers
+    "gapi"        : "GOOGLE_API_KEY", //YouTube functionality
+    "oapi"        : "OSU_API_KEY", //osu! functionality
+    "owners"      : ["ARRAY_OF_OWNER_IDS (can be obtained by doing '\@username#tag'"], //So you can use the kill command
+    "chatbotUrl"  : "URL_OF_CHATBOT" //Configured like ReinaChat (https://github.com/pinnoues/ReinaChat)
+    "serverPort"  : 8080, //Port for the builtin backend HTML server
+    "accessKey"   : "SECRET", //Set a key to keep the bot server safe, passed as a GET 'key=' argument
+    "defaultLang" : "en" //Set to whichever language is supported (found in ./locales/)
 }
 ```
 
