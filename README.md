@@ -1,7 +1,8 @@
 # ZeroTwoBot
-### Designed and created by: pinnouse
+### Designed and created by:
+[pinnouse](https://github.com/pinnouse/ZeroTwoBot)
 
-[![Build Status](https://travis-ci.com/pinnouse/ZeroTwoBot.svg?branch=master)](https://travis-ci.com/pinnouse/ZeroTwoBot) [![Dependencies](https://david-dm.org/pinnouse/ZeroTwoBot.svg)](https://david-dm.org/pinnouse/ZeroTwoBot)
+[![Build Status](https://travis-ci.com/pinnouse/ZeroTwoBot.svg?branch=master)](https://travis-ci.com/pinnouse/ZeroTwoBot) [![Dependencies](https://david-dm.org/pinnouse/ZeroTwoBot.svg)](https://david-dm.org/pinnouse/ZeroTwoBot) [![CodeFactor](https://www.codefactor.io/repository/github/pinnouse/zerotwobot/badge)](https://www.codefactor.io/repository/github/pinnouse/zerotwobot)
 
 **[Website](http://gnowbros.com/zerotwo)**
 
@@ -16,7 +17,9 @@
 You have come across my wonderful, beautiful Discord bot. Based off the star darling in the anime: Darling in the FranXX, this bot is packed to the brim with unfinished functionality.
 <br />
 <br />
-Working and functioning, not like the super bestest, but it sorta kinda maybe works
+Working and functioning, not like the super bestest, but it sorta kinda maybe works.
+<br />
+Built using the [DiscordJS](https://discord.js.org) library.
 
 ## Features
 ### (or lack thereof)
