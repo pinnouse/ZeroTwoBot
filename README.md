@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.com/pinnouse/ZeroTwoBot.svg?branch=master)](https://travis-ci.com/pinnouse/ZeroTwoBot) [![Dependencies](https://david-dm.org/pinnouse/ZeroTwoBot.svg)](https://david-dm.org/pinnouse/ZeroTwoBot) [![CodeFactor](https://www.codefactor.io/repository/github/pinnouse/zerotwobot/badge)](https://www.codefactor.io/repository/github/pinnouse/zerotwobot)
 
-**[Website](http://gnowbros.com/zerotwo)**
+**[Website](http://zerotwo.gnowbros.com)**
 
 ### Table of Contents
 [Description](#description)<br />
