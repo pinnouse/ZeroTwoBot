@@ -5,7 +5,9 @@ const client = new Discord.Client();
 
 const { prefix, token, testToken, serverPort, accessKey } = require('./config.json');
 
-var usedToken = (process.argv[2] == '--testing' || process.argv[2] == '-t') ? testToken : token;
+client.testing = process.argv[2] == '--testing' || process.argv[2] == '-t';
+
+var usedToken = (client.testing) ? testToken : token;
 
 const CommandParser = require('./framework/commandParser');
 var cp = new CommandParser(client);
@@ -39,7 +41,7 @@ client.on('message', message => {
     cp.receiveMessage(message);
 });
 
-client.on('voiceStateUpdate', (oldMember, newMember) => {
+client.on('voiceStateUpdate', (oldMember) => {
   if (client.voiceConnections.has(oldMember.guild.id)) {
     var voiceChannel = client.voiceConnections.get(oldMember.guild.id).channel;
     if (voiceChannel.members.filter(mem => { return mem.id != client.id; }).size <= 0) {

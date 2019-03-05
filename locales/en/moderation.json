@@ -14,10 +14,21 @@
     "description": "Kick a member from the guild if you have permission to",
     "success": "**{0}** kicked **{1}**:\n`{2}`",
     "errors": {
-      "noPermission": ":no_entry_sign: Please make sure that this bot has the 'Manage Members' permission",
+      "noPermission": ":no_entry_sign: Please make sure that this bot has the 'Kick Members' permission",
       "noMember": ":warning: No member was found",
       "notKickable": "no_entry_sign: That user is not kickable",
       "failed": ":no_entry_sign: Unable to kick, an error occured"
+    }
+  },
+  "ban": {
+    "title": "Ban",
+    "description": "Ban a member from the guild",
+    "success": "**{0}** kicked **{1}**:\n`{2}`",
+    "errors": {
+      "noPermission": ":no_entry_sign: Please make sure that this bot has the 'Ban Members' permission",
+      "noMember": ":warning: No member was found",
+      "notBannable": "no_entry_sign: That user is not bannable",
+      "failed": ":no_entry_sign: Unable to ban, an error occured"
     }
   }
 }

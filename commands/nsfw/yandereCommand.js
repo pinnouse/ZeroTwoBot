@@ -50,10 +50,10 @@ module.exports = {
       json: true
     };
 
+    let richEmbed;
     let response = await request(options);
-    console.log(response);
     if (!response || !response.length) {
-      var richEmbed = utils.getRichEmbed(
+      richEmbed = utils.getRichEmbed(
         args.client,
         0xaaffaa,
         locale.title,
@@ -71,7 +71,7 @@ module.exports = {
     }
 
     let choice = response[Math.abs(Math.round(Math.random() * response.length - 1))];
-    var richEmbed = utils.getRichEmbed(
+    richEmbed = utils.getRichEmbed(
       args.client,
       0xaaffaa,
       locale.title,

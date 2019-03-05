@@ -5,17 +5,17 @@ const utils = require('../../framework/utils');
 const { Role } = require('discord.js');
 
 module.exports = {
-  name: 'kick',
+  name: 'ban',
   category: 'moderation',
-  aliases: ['kick'],
-  reqArgs: ['user to kick'],
+  aliases: ['ban'],
+  reqArgs: ['user to ban'],
   optArgs: ['reason'],
-  unlimitedArgs: true,
-  permissions: ['KICK_MEMBERS'],
-  description: (locale) => { return locale['moderation']['kick']; },
+  permissions: ['BAN_MEMBERS'],
+  description: (locale) => { return locale['moderation']['ban']; },
   executeCommand: async (args) => {
-    let locale = args.locale['moderation']['kick'];
-    if (!args.message.guild.me.hasPermission('KICK_MEMBERS')) {
+    let locale = args.locale['moderation']['ban'];
+
+    if (!args.message.guild.me.hasPermission('BAN_MEMBERS')) {
       args.message.channel.send(
         utils.getRichEmbed(
           args.client,
@@ -24,14 +24,14 @@ module.exports = {
           locale['errors'].noPermission
         )
       );
-      return 'Failed to kick (missing permissions)';
+      return 'Failed to ban (missing permissions)';
     }
 
     let userMention = args.args.shift().replace(/[\\<>@#&!]/g, "");
-    let userToKick;
+    let userToBan;
     try {
-      userToKick = await args.message.channel.guild.fetchMember(userMention);
-      if (!userToKick) throw new Error("No user found");
+      userToBan = await args.message.channel.guild.fetchMember(userMention);
+      if (!userToBan) throw new Error("No user found");
     } catch(e) {
       args.message.channel.send(
         utils.getRichEmbed(
@@ -41,20 +41,20 @@ module.exports = {
           locale['errors'].noMember
         )
       );
-      return 'Failed to kick (no member found)';
+      return 'Failed to ban (no member found)';
     }
 
     let messageAuthor = await args.message.channel.guild.fetchMember(args.message);
-    if (args.message.channel.guild.ownerID !== messageAuthor.id && (!userToKick.kickable || Role.comparePositions(messageAuthor.highestRole, userToKick.highestRole) <= 0)) {
+    if (args.message.channel.guild.ownerID !== messageAuthor.id && (!userToBan.bannable || Role.comparePositions(messageAuthor.highestRole, userToBan.highestRole) <= 0)) {
       args.message.channel.send(
         utils.getRichEmbed(
           args.client,
           0xff0000,
           locale.title,
-          locale['errors'].notKickable
+          locale['errors'].notBannable
         )
       );
-      return 'Failed to kick (not kickable)';
+      return 'Failed to ban (not bannable)';
     }
 
     let kickReason = args.args.join(" ");
@@ -63,7 +63,7 @@ module.exports = {
     }
 
     try {
-      await userToKick.kick(kickReason);
+      await userToBan.ban(kickReason);
     } catch(e) {
       args.message.channel.send(
         utils.getRichEmbed(
@@ -73,7 +73,7 @@ module.exports = {
           locale['errors'].failed
         )
       );
-      return `Failed to kick: ${e}`;
+      return `Failed to ban: ${e}`;
     }
 
     args.message.channel.send(
@@ -84,11 +84,12 @@ module.exports = {
         utils.replace(
           locale.success,
           args.message.author,
-          (userToKick.nickname) ? `${userToKick.nickname} (${userToKick.user.tag})` : userToKick.user.tag,
+          (userToBan.nickname) ? `${userToBan.nickname} (${userToBan.user.tag})` : userToBan.user.tag,
           kickReason
         )
       )
     );
-    return `Successfully kicked ${userToKick.displayName}`;
+
+    return 'Success';
   }
 }

@@ -12,7 +12,7 @@ class ChatModule {
     this.chatbotUrl = config.chatbotUrl;
   }
 
-  async sendMessage(message) {
+  sendMessage(message) {
     let options = {
       uri: this.chatbotUrl,
       qs: {
@@ -42,11 +42,11 @@ class ChatModule {
           break;
         }
       } else {
-        sentence = sentence.replace('<EOS>', '');
+        sentence = sentence.replace(/[<]?EOS[>]?'/g, '');
         sentence = sentence.replace(/\s(\.|\?|\!)/g, "$1").replace(/\s\\?(\'|\"|\`)\s?/g, "$1");
         sentence = sentence.replace('&gt;', '>').replace('&lt;', '<');
       }
-      message.channel.send(utils.getRichEmbed(this.client, 0xffffff, this.client.user.username, sentence))
+      message.channel.send(utils.getRichEmbed(this.client, 0xffffff, this.client.user.username, sentence));
     }).catch(reason => {
       console.log(reason);
       message.channel.send(utils.getRichEmbed(this.client, 0xff0000, this.client.user.username, "Something has happened whilst connecting to the server"));

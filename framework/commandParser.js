@@ -2,9 +2,7 @@
 
 const config = require('../config.json');
 const utils = require('../framework/utils');
-const botInternalLocale = require('../locales/botInternal.json');
-
-const { RichEmbed } = require('discord.js');
+const commandFormat = require('../locales/commandFormat.json');
 
 const AudioController = require('./audioController');
 
@@ -115,7 +113,7 @@ class CommandParser {
     });
   }
 
-  async receiveMessage(message) {
+  receiveMessage(message) {
     var prefix = config.prefix;
     if (customPrefixes.has(message.guild.id)) {
       prefix = customPrefixes.get(message.guild.id);
@@ -142,7 +140,7 @@ class CommandParser {
     }
   }
   
-  async callCommand(command, message, args, prefix) {
+  callCommand(command, message, args, prefix) {
     let lang = langPrefs.has(message.guild.id) ? langPrefs.get(message.guild.id) : config.defaultLang;
     let locale = locales.get(lang);
     let hasArgs = command.optArgs && command.reqArgs;
@@ -151,31 +149,37 @@ class CommandParser {
 
     //Check if user has permission to use the command
     if (command.permissions && command.permissions.length > 0 && message.member && !message.member.hasPermission(command.permissions, false, false)) {
-      message.channel.send(new RichEmbed()
-        .setColor(0xff0000)
-        .setTitle(locale.botInternal.errorTitle)
-        .setDescription(utils.replace(locale.botInternal.notPermissible, utils.getPermissionsString(command.permissions)))
+      message.channel.send(
+        utils.getRichEmbed(
+          this.client,
+          0xff0000,
+          locale.botInternal.errorTitle,
+          utils.replace(locale.botInternal.notPermissible, utils.getPermissionsString(command.permissions))
+        )
       );
     }
     //Check too many arguments
     else if (hasArgs && args.length > command.optArgs.length + command.reqArgs.length && command.unlimitedArgs !== true) {
-      message.channel.send(new RichEmbed()
-        .setColor(0xff0000)
-        .setTitle(locale.botInternal.errorTitle)
-        .setDescription(
-          utils.replace(locale.botInternal.tooManyArgs, utils.getCommandUsage(prefix, command, botInternalLocale.commandHelpFormat))
+      message.channel.send(
+        utils.getRichEmbed(
+          this.client,
+          0xff0000,
+          locale.botInternal.errorTitle,
+          utils.replace(locale.botInternal.tooManyArgs, utils.getCommandUsage(prefix, command, commandFormat.commandHelpFormat))
         )
       );
     }
     //Check if meets amount of required arguments
     else if (hasArgs && args.length < command.reqArgs.length) {
-      message.channel.send(new RichEmbed()
-        .setColor(0xff0000)
-        .setTitle(locale.botInternal.errorTitle)
-        .setDescription(
-          utils.replace(locale.botInternal.tooFewArgs, utils.getCommandUsage(prefix, command, botInternalLocale.commandHelpFormat))
-        ));
-    } 
+      message.channel.send(
+        utils.getRichEmbed(
+          this.client,
+          0xff0000,
+          locale.botInternal.errorTitle,
+          utils.replace(locale.botInternal.tooFewArgs, utils.getCommandUsage(prefix, command, commandFormat.commandHelpFormat))
+        )
+      );
+    }
     //Execute the given command
     else {
       command.executeCommand({
@@ -192,17 +196,17 @@ class CommandParser {
         playlists: playlists,
         audioController: this.audioController
       }).then(success => {
-        if (config.debugmode) {
-          console.log("\n----------------[Command]----------------"
-            + `\ncommand     : ${command.name}`
-            + `\nuser        : ${message.author.tag} (${message.author.id})`
-            + `\ntime        : ${new Date().toLocaleString()}`
-            + `\nsucceeeded  : ${success || "unsure (no return value)"}`
-            + `\npassed args : ${JSON.stringify(args)}`
+        if (this.client.testing) {
+          console.log("\n----------------[Command]----------------" +
+            `\ncommand     : ${command.name}` +
+            `\nuser        : ${message.author.tag} (${message.author.id})` +
+            `\ntime        : ${new Date().toLocaleString()}` +
+            `\nsucceeeded  : ${success || "unsure (no return value)"}` +
+            `\npassed args : ${JSON.stringify(args)}`
           );
         }
       })/*.catch(e => {
-        if (config.debugmode) {
+        if (this.client.testing) {
           console.log("\n----------------[ Error ]----------------"
             + `\ncommand     : ${command.name}`
             + `\nuser        : ${message.author.tag} (${message.author.id})`
@@ -230,7 +234,7 @@ class CommandParser {
             optArgs: cmd.optArgs,
             reqArgs: cmd.reqArgs,
             permissions: utils.getPermissionsString(cmd.permissions, true)
-          }
+          };
         })
       );
     });
@@ -239,4 +243,4 @@ class CommandParser {
   }
 }
 
-module.exports = CommandParser
+module.exports = CommandParser;

@@ -25,6 +25,13 @@
       "Very doubtful"
     ]
   },
+  "avatar": {
+    "title": "Avatar",
+    "description": "Gets the display avatar of a user",
+    "errors": {
+      "noUser": "Could not find the user specified"
+    }
+  },
   "help": {
     "title": "Help",
     "description": "Get help on using the commands of the bot",

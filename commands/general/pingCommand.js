@@ -14,7 +14,19 @@ module.exports = {
     let pingLocale = args.locale['general']['ping'];
     var message = await args.message.channel.send(utils.getRichEmbed(args.client, 0xffffff, pingLocale.title, pingLocale.ping));
 
-    await message.edit(utils.getRichEmbed(args.client, 0xffffff, pingLocale.title, utils.replace(pingLocale.pong, message.createdTimestamp - args.message.createdTimestamp, args.client.ping)));
+    await message.edit(
+      utils.getRichEmbed(
+        args.client,
+        0xffffff,
+        pingLocale.title,
+        utils.replace(
+          pingLocale.pong,
+          message.createdTimestamp - args.message.createdTimestamp,
+          args.client.ping
+        )
+      )
+    );
+
     return true;
   }
 }

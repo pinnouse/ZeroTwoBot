@@ -8,7 +8,7 @@ const utils = require('../../framework/utils');
 module.exports = {
   name: 'kill',
   category: 'general',
-  aliases: ['kill', 'k'],
+  aliases: ['kill'],
   optArgs: [],
   reqArgs: [],
   permissions: [],
