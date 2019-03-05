@@ -36,10 +36,10 @@
     "jimp": "^0.6.0",
     "node-opus": "^0.3.1",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5",
-    "ytdl-core": "^0.29.0"
+    "request-promise-native": "^1.0.7",
+    "ytdl-core": "^0.29.1"
   },
   "devDependencies": {
-    "jshint": "^2.9.7"
+    "jshint": "^2.10.1"
   }
 }
