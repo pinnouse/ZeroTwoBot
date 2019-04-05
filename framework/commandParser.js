@@ -225,7 +225,6 @@ class CommandParser {
       returnCommands.set(
         category,
         cmdArray.map((cmd) => {
-          console.log(cmd.name);
           return {
             name: cmd.name,
             description: cmd.description(locales.get("en")).description,
