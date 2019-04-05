@@ -16,6 +16,7 @@ const ChatModule = require('./framework/chatbot');
 var chatModule = new ChatModule(client);
 
 client.on('ready', () => {
+  console.log(client.guilds.forEach(el => { console.log(el.name); }));
   console.log(`Bot is ready, logged in as: ${client.user.tag}\nwith prefix: ${prefix}`);
   client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
 });
@@ -64,9 +65,6 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/', (req, res) => {
-  console.log(req.body);
-
-  
   if (req.body.key === accessKey) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     var botInfo = {
