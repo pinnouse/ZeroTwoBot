@@ -80,7 +80,6 @@ module.exports = {
         `\`${(tags) ? tags.split(' ').join('`, `') : "none"}\``
       )
     );
-    console.log(choice.file_url);
     richEmbed
       .setImage(choice.file_url)
       .setFooter(`Requested by: ${args.message.author.username}`, args.message.author.displayAvatarURL)

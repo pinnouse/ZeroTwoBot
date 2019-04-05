@@ -43,8 +43,11 @@
       "listItem": "{0}\nPermissions: {1}\nUsage: {2}",
       "noPerms": "none"
     },
+    "successCommand": {
+      "content": "Here is the usage for the command: **` {0} `**\n{1}"
+    },
     "errors": {
-      "index": "Sorry that category does not exist.\nTo see a list of categories, use: {0}"
+      "index": "Sorry that category/command does not exist.\nTo see a list of categories, use: {0}"
     }
   },
   "kill": {

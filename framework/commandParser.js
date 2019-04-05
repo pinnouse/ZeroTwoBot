@@ -14,6 +14,7 @@ const { promisify } = require('util');
 const readFile = promisify(fs.readFile);
 
 //Map of commands with keys being command categories
+//Values are array of commands
 var commands = new Map();
 
 var customPrefixes = new Map();

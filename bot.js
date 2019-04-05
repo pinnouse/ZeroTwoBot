@@ -42,7 +42,8 @@ client.on('message', message => {
     cp.receiveMessage(message);
 });
 
-client.on('voiceStateUpdate', (oldMember) => {
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+  console.log(`${oldMember} | ${newMember}`);
   if (client.voiceConnections.has(oldMember.guild.id)) {
     var voiceChannel = client.voiceConnections.get(oldMember.guild.id).channel;
     if (voiceChannel.members.filter(mem => { return mem.id != client.id; }).size <= 0) {
