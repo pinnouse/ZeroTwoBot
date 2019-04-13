@@ -78,9 +78,9 @@ If testing the bot, the script you should use is: `node bot.js -t`
 >
 > **Support Channel:** ~~[Doesn't exist yet]()~~
 >
-> **Home Website:** [link](https://www.gnowbros.com)
+> **Home Website:** [link](https://gnowbros.com)
 >
-> **Email:** Just message me on Discord 👍
+> **Email:** [futawong@owo.soy](mailto:futawong@owo.soy)
 
 ## License
 GPL v3
