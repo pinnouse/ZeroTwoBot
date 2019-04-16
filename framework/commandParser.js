@@ -159,6 +159,17 @@ class CommandParser {
         )
       );
     }
+    //Check NSFW
+    else if (command.nsfw && !message.channel.nsfw) {
+      message.channel.send(
+        utils.getRichEmbed(
+          this.client,
+          0xff0000,
+          locale.botInternal.errorTitle,
+          locale.botInternal.nsfw
+        )
+      );
+    }
     //Check too many arguments
     else if (hasArgs && args.length > command.optArgs.length + command.reqArgs.length && command.unlimitedArgs !== true) {
       message.channel.send(

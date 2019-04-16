@@ -5,7 +5,8 @@
   "main": "bot.js",
   "scripts": {
     "test": "eslint .",
-    "start": "node bot.js"
+    "start": "node bot.js",
+    "devel": "node bot.js -t"
   },
   "repository": {
     "type": "git",
