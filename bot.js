@@ -18,17 +18,17 @@ var chatModule = new ChatModule(client);
 client.on('ready', () => {
   console.log(client.guilds.forEach(el => { console.log(el.name); }));
   console.log(`Bot is ready, logged in as: ${client.user.tag}\nwith prefix: ${prefix}`);
-  client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
+  setInterval(() => {
+    client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
+  }, 30000);
 });
 
 client.on('guildCreate', guild => {
   console.log(`Joined guild: ${guild.name} (id:${guild.id}`);
-  client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
 });
 
 client.on('guildDelete', guild => {
   console.log(`Left guild: ${guild.name} (id:${guild.id})`);
-  client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
 });
 
 client.on('message', message => {
