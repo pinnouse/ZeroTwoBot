@@ -11,7 +11,7 @@ module.exports = {
   optArgs: ['search tags'],
   reqArgs: [],
   unlimitedArgs: true,
-  nsfw: false,
+  nsfw: true,
   permissions: [],
   description: (locale) => { return locale['nsfw']['safebooru']; },
   executeCommand: async (args) => {
