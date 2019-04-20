@@ -65,7 +65,7 @@ module.exports = {
       if (!searchingMessage.deleted)
           searchingMessage.edit(richEmbed);
       else
-        args.messag.channel.send(richEmbed);
+        args.message.channel.send(richEmbed);
 
       return 'success (no results found for query)';
     }
