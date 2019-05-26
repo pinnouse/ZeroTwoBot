@@ -1,0 +1,18 @@
+{
+    "kill": {
+        "title": "Kill",
+        "description": "Terminates the bot instance (owner of bot only)",
+        "content": "See you!",
+        "errors": {
+          "owner": ":no_entry_sign: You need to be included as an 'Owner' of the bot to use this"
+        }
+    },
+    "reload": {
+        "title": "Reload",
+        "description": "Reloads all the modules for easy testing without restarting the bot *every time*",
+        "content": "Success!",
+        "errors": {
+            "owner": ":no_entry_sign: You need to be included as an 'Owner' of the bot to use this"
+        }
+    }
+}

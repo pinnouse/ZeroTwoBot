@@ -40,6 +40,20 @@ var locales = new Map();
 */
 var playlists = new Map();
 
+/**
+ * @typedef {Object} Command
+ * @property {string} name Name of command (not to explicitly how to call command)
+ * @property {string} category Category of command
+ * @property {Array<string>} aliases Different ways to execute command
+ * @property {Array<string>} optArgs Optional arguments for command
+ * @property {Array<string>} reqArgs Required arguments for command
+ * @property {boolean} unlimitedArgs Arguments separated by space are not constrained
+ * @property {boolean} nsfw Is command an NSFW command
+ * @property {Array<string>} permissions All required permissions to execute the command
+ * @property {boolean} showCommand Whether or not to display the command in 'help'
+ */
+
+/** Parses commands for user */
 class CommandParser {
   constructor(client) {
     this.client = client;
@@ -49,6 +63,30 @@ class CommandParser {
     client.channels.filter(channel => { return channel.type === 'voice'; }).forEach(channel => { channel.leave(); });
 
     //Build commands
+    this.loadCommands();
+
+    //Build locales
+    this.loadLocales();
+
+    console.log("Reading Custom Prefixes...");
+    readFile('prefixPrefs.json', 'utf-8').then(data => {
+      customPrefixes = utils.JSONToMap(data);
+    });
+
+    console.log("Reading Custom Locales...");
+    readFile('localePrefs.json', 'utf-8').then(data => {
+      langPrefs = utils.JSONToMap(data);
+    });
+  }
+
+  /** Loads all the commands */
+  loadCommands() {
+    //Clear cache first
+    glob.sync('commands/*/*.js').forEach(file => { try { delete require.cache[require.resolve('../' + file)] } catch(e) {} });
+
+    //Empty the list
+    commands.clear();
+
     console.log("Loading commands...");
     glob.sync('commands/*/*.js').forEach((file) => {
       let tempCommand = require('../' + file);
@@ -60,11 +98,11 @@ class CommandParser {
         typeof tempCommand.description !== 'function' ||
         typeof tempCommand.executeCommand !== 'function'
         ) {
-        console.log(`Skipping '${tempCommand.name || file}', incorrect formatting`);
+        if (this.client.testing) console.log(`Skipping '${tempCommand.name || file}', incorrect formatting`);
         return;
       }
 
-      process.stdout.write(`'${tempCommand.name}' command... `);
+      if (this.client.testing) process.stdout.write(`'${tempCommand.name}' command... `);
 
       let catCommands = commands.get(tempCommand.category) || [];
       if (catCommands.find(cmd => { return tempCommand.name === cmd.name; }))
@@ -87,33 +125,38 @@ class CommandParser {
         });
       });
 
-      process.stdout.write("DONE!\r\n");
+      if (this.client.testing) process.stdout.write("DONE!\r\n");
     });
+  }
 
+  /** Loads all the locales */
+  loadLocales() {
+    //Empty the list
+    locales.clear();
+    
     console.log("Loading locales...");
     let localeDir = 'locales/';
     fs.readdirSync(localeDir).filter(file => fs.lstatSync(localeDir + file).isDirectory()).forEach((folder) => {
+
+      // Clear cache first
+      glob.sync(`${localeDir}${folder}/*.json`).forEach(file => { try { delete require.cache[require.resolve('../' + file)] } catch(e) {} });
+
       let tempLocale = {};
-      process.stdout.write(`'${folder}' locale... `);
+      if (this.client.testing) process.stdout.write(`'${folder}' locale... `);
       glob.sync(`${localeDir}${folder}/*.json`).forEach(file => {
         var localeModule = /\/([a-zA-Z]+)\.json/g.exec(file);
         tempLocale[localeModule[1]] = require('../' + file);
       });
       locales.set(folder, tempLocale);
-      process.stdout.write("DONE!\r\n");
-    });
-
-    console.log("Reading Custom Prefixes...");
-    readFile('prefixPrefs.json', 'utf-8').then(data => {
-      customPrefixes = utils.JSONToMap(data);
-    });
-
-    console.log("Reading Custom Locales...");
-    readFile('localePrefs.json', 'utf-8').then(data => {
-      langPrefs = utils.JSONToMap(data);
+      if (this.client.testing) process.stdout.write("DONE!\r\n");
     });
   }
 
+  /**
+   * Receive a message and check if it's a command that exists
+   * 
+   * @param {Message} message DiscordJS message
+   */
   receiveMessage(message) {
     var prefix = config.prefix;
     if (customPrefixes.has(message.guild.id)) {
@@ -141,6 +184,14 @@ class CommandParser {
     }
   }
   
+  /**
+   * Calls a Command based on the given inputs and sends client information
+   * 
+   * @param {Command} command Command object that has been checked against to execute
+   * @param {Message} message DiscordJS message
+   * @param {Array<string>} args information of the message string to be sent to command
+   * @param {string} prefix command prefix for sending to command
+   */
   callCommand(command, message, args, prefix) {
     let lang = langPrefs.has(message.guild.id) ? langPrefs.get(message.guild.id) : config.defaultLang;
     let locale = locales.get(lang);
@@ -206,7 +257,8 @@ class CommandParser {
         locale: locale,
         locales: locales,
         playlists: playlists,
-        audioController: this.audioController
+        audioController: this.audioController,
+        commandParser: this
       }).then(success => {
         if (this.client.testing) {
           console.log("\n----------------[Command]----------------" +
@@ -231,6 +283,11 @@ class CommandParser {
     }
   }
 
+  /**
+   * List all commands
+   * 
+   * @returns {Array<Command>} Array of all commands
+   */
   getCommands() {
     var returnCommands = new Map();
     commands.forEach((cmdArray, category) => {

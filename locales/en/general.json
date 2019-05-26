@@ -50,14 +50,6 @@
       "index": "Sorry that category/command does not exist.\nTo see a list of categories, use: {0}"
     }
   },
-  "kill": {
-    "title": "Kill",
-    "description": "Terminates the bot instance (owner of bot only)",
-    "content": "See you!",
-    "errors": {
-      "owner": ":no_entry_sign: You need to be included as an 'Owner' of the bot to use this"
-    }
-  },
   "language": {
     "title": "Language",
     "description": "Gets or sets the language preference for this server",

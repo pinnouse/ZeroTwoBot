@@ -7,17 +7,16 @@ const utils = require('../../framework/utils');
 
 module.exports = {
   name: 'kill',
-  category: 'general',
+  category: 'development',
   aliases: ['kill'],
   optArgs: [],
   reqArgs: [],
   permissions: [],
   showCommand: false,
-  description: (locale) => { return locale['general']['kill']; },
+  description: (locale) => { return locale['development']['kill']; },
   executeCommand: async (args) => {
-    let killLocale = args.locale['general']['kill'];
     if (config.owners.includes(args.message.author.id)) {
-      args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, killLocale.title, killLocale.content)).then(() => {
+      args.message.channel.send(utils.getRichEmbed(args.client, 0xff0000, args.locale['development']['kill'].title, args.locale['development']['kill'].content)).then(() => {
         destroyService(args.client);
       }, (reason) => {
         destroyService(args.client);
@@ -25,7 +24,7 @@ module.exports = {
       });
     } else {
       await args.message.channel.send(
-        utils.getRichEmbed(args.client, 0xff0000, killLocale.title, killLocale['errors'].owner));
+        utils.getRichEmbed(args.client, 0xff0000, args.locale['development']['kill'].title, args.locale['development']['kill']['errors'].owner));
       return false;
     }
 
