@@ -12,7 +12,8 @@ const urlPrefices = {
 
 var options = {
   filter: 'audioonly',
-  quaity: 251
+  quaity: 251,
+  highWaterMark: 1<<25
 };
 
 class AudioController {

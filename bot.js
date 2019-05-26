@@ -74,7 +74,7 @@ client.on('message', message => {
 client.on('voiceStateUpdate', (oldMember, newMember) => {
   if (client.voiceConnections.has(oldMember.guild.id)) {
     var voiceChannel = client.voiceConnections.get(oldMember.guild.id).channel;
-    if (voiceChannel.members.filter(mem => { return mem.id != client.id; }).size <= 0) {
+    if (voiceChannel.members.size <= 1) {
       commandParser.audioController.endPlayback(oldMember.guild.id);
       voiceChannel.leave();
     }
