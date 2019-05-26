@@ -2,8 +2,6 @@
 
 const ytdl = require('ytdl-core');
 
-const config = require('../config.json');
-
 const utils = require('./utils');
 
 const urlPrefices = {
@@ -86,8 +84,7 @@ class AudioController {
       }
     }
 
-    if (config.debugmode)
-      console.log('song end: ' + reason);
+    if (this.client) console.log('song end: ' + reason);
   }
 
   skipSong (textChannel, playlist, localeToUse) {
