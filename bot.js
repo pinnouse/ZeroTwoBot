@@ -39,7 +39,7 @@ if (usedToken === undefined) {
 }
 
 const CommandParser = require('./framework/commandParser');
-var cp = new CommandParser(client);
+var commandParser = new CommandParser(client);
 
 const ChatModule = require('./framework/chatbot');
 var chatModule = new ChatModule(client);
@@ -68,15 +68,15 @@ client.on('message', message => {
     chatModule.sendMessage(message);
   //For parsing commands
   else
-    cp.receiveMessage(message);
+    commandParser.receiveMessage(message);
 });
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-  console.log(`${oldMember} | ${newMember}`);
   if (client.voiceConnections.has(oldMember.guild.id)) {
     var voiceChannel = client.voiceConnections.get(oldMember.guild.id).channel;
     if (voiceChannel.members.filter(mem => { return mem.id != client.id; }).size <= 0) {
-      cp.audioController.endPlayback(oldMember.guild.id);
+      commandParser.audioController.endPlayback(oldMember.guild.id);
+      voiceChannel.leave();
     }
   }
 });
@@ -102,7 +102,7 @@ app.post('/', (req, res) => {
       ping: client.ping,
       avatar: client.user.displayAvatarURL,
       tag: client.user.tag,
-      commands: cp.getCommands(),
+      commands: commandParser.getCommands(),
       prefix: prefix
     };
     
