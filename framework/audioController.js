@@ -86,7 +86,7 @@ class AudioController {
       }
     }
 
-    if (this.client) console.log('song end: ' + reason);
+    if (this.client.testing) console.log('song end: ' + reason);
   }
 
   skipSong (textChannel, playlist, localeToUse) {
