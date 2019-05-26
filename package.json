@@ -1,6 +1,6 @@
 {
   "name": "zerotwobot",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "A simple multi-functional Discord bot using the Discord.JS library",
   "main": "bot.js",
   "scripts": {
