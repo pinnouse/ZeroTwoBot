@@ -60,7 +60,7 @@ Example (do not include the `"// ..."`):
 ```
 
 ### Testing
-If testing the bot, the script you should use is: `node bot.js -t`
+If testing the bot, the script you should use is: `npm run devel`
 <br />
 **Note:** This requires you to have in your ` config.json `:
 
@@ -71,6 +71,7 @@ If testing the bot, the script you should use is: `node bot.js -t`
     ...
 }
 ```
+If no `testToken` is specified, the `token` value will be used instead.
 
 ## Contact
 

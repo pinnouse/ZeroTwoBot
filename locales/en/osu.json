@@ -1,6 +1,21 @@
 {
   "player": {
     "title": "Osu! Player Profile",
-    "description": "Looks up the stats of a player for osu! standard"
+    "description": "Looks up the stats of a player for osu! standard",
+    "loading": "Looking up user",
+    "finished": "Here is your user profile",
+    "errors": {
+      "failed": "Failed to create player card, please try again"
+    }
+  },
+  "map": {
+    "title": "Osu! Map Info",
+    "description": "Get the info about a beatmap difficulty and calculates pp (not a map). To get a map difficulty, visit the beatmap's page",
+    "loading": "Calculating map info...",
+    "finished": "**{0}**\nmapped by: {1}\n[link]({2})\n**PP** {3} **Max Combo** {4}\n**AR** {5} **OD** {6} **CS** {7} **HP** {8}",
+    "errors": {
+      "difficultyNotFound": "The difficulty could not be found, please try to enter in a valid format or just the difficulty's id",
+      "incorrectFormat": "Could not find the map specified, are you sure this is an osu!standard map?"
+    }
   }
 }

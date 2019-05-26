@@ -63,10 +63,22 @@ class CommandParser {
     client.channels.filter(channel => { return channel.type === 'voice'; }).forEach(channel => { channel.leave(); });
 
     //Build commands
-    this.loadCommands();
+    try {
+      this.loadCommands();
+    } catch (e) {
+      console.error('\x1b[31m%s\x1b[0m', "FAILED TO BUILD COMMANDS. If this error persists, please report an issue: https://github.com/pinnouse/ZeroTwoBot/issues");
+      process.exit(2);
+    }
 
-    //Build locales
-    this.loadLocales();
+    //Generate locales
+    try {
+      this.loadLocales();
+    } catch (e) {
+      console.error('\x1b[31m%s\x1b[0m', "FAILED TO GENERATE LOCALES. If this error persists, please report an issue: https://github.com/pinnouse/ZeroTwoBot/issues");
+      process.exit(3);
+    }
+
+    // TODO: Switch to some database manager for server preferences
 
     console.log("Reading Custom Prefixes...");
     readFile('prefixPrefs.json', 'utf-8').then(data => {
@@ -84,8 +96,7 @@ class CommandParser {
     //Clear cache first
     glob.sync('commands/*/*.js').forEach(file => { try { delete require.cache[require.resolve('../' + file)] } catch(e) {} });
 
-    //Empty the list
-    commands.clear();
+    let tempMapCommands = new Map();
 
     console.log("Loading commands...");
     glob.sync('commands/*/*.js').forEach((file) => {
@@ -104,15 +115,15 @@ class CommandParser {
 
       if (this.client.testing) process.stdout.write(`'${tempCommand.name}' command... `);
 
-      let catCommands = commands.get(tempCommand.category) || [];
+      let catCommands = tempMapCommands.get(tempCommand.category) || [];
       if (catCommands.find(cmd => { return tempCommand.name === cmd.name; }))
         throw new Error(`Commands sharing same name: ${tempCommand.name}`);
       
       catCommands.push(tempCommand);
-      commands.set(tempCommand.category, catCommands);
+      tempMapCommands.set(tempCommand.category, catCommands);
 
       //Check for duplicate aliases
-      commands.forEach((category) => {
+      tempMapCommands.forEach((category) => {
         category.filter(cmd => { return tempCommand.name !== cmd.name; }).forEach((cmd) => {
           cmd.aliases.forEach((cmdAlias) => {
             if (tempCommand.aliases.includes(cmdAlias) && //Aliases
@@ -127,13 +138,15 @@ class CommandParser {
 
       if (this.client.testing) process.stdout.write("DONE!\r\n");
     });
+
+    //Set to new map
+    commands = tempMapCommands;
   }
 
   /** Loads all the locales */
   loadLocales() {
-    //Empty the list
-    locales.clear();
-    
+    let tempMapLocales = new Map();
+
     console.log("Loading locales...");
     let localeDir = 'locales/';
     fs.readdirSync(localeDir).filter(file => fs.lstatSync(localeDir + file).isDirectory()).forEach((folder) => {
@@ -147,9 +160,12 @@ class CommandParser {
         var localeModule = /\/([a-zA-Z]+)\.json/g.exec(file);
         tempLocale[localeModule[1]] = require('../' + file);
       });
-      locales.set(folder, tempLocale);
+      tempMapLocales.set(folder, tempLocale);
       if (this.client.testing) process.stdout.write("DONE!\r\n");
     });
+
+    //Set to new map
+    locales = tempMapLocales;
   }
 
   /**

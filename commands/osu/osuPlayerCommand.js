@@ -2,6 +2,8 @@
 
 const request = require('request-promise-native');
 
+const utils = require('../../framework/utils');
+
 const Jimp = require('jimp');
 
 const fs = require('fs');
@@ -17,6 +19,16 @@ module.exports = {
   reqArgs: ['player name or id'],
   description: (locale) => { return locale['osu']['player']; },
   executeCommand: async (args) => {
+    //Send loading message
+    let msg = await args.message.channel.send(
+      utils.getRichEmbed(
+        args.client,
+        0xcc5288,
+        args.locale['osu']['player'].title,
+        args.locale['osu']['player'].loading
+      )
+    );
+
     let user = args.args[(args.args.length > 1) ? 1 : 0];
     let mode = (args.args.length > 1) ? args.args[0] : 0;
     var options = {
@@ -30,28 +42,31 @@ module.exports = {
       },
       json: true
     };
-    try {
-      let response = (await request(options))[0];
 
-      var imgUrl = `resources/temp/${response.user_id}.png`;
-      new Jimp(520, 140, 0x111111ff, (err, image) => {
-        Jimp.read(`https://a.ppy.sh/${response.user_id}`).then(avatar => {
-          Jimp.read('resources/avatar_mask.png').then(mask => {
-            image.blit(avatar.resize(100, 100).mask(mask), 20, 20);
-          });
-          return Jimp.loadFont('resources/Exo2_32i.fnt')
-        }).then(font => {
-          image.print(font, 140, 20, `${response.username} #${response.user_id}`);
-          return Jimp.read(`https://osu.ppy.sh/images/flags/${response.country}.png`);
-        }).then(flag => {
-          image.blit(flag.resize(60, 40), 146, 80);
-          return Jimp.loadFont('resources/Exo2_28.fnt');
-        }).then(font => {
-          return image
-            .print(font, 212, 84, `#${response.pp_rank.toLocaleString('en')}  ${response.pp_raw.toLocaleString('en')}pp`)
-            .write(imgUrl);
+    let response = (await request(options))[0];
+
+    let finished = false;
+
+    var imgUrl = `resources/temp/${response.user_id}.png`;
+    new Jimp(520, 140, 0x111111ff, (err, image) => {
+      Jimp.read(`https://a.ppy.sh/${response.user_id}`).then(avatar => {
+        Jimp.read('resources/avatar_mask.png').then(mask => {
+          image.blit(avatar.resize(100, 100).mask(mask), 20, 20);
+        });
+        return Jimp.loadFont('resources/Exo2_32i.fnt')
+      }).then(font => {
+        image.print(font, 140, 20, `${response.username} #${response.user_id}`);
+        return Jimp.read(`https://osu.ppy.sh/images/flags/${response.country}.png`);
+      }).then(flag => {
+        image.blit(flag.resize(60, 40), 146, 80);
+        return Jimp.loadFont('resources/Exo2_28.fnt');
+      }).then(font => {
+        return image
+          .print(font, 212, 84, `#${response.pp_rank.toLocaleString('en')}  ${response.pp_raw.toLocaleString('en')}pp`)
+          .write(imgUrl);
         }).then(rValue => {
           console.log(rValue);
+          finished = true;
           return args.message.channel.send({
             files: [{
               attachment: imgUrl,
@@ -59,15 +74,31 @@ module.exports = {
             }]
           });
         }).then(() => {
-          fs.unlink(imgUrl);
+          return msg.edit({
+            embed: utils.getRichEmbed(
+              args.client,
+              0xcc5288,
+              args.locale['osu']['player'].title,
+              args.locale['osu']['player'].finished
+            )
+          });
+        }).then(res => {
+          fs.unlinkSync(imgUrl);
         }).catch(error => {
           console.log(error);
-        });
+          if (!finished) {
+            msg.edit(
+              utils.getRichEmbed(
+                args.client,
+                0xff0000,
+                args.locale['osu']['player'].title,
+                args.locale['osu']['player']['errors'].failed
+              )
+            );
+          }
       });
+    });
 
-      return true;
-    } catch (e) {
-      return false;
-    }
+    return true;
   }
 }

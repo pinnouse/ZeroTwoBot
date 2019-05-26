@@ -16,7 +16,17 @@ module.exports = {
   description: (locale) => { return locale['development']['reload']; },
   executeCommand: async (args) => {
     if (config.owners.includes(args.message.author.id)) {
-      await args.message.channel.send(
+      //Reload time
+      try {
+        args.commandParser.loadCommands();
+        args.commandParser.loadLocales();
+      } catch(e) {
+        console.error(e);
+        args.message.channel.send("Failed to reload, check logs.");
+        return false;
+      }
+
+      args.message.channel.send(
         utils.getRichEmbed(
           args.client,
           0xffffff,
@@ -24,10 +34,6 @@ module.exports = {
           args.locale['development']['reload'].content
         )
       );
-      
-      //Reload time
-      args.commandParser.loadCommands();
-      args.commandParser.loadLocales();
       return true;
     } else {
       await args.message.channel.send(
