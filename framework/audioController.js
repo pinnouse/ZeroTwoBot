@@ -75,12 +75,14 @@ class AudioController {
       controller.playSong(playlist.songs[0], playlist, voiceConnection, textChannel, localeToUse);
     } else {
       playlist.status = 'OFF';
+      playlist.songs = [];
       if (reason !== 'leave') {
         textChannel.send(
           utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
             localeToUse['audioController'].doneStream
           )
         );
+        voiceConnection.channel.leave();
       }
     }
 
