@@ -82,7 +82,7 @@ module.exports = {
               args.locale['osu']['player'].finished
             )
           });
-        }).then(res => {
+        }).then(() => {
           fs.unlinkSync(imgUrl);
         }).catch(error => {
           console.log(error);

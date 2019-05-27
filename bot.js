@@ -71,7 +71,7 @@ client.on('message', message => {
     commandParser.receiveMessage(message);
 });
 
-client.on('voiceStateUpdate', (oldMember, newMember) => {
+client.on('voiceStateUpdate', oldMember => {
   if (client.voiceConnections.has(oldMember.guild.id)) {
     var voiceChannel = client.voiceConnections.get(oldMember.guild.id).channel;
     if (voiceChannel.members.size <= 1) {

@@ -94,7 +94,7 @@ class CommandParser {
   /** Loads all the commands */
   loadCommands() {
     //Clear cache first
-    glob.sync('commands/*/*.js').forEach(file => { try { delete require.cache[require.resolve('../' + file)] } catch(e) {} });
+    glob.sync('commands/*/*.js').forEach(file => { try { delete require.cache[require.resolve('../' + file)] } catch(e) { /* Do nothing */ } });
 
     let tempMapCommands = new Map();
 
@@ -152,7 +152,7 @@ class CommandParser {
     fs.readdirSync(localeDir).filter(file => fs.lstatSync(localeDir + file).isDirectory()).forEach((folder) => {
 
       // Clear cache first
-      glob.sync(`${localeDir}${folder}/*.json`).forEach(file => { try { delete require.cache[require.resolve('../' + file)] } catch(e) {} });
+      glob.sync(`${localeDir}${folder}/*.json`).forEach(file => { try { delete require.cache[require.resolve('../' + file)] } catch(e) { /* Do nothing */ } });
 
       let tempLocale = {};
       if (this.client.testing) process.stdout.write(`'${folder}' locale... `);
