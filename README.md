@@ -2,7 +2,7 @@
 ### Designed and created by:
 [pinnouse](https://github.com/pinnouse/ZeroTwoBot)
 
-[![Build Status](https://travis-ci.com/pinnouse/ZeroTwoBot.svg?branch=master)](https://travis-ci.com/pinnouse/ZeroTwoBot) [![Dependencies](https://david-dm.org/pinnouse/ZeroTwoBot.svg)](https://david-dm.org/pinnouse/ZeroTwoBot) [![CodeFactor](https://www.codefactor.io/repository/github/pinnouse/zerotwobot/badge)](https://www.codefactor.io/repository/github/pinnouse/zerotwobot)
+[![Build Status](https://img.shields.io/travis/com/pinnouse/ZeroTwoBot.svg?style=flat-square)](https://travis-ci.com/pinnouse/ZeroTwoBot) [![Dependencies](https://img.shields.io/david/pinnouse/ZeroTwoBot.svg?style=flat-square)](https://david-dm.org/pinnouse/ZeroTwoBot) [![Code Factor](https://img.shields.io/codacy/grade/6be799b2a58b4c769c7ea7e876e9066f.svg?style=flat-square)](https://www.codacy.com/app/pinnouse/ZeroTwoBot)
 
 **[Website](http://zerotwo.gnowbros.com)**
 
@@ -77,7 +77,7 @@ If no `testToken` is specified, the `token` value will be used instead.
 
 > **Discord:** `pinnouse#7766`
 >
-> **Support Channel:** ~~[Doesn't exist yet]()~~
+> **Support Channel:** [invite](https://discord.gg/XZXD2gU)
 >
 > **Home Website:** [link](https://gnowbros.com)
 >
