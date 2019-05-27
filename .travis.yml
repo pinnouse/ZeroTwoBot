@@ -1,3 +1,7 @@
 language: node_js
 node_js:
- - "node"
+  - 10
+  - 11
+install: npm install
+dist: xenial
+sudo: true
