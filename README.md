@@ -77,7 +77,7 @@ If no `testToken` is specified, the `token` value will be used instead.
 
 > **Discord:** `pinnouse#7766`
 >
-> **Support Channel:** ~~[Doesn't exist yet]()~~
+> **Support Channel:** [invite](https://discord.gg/XZXD2gU)
 >
 > **Home Website:** [link](https://gnowbros.com)
 >
