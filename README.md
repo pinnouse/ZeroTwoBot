@@ -2,6 +2,7 @@
 ### Designed and created by:
 [pinnouse](https://github.com/pinnouse/ZeroTwoBot)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/33b41ffc9b3547ae822e907ba4ddb8b8)](https://app.codacy.com/app/pinnouse/ZeroTwoBot?utm_source=github.com&utm_medium=referral&utm_content=pinnouse/ZeroTwoBot&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.com/pinnouse/ZeroTwoBot.svg?branch=master)](https://travis-ci.com/pinnouse/ZeroTwoBot) [![Dependencies](https://david-dm.org/pinnouse/ZeroTwoBot.svg)](https://david-dm.org/pinnouse/ZeroTwoBot) [![CodeFactor](https://www.codefactor.io/repository/github/pinnouse/zerotwobot/badge)](https://www.codefactor.io/repository/github/pinnouse/zerotwobot)
 
 **[Website](http://zerotwo.gnowbros.com)**
