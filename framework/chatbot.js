@@ -42,7 +42,7 @@ class ChatModule {
           break;
         }
       } else {
-        sentence = sentence.replace(/[<]?EOS[>]?'/g, '');
+        sentence = sentence.replace(/[<]?EOS[>]?/gim, '');
         sentence = sentence.replace(/\s(\.|\?|\!)/g, "$1").replace(/\s\\?(\'|\"|\`)\s?/g, "$1");
         sentence = sentence.replace('&gt;', '>').replace('&lt;', '<');
       }
