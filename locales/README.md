@@ -16,6 +16,7 @@ Command locales, stored in:
 - `nsfw.json`
 - `osu.json`
 - `voice.json`
+- etc.
 
 Example:
 
@@ -34,7 +35,7 @@ Example:
 }
 ```
 
-For the command impermissible messages: `commandFormat.json`
+For the command impermissible messages: `botInternal.json`
 <br />
 Example (en):
 

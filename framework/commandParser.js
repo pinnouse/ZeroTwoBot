@@ -98,7 +98,7 @@ class CommandParser {
 
     let tempMapCommands = new Map();
 
-    console.log("Loading commands...");
+    console.log('\x1b[32m%s\x1b[0m', "Loading commands...");
     glob.sync('commands/*/*.js').forEach((file) => {
       let tempCommand = require('../' + file);
 
@@ -147,7 +147,7 @@ class CommandParser {
   loadLocales() {
     let tempMapLocales = new Map();
 
-    console.log("Loading locales...");
+    console.log('\x1b[32m%s\x1b[0m', "Loading locales...");
     let localeDir = 'locales/';
     fs.readdirSync(localeDir).filter(file => fs.lstatSync(localeDir + file).isDirectory()).forEach((folder) => {
 

@@ -75,5 +75,17 @@
       "areadySet": ":no_entry_sign: Prefix is already set to {0}",
       "tooLong": ":no_entry_sign: Custom prefix can only have a maximum length of 3"
     }
+  },
+  "stats": {
+    "title": "Stats",
+    "description": "Current stats for this bot.",
+    "headers": {
+      "botHash": "Bot Hash",
+      "voiceConnections": "Voice Connections",
+      "guildsUsers": "Guilds : Users",
+      "uptime": "Uptime",
+      "locale": "Locale",
+      "prefix": "Prefix"
+    }
   }
 }

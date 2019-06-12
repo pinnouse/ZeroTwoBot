@@ -27,8 +27,9 @@ class ChatModule {
     .then(success => {
       // console.log(success);
       let sentence = success['out_sentence'];
-      let cmdRE = new RegExp(/\$([a-z]+)/, 'gm');
+      let cmdRE = new RegExp(/\$([a-z]+)/, 'gim');
       if (cmdRE.test(sentence)) {
+        cmdRE = new RegExp(/\$([a-z]+)/, 'gim');
         let item = cmdRE.exec(sentence)[1];
         switch(item) {
           case 'time':

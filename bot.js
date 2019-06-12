@@ -45,8 +45,8 @@ const ChatModule = require('./framework/chatbot');
 var chatModule = new ChatModule(client);
 
 client.on('ready', () => {
-  console.log(client.guilds.forEach(el => { console.log(el.name); }));
   console.log(`Bot is ready, logged in as: ${client.user.tag}\nwith prefix: ${prefix}`);
+  client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
   setInterval(() => {
     client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
   }, 30000);
@@ -83,8 +83,8 @@ client.on('voiceStateUpdate', oldMember => {
 
 client.login(usedToken).catch(err => {
   console.log(err);
-  console.log('Failed to connect');
-  process.exit(1);
+  console.log('\x1b[31m%s\x1b[0m', 'Failed to connect');
+  process.exit(10);
 });
 
 ///Server portion

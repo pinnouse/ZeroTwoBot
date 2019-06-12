@@ -100,7 +100,9 @@ module.exports = {
     return new RichEmbed()
       .setColor(color || 0xffffff)
       .setAuthor(title || client.user.username, client.user.displayAvatarURL, homeUrl || "")
-      .setDescription(description || "");
+      .setDescription(description || "")
+      .setFooter(client.user.username, client.user.avatarURL)
+      .setTimestamp(Date.now());
   },
   getVoiceChannel: function(client, users) {
     if (users.constructor === Array) {
