@@ -70,7 +70,7 @@ module.exports = {
       return 'success (no results found for query)';
     }
 
-    let choice = response[Math.abs(Math.round(Math.random() * response.length - 1))];
+    let choice = response[Math.round(Math.random() * (response.length - 1))];
     richEmbed = utils.getRichEmbed(
       args.client,
       0xaaffaa,
