@@ -17,7 +17,7 @@ module.exports = {
   executeCommand: async (args) => {
     let locale = args.locale['nsfw']['danbooru'];
     var allowableCharacters = /^[\w\.\(\)\&\+\s]+$/;
-    var tags = args.args.join(" ");
+    var tags = args.args.join("_");
     if (tags && !allowableCharacters.test(tags)) {
       args.message.channel.send(
         utils.getRichEmbed(

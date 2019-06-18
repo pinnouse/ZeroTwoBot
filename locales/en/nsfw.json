@@ -2,7 +2,7 @@
   "nsfwServer": "This text channel must be NSFW or 'NSFW All Channels' must be enabled in the dashboard (TBI)",
   "danbooru": {
     "title": "Danbooru",
-    "description": "Searches Danbooru for an NSFW image, use '_' for multiword tags",
+    "description": "Searches Danbooru for an NSFW image, spaces replaced with '_'",
     "loading": "Getting image...",
     "success": "Received image.\nSearched tag(s): {0}",
     "errors": {
