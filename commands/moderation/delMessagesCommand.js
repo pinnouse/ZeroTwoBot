@@ -69,7 +69,7 @@ module.exports = {
       )
     )
     
-    message.delete(5000);
+    message.delete(5000).catch(() => {});
     return `Success (cleared ${args.args[0]} messages)`;
   }
 }

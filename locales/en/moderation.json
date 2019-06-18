@@ -4,7 +4,7 @@
     "description": "Deletes 'x' amount of messages where 'x' is an optional number (bot requires 'Manage Messages' permission as well)",
     "success": "Successfully deleted {0} messages...\nThis message will delete in 5 seconds.",
     "errors": {
-      "amount": ":warning: Please make sure you are deleting (1-100) messages (one to one hundred messages exclusive)",
+      "amount": ":warning: Please make sure you are deleting (2-99) messages",
       "noPermission": ":no_entry_sign: Please make sure that this bot has the 'Manage Messages' permission",
       "NaN": ":no_entry_sign: Number of messages must be a number"
     }
