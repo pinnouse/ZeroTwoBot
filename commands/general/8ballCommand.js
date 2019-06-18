@@ -12,12 +12,12 @@ module.exports = {
   unlimitedArgs: true,
   description: (locale) => { return locale['general']['8ball']; },
   executeCommand: async (args) => {
-    let response = locale['general']['8ball'].responses[Math.floor(Math.random() * locale.responses.length)];
+    let response = args.locale['general']['8ball'].responses[Math.floor(Math.random() * args.locale['general']['8ball'].responses.length)];
     args.message.channel.send(
       utils.getRichEmbed(
         args.client,
         0x101010,
-        locale.title,
+        args.locale['general']['8ball'].title,
         response
       )
     );
