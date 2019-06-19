@@ -44,30 +44,11 @@ var commandParser = new CommandParser(client);
 const ChatModule = require('./framework/chatbot');
 var chatModule = new ChatModule(client);
 
+let ready = false;
 client.on('ready', () => {
   console.log(`Bot is ready, logged in as: ${client.user.tag}\nwith prefix: ${prefix}`);
   client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
-
-  let i = 0;
-  let activities = [
-    [`${client.guilds.size} server(s)`, { type: "WATCHING" }],
-    [`${client.voiceConnections.size} voice channel(s)`, { type: "STREAMING" }],
-    [`z2b.xyz`, { url: 'https://z2b.xyz', type: "PLAYING" }],
-    [`to your commands 💝`, { type: "LISTENING" }]
-  ];
-  function getActivity(index) {
-    return activities[index];
-  }
-  setInterval(() => {
-    i++;
-    if (i >= activities.length) i = 0;
-    try {
-      client.user.setActivity(getActivity(i)[0], getActivity(i)[1]);
-    } catch(e) {
-      //Error setting activity
-      console.error(e);
-    }
-  }, 30000);
+  ready = true;
 });
 
 client.on('guildCreate', guild => {
@@ -104,6 +85,27 @@ client.login(usedToken).catch(err => {
   console.log('\x1b[31m%s\x1b[0m', 'Failed to connect');
   process.exit(10);
 });
+
+let i = 0;
+let activities = [
+  [`${client.guilds.size} server(s)`, { type: "WATCHING" }],
+  [`${client.voiceConnections.size} voice channel(s)`, { type: "STREAMING" }],
+  [`z2b.xyz`, { url: 'https://z2b.xyz', type: "PLAYING" }],
+  [`to your commands 💝`, { type: "LISTENING" }]
+];
+function getActivity(index) {
+  return activities[index];
+}
+setInterval(() => {
+  i++;
+  if (i >= activities.length) i = 0;
+  try {
+    if (ready) client.user.setActivity(getActivity(i)[0], getActivity(i)[1]);
+  } catch(e) {
+    //Error setting activity
+    console.error(e);
+  }
+}, 30000);
 
 ///Server portion
 const express = require('express');
