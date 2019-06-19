@@ -87,12 +87,7 @@ client.login(usedToken).catch(err => {
 });
 
 let i = 0;
-let activities = [
-  [`${client.guilds.size} server(s)`, { type: "WATCHING" }],
-  [`${client.voiceConnections.size} voice channel(s)`, { type: "STREAMING" }],
-  [`z2b.xyz`, { url: 'https://z2b.xyz', type: "PLAYING" }],
-  [`to your commands 💝`, { type: "LISTENING" }]
-];
+let activities = [];
 function getActivity(index) {
   return activities[index];
 }
@@ -100,6 +95,12 @@ setInterval(() => {
   i++;
   if (i >= activities.length) i = 0;
   try {
+    activities = [
+      [`${client.guilds.size} server(s)`, { type: "WATCHING" }],
+      [`${client.voiceConnections.size} voice channel(s)`, { type: "STREAMING" }],
+      [`z2b.xyz`, { url: 'https://z2b.xyz', type: "PLAYING" }],
+      [`to your commands 💝`, { type: "LISTENING" }]
+    ];
     if (ready) client.user.setActivity(getActivity(i)[0], getActivity(i)[1]);
   } catch(e) {
     //Error setting activity
