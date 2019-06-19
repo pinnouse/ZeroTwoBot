@@ -47,8 +47,26 @@ var chatModule = new ChatModule(client);
 client.on('ready', () => {
   console.log(`Bot is ready, logged in as: ${client.user.tag}\nwith prefix: ${prefix}`);
   client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
+
+  let i = 0;
+  let activities = [
+    [`${client.guilds.size} server(s)`, { type: "WATCHING" }],
+    [`${client.voiceConnections.size} voice channel(s)`, { type: "STREAMING" }],
+    [`z2b.xyz`, { url: 'https://z2b.xyz', type: "PLAYING" }],
+    [`to your commands 💝`, { type: "LISTENING" }]
+  ];
+  function getActivity(index) {
+    return activities[index];
+  }
   setInterval(() => {
-    client.user.setActivity(`${client.guilds.size} channel(s)`, { type: "WATCHING" });
+    i++;
+    if (i >= activities.length) i = 0;
+    try {
+      client.user.setActivity(getActivity(i)[0], getActivity(i)[1]);
+    } catch(e) {
+      //Error setting activity
+      console.error(e);
+    }
   }, 30000);
 });
 
