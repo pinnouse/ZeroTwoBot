@@ -105,7 +105,7 @@ setInterval(() => {
     //Error setting activity
     console.error(e);
   }
-}, 30000);
+}, 300000);
 
 ///Server portion
 const express = require('express');
