@@ -51,8 +51,9 @@ module.exports = {
 
     let channel = args.message.channel;
     await args.message.delete();
+
     try {
-      await channel.bulkDelete(Number(args.args[0]) | 2);
+      let deleted = await channel.bulkDelete(Number(args.args[0]) | 2, true);
 
       let message = await channel.send(
         utils.getRichEmbed(
@@ -60,11 +61,11 @@ module.exports = {
           0x682828,
           locale.title,
           utils.replace(
-            locale.success,
-            `\`${args.args[0]}\``
+            locale.success + (deleted.size < Number(args.args[0]) ? `\n*${locale.old}*` : ""),
+            `\`${deleted.size}\``
           )
         )
-      )
+      );
       
       message.delete(5000).catch(() => {});
       return `Success (cleared ${args.args[0]} messages)`;
