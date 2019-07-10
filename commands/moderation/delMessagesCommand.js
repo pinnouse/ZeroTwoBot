@@ -53,23 +53,23 @@ module.exports = {
     await args.message.delete();
     try {
       await channel.bulkDelete(Number(args.args[0]) | 2);
+
+      let message = await channel.send(
+        utils.getRichEmbed(
+          args.client,
+          0x682828,
+          locale.title,
+          utils.replace(
+            locale.success,
+            `\`${args.args[0]}\``
+          )
+        )
+      )
+      
+      message.delete(5000).catch(() => {});
+      return `Success (cleared ${args.args[0]} messages)`;
     } catch (e) {
       return `caught exception (${e})`;
     }
-
-    let message = await channel.send(
-      utils.getRichEmbed(
-        args.client,
-        0x682828,
-        locale.title,
-        utils.replace(
-          locale.success,
-          `\`${args.args[0]}\``
-        )
-      )
-    )
-    
-    message.delete(5000).catch(() => {});
-    return `Success (cleared ${args.args[0]} messages)`;
   }
 }
