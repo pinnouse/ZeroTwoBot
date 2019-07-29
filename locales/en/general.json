@@ -84,8 +84,8 @@
       "voiceConnections": "Voice Connections",
       "guildsUsers": "Guilds : Users",
       "uptime": "Uptime",
-      "locale": "Locale",
-      "prefix": "Prefix"
+      "locale": "Default Locale",
+      "prefix": "Default Prefix"
     }
   }
 }
