@@ -10,14 +10,39 @@ const urlPrefices = {
 
 var options = {
   filter: 'audioonly',
-  quaity: 251,
+  quality: 251,
   highWaterMark: 1<<25
 };
 
 class AudioController {
   constructor(client) {
     this.client = client;
-    this.dispatchers = new Map();
+    this.guilds = new Map();
+  }
+
+  /**
+   * Sets the stream dispatcher of the guild map
+   * 
+   * @param {Snowflake} guildId ID of the guild to set
+   * @param {StreamDispatcher} dispatcher Copy of the stream dispatcher
+   */
+  setGuild (guildId, dispatcher) {
+    try {
+      this.guilds.set(guildId, { dispatcher: dispatcher });
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  /**
+   * Retrieves a guild with a dispatcher object attached if exists otherwise
+   * will return false
+   * 
+   * @param {Snowflake} guildId ID of the guild
+   * @returns {Guild|Boolean}
+   */
+  getGuild (guildId) {
+    return this.guilds.has(guildId) && this.guilds.has(guildId).dispatcher !== undefined ? this.guilds.get(guildId) : false;
   }
 
   playSong (song, playlist, voiceConnection, textChannel, localeToUse) {
@@ -28,7 +53,7 @@ class AudioController {
       
       playlist.status = 'STREAMING';
       let streamOptions = { seek: 0, volume: 1 };
-      this.dispatchers.set(textChannel.guild.id, voiceConnection.playStream(stream, streamOptions));
+      this.setGuild(textChannel.guild.id, voiceConnection.playStream(stream, streamOptions));
 
       textChannel.send(
         utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
@@ -38,11 +63,9 @@ class AudioController {
         )
       );
 
-      var controller = this;
-      
-      this.dispatchers.get(textChannel.guild.id).on('end', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeToUse, controller) });
+      this.getGuild(textChannel.guild.id).dispatcher.on('end', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeToUse, controller) });
 
-      this.dispatchers.get(textChannel.guild.id).on('error', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeToUse, controller) });
+      this.getGuild(textChannel.guild.id).dispatcher.on('error', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeToUse, controller) });
     } //end 'OFF' || 'NEXT'
     else if (playlist.status === 'STREAMING') {
       textChannel.send(
@@ -104,12 +127,12 @@ class AudioController {
           )
         )
       );
-      this.dispatchers.get(textChannel.guild.id).end('skip');
+      this.getGuild(textChannel.guild.id).dispatcher.end('skip');
     }
   }
 
   endPlayback (guildId) {
-    this.dispatchers.get(guildId).end('leave');
+    this.getGuild(guildId).dispatcher.end('leave');
   }
 }
 

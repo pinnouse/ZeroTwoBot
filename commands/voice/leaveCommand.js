@@ -24,7 +24,8 @@ module.exports = {
     }
     
     args.playlists.get(args.message.guild.id)['player'].status = 'OFF';
-    args.audioController.dispatchers.get(args.message.guild.id).end('leave');
+    if (args.audioController.getGuild(args.message.guild.id) !== false)
+      args.audioController.getGuild(args.message.guild.id).dispatcher.end('leave');
     
     if (args.message.author.client.channels.filter(ch => { return ch.type === 'voice'; }).size > 0) {
       let leftChannel = false;
