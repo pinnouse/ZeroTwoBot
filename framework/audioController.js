@@ -63,6 +63,8 @@ class AudioController {
         )
       );
 
+      var controller = this;
+
       this.getGuild(textChannel.guild.id).dispatcher.on('end', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeToUse, controller) });
 
       this.getGuild(textChannel.guild.id).dispatcher.on('error', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeToUse, controller) });
