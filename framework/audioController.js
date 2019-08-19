@@ -42,7 +42,7 @@ class AudioController {
    * @returns {Guild|Boolean}
    */
   getGuild (guildId) {
-    return this.guilds.has(guildId) && this.guilds.has(guildId).dispatcher !== undefined ? this.guilds.get(guildId) : false;
+    return (this.guilds.has(guildId) && this.guilds.get(guildId).dispatcher !== undefined) ? this.guilds.get(guildId) : false;
   }
 
   playSong (song, playlist, voiceConnection, textChannel, localeToUse) {
