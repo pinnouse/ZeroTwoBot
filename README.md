@@ -4,7 +4,9 @@
 
 [![Build Status](https://img.shields.io/travis/com/pinnouse/ZeroTwoBot.svg?style=flat-square)](https://travis-ci.com/pinnouse/ZeroTwoBot) [![Dependencies](https://img.shields.io/david/pinnouse/ZeroTwoBot.svg?style=flat-square)](https://david-dm.org/pinnouse/ZeroTwoBot) [![Code Factor](https://img.shields.io/codacy/grade/6be799b2a58b4c769c7ea7e876e9066f.svg?style=flat-square)](https://www.codacy.com/app/pinnouse/ZeroTwoBot)
 
-**[Website](http://zerotwo.gnowbros.com)**
+[![ZeroTwo Website Card](./images/website-card.png)](https://z2b.xyz)
+[![ZeroTwo Server Card](./images/server-card.png)](https://discord.gg/XZXD2gU)
+<sup>Zero Two Art: [ErosPanda via Pixiv](https://www.pixiv.net/member_illust.php?mode=medium&illust_id=68239359)</sup>
 
 ### Table of Contents
 [Description](#description)<br />
