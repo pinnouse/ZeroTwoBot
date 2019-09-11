@@ -1,6 +1,6 @@
 {
   "name": "zerotwobot",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "A simple multi-functional Discord bot using the Discord.JS library",
   "main": "bot.js",
   "scripts": {
@@ -34,17 +34,17 @@
     "discord.js": "^11.5.1",
     "express": "^4.17.1",
     "glob": "^7.1.4",
-    "jimp": "^0.6.4",
+    "jimp": "^0.6.8",
     "node-opus": "^0.3.2",
     "ojsama": "^1.2.1",
     "pretty-ms": "^5.0.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "utf8": "^3.0.0",
-    "ytdl-core": "^0.29.2"
+    "ytdl-core": "^0.29.6"
   },
   "devDependencies": {
-    "eslint": "^6.1.0"
+    "eslint": "^6.3.0"
   },
   "engines": {
     "node": ">=0.10.15"
