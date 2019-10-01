@@ -3,7 +3,6 @@
     "title": "Osu! Player Profile",
     "description": "Looks up the stats of a player for osu! standard",
     "loading": "Looking up user",
-    "finished": "Here is your user profile",
     "errors": {
       "failed": "Failed to create player card, please try again"
     }

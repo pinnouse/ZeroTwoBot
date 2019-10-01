@@ -64,27 +64,22 @@ module.exports = {
         return image
           .print(font, 212, 84, `#${response.pp_rank.toLocaleString('en')}  ${response.pp_raw.toLocaleString('en')}pp`)
           .write(imgUrl);
-        }).then(rValue => {
-          console.log(rValue);
+        }).then(() => {
           finished = true;
-          return args.message.channel.send({
-            files: [{
-              attachment: imgUrl,
-              name: `${response.user_id}.png`
-            }]
-          });
+          console.log('./' + imgUrl);
+          return msg.delete();
         }).then(() => {
-          return msg.edit({
-            embed: utils.getRichEmbed(
-              args.client,
-              0xcc5288,
-              args.locale['osu']['player'].title,
-              args.locale['osu']['player'].finished
-            )
-          });
+            return args.message.channel.send(
+              utils.getRichEmbed(
+                args.client,
+                0xcc5288,
+                args.locale['osu']['player'].title
+              ).attachFiles(['./' + imgUrl]).setImage(`attachment://${response.user_id}.png`)
+            );
         }).then(() => {
-          fs.unlinkSync(imgUrl);
+          return fs.unlinkSync(imgUrl);
         }).catch(error => {
+          fs.unlinkSync(imgUrl);
           console.log(error);
           if (!finished) {
             msg.edit(
