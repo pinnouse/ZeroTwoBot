@@ -1,6 +1,6 @@
 'use strict';
 
-const { RichEmbed } = require('discord.js');
+const Discord = require('discord.js');
 
 const { homeUrl } = require('../config.json');
 
@@ -56,15 +56,37 @@ module.exports = {
 
     return permStr;
   },
+  /**
+   * Turns 'map' to a JSON object.
+   * @param {Map} map 
+   * @returns {Object} JSON object from Map
+   */
   mapToJSON: function(map) {
     return JSON.stringify([...map]);
   },
+  /**
+   * Returns a Map from a given JSON string.
+   * @param {string} json String representation of JSON
+   * @returns {Map} Map of JSON
+   */
   JSONToMap: function(json) {
     return new Map(JSON.parse(json));
   },
+  /**
+   * Checks if the given value is a number.
+   * @param {*} value The value to check against
+   * @returns {Boolean} Is number or not
+   */
   isInt: function(value) {
     return !isNaN(value);
   },
+  /**
+   * Gets the usage of a command from the locale given the command
+   * @param {string} prefix Command prefix
+   * @param {Command} command Name of command
+   * @param {Object} commandLayoutLocale Locale JSON object
+   * @returns {string} Usage
+   */
   getCommandUsage: function(prefix, command, commandLayoutLocale) {
     let argsLayout = "";
     if (command.reqArgs) {
@@ -96,14 +118,29 @@ module.exports = {
     usage += " ";
     return this.replace(commandLayoutLocale.content, usage, argsLayout);
   },
+  /**
+   * Creates and returns a Discord RichEmbed for sending messages.
+   * @param {Discord.Client} client The bot client to retrieve client info
+   * @param {Discord.ColorResolvable} color Resolvable colour preferably in hex string
+   * @param {(string|null)} title Title to give rich embed
+   * @param {string?} description The body of rich embed
+   * @returns {Discord.RichEmbed} The created RichEmbed
+   */
   getRichEmbed: function(client, color, title, description) {
-    return new RichEmbed()
+    return new Discord.RichEmbed()
       .setColor(color || 0xffffff)
       .setAuthor(title || client.user.username, client.user.displayAvatarURL, homeUrl || "")
       .setDescription(description || "")
       .setFooter(client.user.username, client.user.avatarURL)
       .setTimestamp(Date.now());
   },
+  /**
+   * Returns the voice channel in list of users or single user and undefined if 
+   * not in any voice channels with given user(s).
+   * @param {Discord.Client} client The bot client to check
+   * @param {(Discord.User[]|Discord.Snowflake)} users Number of users to check
+   * @returns {?(Map.<Discord.Snowflake,Discord.VoiceChannel>|Discord.VoiceChannel)} Voice channels in
+   */
   getVoiceChannel: function(client, users) {
     if (users.constructor === Array) {
       let channels = new Map();
@@ -113,9 +150,9 @@ module.exports = {
           channels.set(uid, channel);
       });
   
-      return (channels.size > 0) ? channels : false;
+      return (channels.size > 0) ? channels : undefined;
     } else {
-      return client.channels.filter(channel => channel.type === 'voice' && channel.members.find(member => member.id === users)).first() || false;
+      return client.channels.filter(channel => channel.type === 'voice' && channel.members.find(member => member.id === users)).first() || undefined;
     }
   }
 };

@@ -105,7 +105,7 @@ setInterval(() => {
     //Error setting activity
     console.error(e);
   }
-}, 300000);
+}, 1000 * 60 * 5);
 
 ///Server portion
 const express = require('express');
@@ -129,7 +129,7 @@ app.post('/', (req, res) => {
     res.write(JSON.stringify(botInfo));
   } else {
     res.writeHead(401, { 'Content-Type': 'text/html' });
-    res.write('<h1>Sorry, you are unauthorized to access this site</h1>');
+    res.write('Sorry, you are unauthorized to access this site');
   }
   res.end();
 });
