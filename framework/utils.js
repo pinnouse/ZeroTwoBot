@@ -1,6 +1,6 @@
 'use strict';
 
-const Discord = require('discord.js');
+const { RichEmbed } = require('discord.js');
 
 const { homeUrl } = require('../config.json');
 
@@ -120,14 +120,14 @@ module.exports = {
   },
   /**
    * Creates and returns a Discord RichEmbed for sending messages.
-   * @param {Discord.Client} client The bot client to retrieve client info
-   * @param {Discord.ColorResolvable} color Resolvable colour preferably in hex string
+   * @param {import('discord.js').Client} client The bot client to retrieve client info
+   * @param {import('discord.js').ColorResolvable} color Resolvable colour preferably in hex string
    * @param {(string|null)} title Title to give rich embed
    * @param {string?} description The body of rich embed
-   * @returns {Discord.RichEmbed} The created RichEmbed
+   * @returns {import('discord.js').RichEmbed} The created RichEmbed
    */
   getRichEmbed: function(client, color, title, description) {
-    return new Discord.RichEmbed()
+    return new RichEmbed()
       .setColor(color || 0xffffff)
       .setAuthor(title || client.user.username, client.user.displayAvatarURL, homeUrl || "")
       .setDescription(description || "")
@@ -137,9 +137,9 @@ module.exports = {
   /**
    * Returns the voice channel in list of users or single user and undefined if 
    * not in any voice channels with given user(s).
-   * @param {Discord.Client} client The bot client to check
-   * @param {(Discord.User[]|Discord.Snowflake)} users Number of users to check
-   * @returns {?(Map.<Discord.Snowflake,Discord.VoiceChannel>|Discord.VoiceChannel)} Voice channels in
+   * @param {import('discord.js').Client} client The bot client to check
+   * @param {(import('discord.js').User[]|import('discord.js').Snowflake)} users Number of users to check
+   * @returns {?(Map.<import('discord.js').Snowflake,import('discord.js').VoiceChannel>|import('discord.js').VoiceChannel)} Voice channels in
    */
   getVoiceChannel: function(client, users) {
     if (users.constructor === Array) {
