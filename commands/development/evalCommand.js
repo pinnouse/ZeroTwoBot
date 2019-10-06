@@ -18,8 +18,8 @@ module.exports = {
     // https://stackoverflow.com/questions/44072719/node-js-redirect-eval-output-to-string
     let result = "";
     let cons = {
-        log: (script) => {
-            result += script;
+        log: (out) => {
+            result += out + '\n';
         }
     }
     if (config.owners.includes(args.message.author.id)) {
