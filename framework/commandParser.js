@@ -41,6 +41,7 @@ var locales = new Map();
 var playlists = new Map();
 
 /**
+ * A command
  * @typedef {Object} Command
  * @property {string} name Name of command (not to explicitly how to call command)
  * @property {string} category Category of command
@@ -171,7 +172,7 @@ class CommandParser {
   /**
    * Receive a message and check if it's a command that exists
    * 
-   * @param {Message} message DiscordJS message
+   * @param {import('discord.js').Message} message DiscordJS message
    */
   receiveMessage(message) {
     var prefix = config.prefix;
@@ -204,7 +205,7 @@ class CommandParser {
    * Calls a Command based on the given inputs and sends client information
    * 
    * @param {Command} command Command object that has been checked against to execute
-   * @param {Message} message DiscordJS message
+   * @param {import('discord.js').Message} message DiscordJS message
    * @param {Array<string>} args information of the message string to be sent to command
    * @param {string} prefix command prefix for sending to command
    */
