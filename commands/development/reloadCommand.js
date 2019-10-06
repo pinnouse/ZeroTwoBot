@@ -35,10 +35,14 @@ module.exports = {
         )
       );
       return true;
-    } else {
-      await args.message.channel.send(
-        utils.getRichEmbed(args.client, 0xff0000, args.locale['development']['reload'].title, args.locale['devleopment']['reload']['errors'].owner));
-      return false;
     }
+    await args.message.channel.send(
+      utils.getRichEmbed(args.client,
+        0xff0000,
+        args.locale['development']['reload'].title,
+        args.locale['devleopment']['reload']['errors'].owner
+      )
+    );
+    return false;
   }
 }
