@@ -6,7 +6,7 @@
   "scripts": {
     "test": "eslint .",
     "start": "node bot.js",
-    "devel": "node bot.js -t"
+    "devel": "node bot.js --development"
   },
   "repository": {
     "type": "git",

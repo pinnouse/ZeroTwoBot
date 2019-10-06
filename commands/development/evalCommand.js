@@ -25,17 +25,18 @@ module.exports = {
     if (config.owners.includes(args.message.author.id)) {
       let script = args.args.join(' ');
       try {
-          let evaluate = eval(`((console) => { ${script} })`)(cons);
+          let evaluate = eval(`((console) => { return ${script} })`)(cons);
           result += evaluate || "";
           if (result.length > 1200)
             result = result.substr(0, 1200) + "...";
       } catch(e) {
           await args.message.channel.send(
-              `message: \`${e.message}\`\n\nstack:\n\`\`\`${e.stack}\`\`\``
+              `message:\`\`\`${e.message}\`\`\`\nstack:\n\`\`\`${e.stack}\`\`\``
           );
+          return false;
       }
       await args.message.channel.send(
-        `script: \`${script}\`\n\n result:\n${result ? `\`\`\`${result}\`\`\`` : '*```no output```*'}`
+        `script:\`\`\`js\n${script}\n\`\`\`\nresult:${result ? `\`\`\`${result}\`\`\`` : '*```no output```*'}`
       );
       return true;
     } else

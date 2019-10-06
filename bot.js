@@ -30,9 +30,11 @@ try {
 
 const { prefix, token, testToken, serverPort, accessKey } = config;
 
-client.testing = process.argv[2] == '--testing' || process.argv[2] == '-t';
+client.devMode = process.argv[2] == '--development' || process.argv[2] == '-d'
+if (client.devMode)
+  console.log('\x1b[33m%s\x1b[0m', "RUNNING IN DEVELOPMENT MODE");
 
-var usedToken = (client.testing) ? testToken || token : token;
+var usedToken = (client.devMode && testToken) ? testToken : token;
 if (usedToken === undefined) {
   console.error('\x1b[31m%s\x1b[0m', "NO TOKEN WAS SPECIFIED. Please see the README to properly set up a config.json");
   process.exit(1);

@@ -110,11 +110,11 @@ class CommandParser {
         typeof tempCommand.description !== 'function' ||
         typeof tempCommand.executeCommand !== 'function'
         ) {
-        if (this.client.testing) console.log(`Skipping '${tempCommand.name || file}', incorrect formatting`);
+        if (this.client.devMode) console.log(`Skipping '${tempCommand.name || file}', incorrect formatting`);
         return;
       }
 
-      if (this.client.testing) process.stdout.write(`'${tempCommand.name}' command... `);
+      if (this.client.devMode) process.stdout.write(`'${tempCommand.name}' command... `);
 
       let catCommands = tempMapCommands.get(tempCommand.category) || [];
       if (catCommands.find(cmd => { return tempCommand.name === cmd.name; }))
@@ -137,7 +137,7 @@ class CommandParser {
         });
       });
 
-      if (this.client.testing) process.stdout.write("DONE!\r\n");
+      if (this.client.devMode) process.stdout.write("DONE!\r\n");
     });
 
     //Set to new map
@@ -156,13 +156,13 @@ class CommandParser {
       glob.sync(`${localeDir}${folder}/*.json`).forEach(file => { try { delete require.cache[require.resolve('../' + file)] } catch(e) { /* Do nothing */ } });
 
       let tempLocale = {};
-      if (this.client.testing) process.stdout.write(`'${folder}' locale... `);
+      if (this.client.devMode) process.stdout.write(`'${folder}' locale... `);
       glob.sync(`${localeDir}${folder}/*.json`).forEach(file => {
         var localeModule = /\/([a-zA-Z]+)\.json/g.exec(file);
         tempLocale[localeModule[1]] = require('../' + file);
       });
       tempMapLocales.set(folder, tempLocale);
-      if (this.client.testing) process.stdout.write("DONE!\r\n");
+      if (this.client.devMode) process.stdout.write("DONE!\r\n");
     });
 
     //Set to new map
@@ -277,7 +277,7 @@ class CommandParser {
         audioController: this.audioController,
         commandParser: this
       }).then(success => {
-        if (this.client.testing) {
+        if (this.client.devMode) {
           console.log("\n----------------[Command]----------------" +
             `\ncommand     : ${command.name}` +
             `\nuser        : ${message.author.tag} (${message.author.id})` +
@@ -287,7 +287,7 @@ class CommandParser {
           );
         }
       })/*.catch(e => {
-        if (this.client.testing) {
+        if (this.client.devMode) {
           console.log("\n----------------[ Error ]----------------"
             + `\ncommand     : ${command.name}`
             + `\nuser        : ${message.author.tag} (${message.author.id})`
