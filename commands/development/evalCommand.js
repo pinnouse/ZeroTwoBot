@@ -27,6 +27,8 @@ module.exports = {
       try {
           let evaluate = eval(`((console) => { ${script} })`)(cons);
           result += evaluate || "";
+          if (result.length > 1200)
+            result = result.substr(0, 1200) + "...";
       } catch(e) {
           console.error(e);
           await args.message.channel.send(
