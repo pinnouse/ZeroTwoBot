@@ -51,11 +51,13 @@ client.on('ready', () => {
 });
 
 client.on('guildCreate', guild => {
-  console.log(`Joined guild: ${guild.name} (id:${guild.id}`);
+  if (client.debug)
+    console.log(`Joined guild: ${guild.name} (id:${guild.id}`);
 });
 
 client.on('guildDelete', guild => {
-  console.log(`Left guild: ${guild.name} (id:${guild.id})`);
+  if (client.debug)
+    console.log(`Left guild: ${guild.name} (id:${guild.id})`);
 });
 
 client.on('message', message => {

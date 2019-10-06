@@ -175,7 +175,7 @@ class CommandParser {
    */
   receiveMessage(message) {
     var prefix = config.prefix;
-    if (customPrefixes.has(message.guild.id)) {
+    if (message.guild && customPrefixes.has(message.guild.id)) {
       prefix = customPrefixes.get(message.guild.id);
     }
 
