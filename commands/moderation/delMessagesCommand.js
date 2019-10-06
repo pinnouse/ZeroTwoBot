@@ -53,7 +53,7 @@ module.exports = {
     await args.message.delete();
 
     try {
-      let deleted = await channel.bulkDelete(Number(args.args[0]) | 2, true);
+      let deleted = await channel.bulkDelete(Number(args.args[0]) || 2, true);
 
       let message = await channel.send(
         utils.getRichEmbed(
