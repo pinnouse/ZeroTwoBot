@@ -41,10 +41,10 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "utf8": "^3.0.0",
-    "ytdl-core": "^0.29.7"
+    "ytdl-core": "^1.0.0"
   },
   "devDependencies": {
-    "eslint": "^6.5.0"
+    "eslint": "^6.5.1"
   },
   "engines": {
     "node": ">=0.10.15"
