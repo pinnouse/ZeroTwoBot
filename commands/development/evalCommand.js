@@ -30,7 +30,6 @@ module.exports = {
           if (result.length > 1200)
             result = result.substr(0, 1200) + "...";
       } catch(e) {
-          console.error(e);
           await args.message.channel.send(
               `message: \`${e.message}\`\n\nstack:\n\`\`\`${e.stack}\`\`\``
           );
