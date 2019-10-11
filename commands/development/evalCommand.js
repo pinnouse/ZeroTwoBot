@@ -36,7 +36,7 @@ module.exports = {
           return false;
       }
       await args.message.channel.send(
-        `script:\`\`\`js\n${script}\n\`\`\`\nresult:${result ? `\`\`\`${result}\`\`\`` : '*```no output```*'}`
+        `script:\`\`\`js\n${script}\n\`\`\`\nresult:\n${result ? `\`\`\`${result}\`\`\`` : '*```no output```*'}`
       );
       return true;
     } else
