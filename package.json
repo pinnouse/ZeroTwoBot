@@ -35,7 +35,7 @@
     "express": "^4.17.1",
     "glob": "^7.1.4",
     "jimp": "^0.8.4",
-    "node-opus": "^0.3.2",
+    "node-opus": "^0.3.3",
     "ojsama": "^1.2.1",
     "pretty-ms": "^5.0.0",
     "request": "^2.88.0",

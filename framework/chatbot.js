@@ -49,7 +49,8 @@ class ChatModule {
       }
       message.channel.send(utils.getRichEmbed(this.client, 0xffffff, this.client.user.username, sentence));
     }).catch(reason => {
-      console.log(reason);
+      if (this.client.devMode)
+        console.log(reason);
       message.channel.send(utils.getRichEmbed(this.client, 0xff0000, this.client.user.username, "Something has happened whilst connecting to the server"));
     });
   }

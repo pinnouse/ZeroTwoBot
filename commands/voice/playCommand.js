@@ -36,8 +36,8 @@ module.exports = {
       });
     }
 
-    let vChannel = utils.getVoiceChannel(args.client, args.message.author.id);
-    let joined = vChannel && args.client.voiceConnections.find(vConn => { return vConn.channel.id === vChannel.id; });
+    const vChannel = utils.getVoiceChannel(args.client, args.message.author.id);
+    const joined = vChannel && args.client.voiceConnections.find(vConn => { return vConn.channel.id === vChannel.id; });
     if (!joined)
       await joinCommand.executeCommand(args);
       
@@ -58,7 +58,7 @@ module.exports = {
         return 'Searched song (link)';
       }
 
-      args.message.channel.send(
+      await args.message.channel.send(
         utils.getRichEmbed(
           args.client,
           0xff0000,
@@ -95,7 +95,7 @@ module.exports = {
           songList += `\n\`[\`[\` ${i+1} \`](${urlPrefices[song.source].replace('{URL}', song.id)})\`]\`  -  \` ${song.duration} \`  ${song.title}`;
         });
 
-        args.message.channel.send(
+        await args.message.channel.send(
           utils.getRichEmbed(args.client, 0xcccccc, playLocale.title, 
             utils.replace(playLocale.listResults, 
               query, selectUsage, songList
