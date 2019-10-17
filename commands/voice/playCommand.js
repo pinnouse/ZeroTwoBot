@@ -37,8 +37,7 @@ module.exports = {
     }
 
     const vChannel = utils.getVoiceChannel(args.client, args.message.author.id);
-    const joined = vChannel && args.client.voiceConnections.find(vConn => { return vConn.channel.id === vChannel.id; });
-    if (!joined)
+    if (!vChannel || !vChannel.connection)
       await joinCommand.executeCommand(args);
       
     let pl = args.playlists.get(args.message.guild.id)['player']; //Current playlist
@@ -51,7 +50,7 @@ module.exports = {
         args.audioController.playSong(
           result,
           pl,
-          utils.getVoiceChannel(args.client, args.message.author.id).connection,
+          vChannel.connection,
           args.message.channel,
           args.locale
         );

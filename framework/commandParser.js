@@ -210,6 +210,7 @@ class CommandParser {
    * @param {string} prefix command prefix for sending to command
    */
   callCommand(command, message, args, prefix) {
+    if (!message.guild.available) return;
     let lang = langPrefs.has(message.guild.id) ? langPrefs.get(message.guild.id) : config.defaultLang;
     let locale = locales.get(lang);
     let hasArgs = command.optArgs && command.reqArgs;
@@ -281,8 +282,9 @@ class CommandParser {
           console.log("\n----------------[Command]----------------" +
             `\ncommand     : ${command.name}` +
             `\nuser        : ${message.author.tag} (${message.author.id})` +
+            `\nserver      : ${message.guild.name} (${message.guild.id})` +
             `\ntime        : ${new Date().toLocaleString()}` +
-            `\nsucceeeded  : ${success || "unsure (no return value)"}` +
+            `\nresult      : ${success || "unsure (no return value)"}` +
             `\npassed args : ${JSON.stringify(args)}`
           );
         }
