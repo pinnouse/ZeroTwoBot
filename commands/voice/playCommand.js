@@ -10,10 +10,6 @@ const selectCommand = require('./selectCommand');
 
 const utils = require('../../framework/utils');
 
-const urlPrefices = {
-  'youtube': 'https://youtube.com/watch?v={URL}'
-};
-
 const Song = require('../../framework/song');
 
 module.exports = {
@@ -83,7 +79,7 @@ module.exports = {
 
         let songList = "";
         value.forEach((song, i) => {
-          songList += `\n\`[\`[\`${i+1}\`](${urlPrefices[song.source].replace('{URL}', song.id)})\`]\` - \`${song.duration}\` ${song.title}`;
+          songList += `\n\`[\`[\`${i+1}\`](${song.getURL()})\`]\` - \`${song.duration}\` ${song.title}`;
         });
 
         await args.message.channel.send(
@@ -121,12 +117,12 @@ async function getSong(url) {
 
   try {
     var results = await request(options);
-    return results ? {
-      title: results.items[0].snippet.title,
-      source: 'youtube',
-      id: url,
-      duration: parseTime(results.items[0].contentDetails.duration)
-    } : false;
+    return results ? new Song(
+      results.items[0].snippet.title,
+      'youtube',
+      url,
+      parseTime(results.items[0].contentDetails.duration)
+    ) : false;
   } catch(e) {
     return false;
   }
