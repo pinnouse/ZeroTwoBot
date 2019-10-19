@@ -49,10 +49,11 @@ module.exports = {
     let returnValue = "";
     await request(options)
       .then(result => {
+        let media = result.data.Page.media;
         var output = utils.getRichEmbed(args.client, 0x00a1ff, locale.title,
-          utils.replace(locale.results, `\` ${args.args.join(" ")} \``)
+          utils.replace(locale.results, media.length, `\`${args.args.join(" ")}\``)
         );
-        result.data.Page.media.forEach(anime => {
+        media.forEach(anime => {
           let animeNames = [];
           if (anime.title.english)
             animeNames.push(anime.title.english);
@@ -66,17 +67,17 @@ module.exports = {
 
           let animeDescription = "";
           if (animeNames.length > 1) {
-            animeDescription += "**also known as:** ";
+            animeDescription += `*${locale.aka}*: `;
             animeNames.slice(1).forEach((name, index) => {
               if (index > 0)
                 animeDescription += ", ";
-              animeDescription += ` *\` ${name} \`*  `;
+              animeDescription += ` \`${name}\`  `;
             });
-            animeDescription += '\n';
+            animeDescription = animeDescription.trim() + '\n';
           }
 
           if (anime.episodes) {
-            animeDescription += '**episodes:** ' + anime.episodes + '\n';
+            animeDescription += `*${locale.eps}*: ` + anime.episodes + '\n';
           }
 
           anime.description = (anime.description || "").replace(/<[a-zA-Z0-9]+>/g, '').replace(/[\r\n]/g, ' ');
@@ -84,15 +85,15 @@ module.exports = {
           if (anime.description.split(" ").length > 25)
             anime.description = anime.description.split(" ").slice(0, 25).join(" ") + " ...";
 
-          let animeStatus = anime.status ? ` (${
+          let animeStatus = anime.status ? ` (*${
             anime.status
             .replace('FINISHED', 'finished')
             .replace('RELEASING', 'airing')
             .replace('NOT_YET_RELEASED', 'not released')
-          })` : "";
+          }*)` : "";
 
           animeDescription += anime.description;
-          output.addField(animeNames[0] + animeStatus, animeDescription);
+          output.addField(`**${animeNames[0] + animeStatus}**`, animeDescription);
         });
         returnValue = 'success';
         args.message.channel.send(output);

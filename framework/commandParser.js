@@ -281,22 +281,26 @@ class CommandParser {
           console.log("\n----------------[Command]----------------" +
             `\ncommand     : ${command.name}` +
             `\nuser        : ${message.author.tag} (${message.author.id})` +
+            `\nserver      : ${message.guild.name} (${message.guild.id})` +
             `\ntime        : ${new Date().toLocaleString()}` +
             `\nsucceeeded  : ${success || "unsure (no return value)"}` +
             `\npassed args : ${JSON.stringify(args)}`
-          );
+            );
+          }
+        }).catch(e => {
+          if (!this.client.devMode) {
+            console.log("\n----------------[ Error ]----------------" +
+              `\ncommand     : ${command.name}` +
+              `\nuser        : ${message.author.tag} (${message.author.id})` +
+              `\nserver      : ${message.guild.name} (${message.guild.id})` +
+              `\ntime        : ${new Date().toLocaleString()}` +
+              `\nsucceeeded  : ${e}` +
+              `\npassed args : ${JSON.stringify(args)}`
+            );
+          return;
         }
-      })/*.catch(e => {
-        if (this.client.devMode) {
-          console.log("\n----------------[ Error ]----------------"
-            + `\ncommand     : ${command.name}`
-            + `\nuser        : ${message.author.tag} (${message.author.id})`
-            + `\ntime        : ${new Date().toLocaleString()}`
-            + `\nsucceeeded  : ${e}`
-            + `\npassed args : ${JSON.stringify(args)}`
-          );
-        }
-      })*/;
+        throw e;
+      });
     }
   }
 

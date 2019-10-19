@@ -1,6 +1,6 @@
 {
   "name": "zerotwobot",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A simple multi-functional Discord bot using the Discord.JS library",
   "main": "bot.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "discord.js": "^11.5.1",
     "express": "^4.17.1",
     "glob": "^7.1.4",
-    "jimp": "^0.8.4",
+    "jimp": "^0.8.5",
     "node-opus": "^0.3.3",
     "ojsama": "^1.2.1",
     "pretty-ms": "^5.0.0",

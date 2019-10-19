@@ -14,6 +14,8 @@ const urlPrefices = {
   'youtube': 'https://youtube.com/watch?v={URL}'
 };
 
+const Song = require('../../framework/song');
+
 module.exports = {
   name: 'play',
   category: 'voice',
@@ -25,23 +27,13 @@ module.exports = {
   description: (locale) => { return locale['voice']['play']; },
   executeCommand: async (args) => {
     let playLocale = args.locale['voice']['play'];
-    if (!args.playlists.has(args.message.guild.id)) {
-      args.playlists.set(args.message.guild.id, {
-        player: {
-          status: 'OFF',
-          loopMode: 'NONE',
-          songs: [],
-          selectList: []
-        }
-      });
-    }
 
     const vChannel = utils.getVoiceChannel(args.client, args.message.author.id);
     const joined = vChannel && args.client.voiceConnections.find(vConn => { return vConn.channel.id === vChannel.id; });
     if (!joined)
       await joinCommand.executeCommand(args);
       
-    let pl = args.playlists.get(args.message.guild.id)['player']; //Current playlist
+    let pl = utils.getPlaylist(args.playlists, args.message.guild.id);
     let query = args.args.join(" ");
     let regex = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\v|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9\_\-]{11})/;
     if (regex.test(query)) {
@@ -92,7 +84,7 @@ module.exports = {
 
         let songList = "";
         value.forEach((song, i) => {
-          songList += `\n\`[\`[\` ${i+1} \`](${urlPrefices[song.source].replace('{URL}', song.id)})\`]\`  -  \` ${song.duration} \`  ${song.title}`;
+          songList += `\n\`[\`[\`${i+1}\`](${urlPrefices[song.source].replace('{URL}', song.id)})\`]\` - \`${song.duration}\` ${song.title}`;
         });
 
         await args.message.channel.send(
@@ -142,7 +134,8 @@ async function getSong(url) {
 }
 
 async function searchYouTube(query) {
-  var options = {
+  //Get the videos
+  var searchOptions = {
     uri: 'https://www.googleapis.com/youtube/v3/search',
     qs: {
       part: 'snippet',
@@ -159,21 +152,23 @@ async function searchYouTube(query) {
   };
 
   try {
-    var results = await request(options);
+    var results = await request(searchOptions);
     let tempSongs = [];
     let ids = [];
-    results.items.forEach((val, i) => {
-      tempSongs[i] = {
-        title: val.snippet.title,
-        source: 'youtube',
-        id: val.id.videoId,
-        duration: '00:00'
-      };
+    results.items.forEach(val => {
+      tempSongs.push(
+        new Song(
+          val.snippet.title,
+          'youtube',
+          val.id.videoId,
+          '00:00'
+        )
+      );
       ids.push(val.id.videoId);
     });
 
     // Get times of videos
-    var searchOptions = {
+    var timeOptions = {
       uri: 'https://www.googleapis.com/youtube/v3/videos',
       qs: {
         part: 'contentDetails',
@@ -185,12 +180,11 @@ async function searchYouTube(query) {
       },
       json: true
     };
-    results = await request(searchOptions);
-    results.items.forEach(tempVal => {
-      tempSongs.forEach((val, i) => {
-        if (val.id == tempVal.id) { 
-          tempSongs[i].duration = parseTime(tempVal.contentDetails.duration);
-          // tempSongs[i].original = tempVal.contentDetails.duration;
+    results = await request(timeOptions);
+    results.items.forEach(conDetails => {
+      tempSongs.forEach(s => {
+        if (s.id == conDetails.id) { 
+          s.duration = parseTime(conDetails.contentDetails.duration);
         }
       });
     });

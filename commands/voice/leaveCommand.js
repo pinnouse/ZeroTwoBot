@@ -2,6 +2,8 @@
 
 const utils = require('../../framework/utils');
 
+const { LOOP_MODE } = require('../../framework/playerDefs');
+
 module.exports = {
   name: 'leave',
   category: 'voice',
@@ -12,18 +14,9 @@ module.exports = {
   description: (locale) => { return locale['voice']['leave']; },
   executeCommand: async (args) => {
     let leaveLocale = args.locale['voice']['leave'];
-    if (!args.playlists.has(args.message.guild.id)) {
-      args.playlists.set(args.message.guild.id, {
-        player: {
-          status: 'OFF',
-          loopMode: 'NONE',
-          songs: [],
-          selectList: []
-        }
-      });
-    }
+    let pl = utils.getPlaylist(args.playlists, args.message.guild.id);
     
-    args.playlists.get(args.message.guild.id)['player'].status = 'OFF';
+    pl.status = LOOP_MODE.OFF;
     if (args.audioController.getGuild(args.message.guild.id) !== false)
       args.audioController.getGuild(args.message.guild.id).dispatcher.end('leave');
     

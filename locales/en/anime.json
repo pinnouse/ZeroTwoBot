@@ -2,8 +2,10 @@
   "list": {
     "title": "Anime List",
     "description": "Searches AniList for a list of anime based on the query",
-    "results": "Results for query: {0}",
-    "errorResponse": ":warning: Encountered an error while connecting to AniList API or results not found."
+    "results": "`{0}` results for query: {1}",
+    "errorResponse": ":warning: Encountered an error while connecting to AniList API or results not found.",
+    "aka": "Also knowns as",
+    "eps": "Episodes"
   },
   "search": {
     "title": "Anime",

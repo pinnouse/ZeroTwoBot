@@ -39,12 +39,12 @@
       "content": "Here is a list of the categories:\n{0}\nTo select a category, use: {1}"
     },
     "successCategory": {
-      "content": "Here are the commands for the category: **` {0} `**",
+      "content": "Here are the commands for the category: **`{0}`**",
       "listItem": "{0}\nPermissions: {1}\nUsage: {2}",
       "noPerms": "none"
     },
     "successCommand": {
-      "content": "Here is the usage for the command: **` {0} `**\n{1}"
+      "content": "Here is the usage for the command: **`{0}`**\n{1}"
     },
     "errors": {
       "index": "Sorry that category/command does not exist.\nTo see a list of categories, use: {0}"
@@ -53,24 +53,24 @@
   "language": {
     "title": "Language",
     "description": "Gets or sets the language preference for this server",
-    "set": ":flag_gb: Set preferred server language to: ` {0} `",
-    "get": "The current language for this server is: ` {0} `\nAvailable languages: {1}",
+    "set": ":flag_gb: Set preferred server language to:`{0}`",
+    "get": "The current language for this server is:`{0}`\nAvailable languages: {1}",
     "errors": {
       "notExist": ":no_entry_sign: Sorry that language is not supported.\nSupported languages are: {0}\nWant to contribute? Email me at __`[cupofpho@gmail.com](mailto:cupofpho@gmail.com)`__",
-      "alreadySet": ":no_entry_sign: The preferred language for this server is already: ` {0} `"
+      "alreadySet": ":no_entry_sign: The preferred language for this server is already:`{0}`"
     }
   },
   "ping": {
     "title": "ping",
     "description": "Returns the bot's latency (ping)",
     "ping": "Pinging...",
-    "pong": ":sparkles: The current ping is: **` {0}ms `** (API latency: ` {1}ms `)"
+    "pong": ":sparkles: The current ping is: **`{0}ms`** (API latency:`{1}ms`)"
   },
   "prefix": {
     "title": "Prefix",
     "description": "Gets the current server's prefix or sets to a new preferred prefix",
-    "get": "The prefix for this server is: ` {0} `",
-    "set": "Set prefix for this server to: ` {0} `",
+    "get": "The prefix for this server is:`{0}`",
+    "set": "Set prefix for this server to:`{0}`",
     "errors": {
       "areadySet": ":no_entry_sign: Prefix is already set to {0}",
       "tooLong": ":no_entry_sign: Custom prefix can only have a maximum length of 3"

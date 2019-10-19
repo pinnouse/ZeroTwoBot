@@ -22,7 +22,7 @@ module.exports = {
 
     let availableLangs = "";
     Array.from(args.locales.keys()).forEach((tempLang) => {
-      availableLangs += `\` ${tempLang} \` `;
+      availableLangs += `\`${tempLang}\``;
     });
     
     if (args.args.length > 0) {

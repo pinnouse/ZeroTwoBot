@@ -1,5 +1,7 @@
 'use strict';
 
+const utils = require('../../framework/utils');
+
 module.exports = {
   name: 'skip',
   category: 'voice',
@@ -10,19 +12,8 @@ module.exports = {
   permissions: [],
   description: (locale) => { return locale['voice']['skip']; },
   executeCommand: async (args) => {
-    if (!args.playlists.has(args.message.guild.id)) {
-      args.playlists.set(args.message.guild.id, {
-        player: {
-          status: 'OFF',
-          loopMode: 'NONE',
-          songs: [],
-          selectList: []
-        }
-      });
-    }
-
-    let playlist = args.playlists.get(args.message.guild.id)['player'];
-    args.audioController.skipSong(args.message.channel, playlist, args.locale);
+    let pl = utils.getPlaylist(args.playlists, args.message.guild.id);
+    args.audioController.skipSong(args.message.channel, pl, args.locale);
     return 'song skip';
   }
 }

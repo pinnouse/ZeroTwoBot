@@ -12,25 +12,14 @@ module.exports = {
   description: (locale) => { return locale['voice']['nowplaying']; },
   executeCommand: async (args) => {
     let locale = args.locale['voice']['nowplaying'];
-    if (!args.playlists.has(args.message.guild.id)) {
-      args.playlists.set(args.message.guild.id, {
-        player: {
-          loopMode: 'NONE',
-          status: 'OFF',
-          songs: [],
-          selectList: [],
-        }
-      });
-    }
-      
-    let pl = args.playlists.get(args.message.guild.id)['player']; //Current playlist
+    let pl = utils.getPlaylist(args.playlists, args.message.guild.id);
     if (pl.songs.length > 0) {
       let songList = "";
       if (pl.songs.length == 1)
         songList = locale.noSongs;
       else {
         pl.songs.slice(1).forEach((song, index) => {
-          songList += `  **${index+1}.**  -  \` ${song.duration} \`  ${song.title}\n`;
+          songList += `  **${index+1}.**  - \`${song.duration}\` ${song.title}\n`;
         });
       }
 

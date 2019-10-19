@@ -13,18 +13,8 @@ module.exports = {
   description: (locale) => { return locale['voice']['select']; },
   executeCommand: async (args) => {
     let selLocale = args.locale.voice.select;
-    if (!args.playlists.has(args.message.guild.id)) {
-      args.playlists.set(args.message.guild.id, {
-        player: {
-          status: 'OFF',
-          loopMode: 'NONE',
-          songs: [],
-          selectList: []
-        }
-      });
-    }
 
-    let pl = args.playlists.get(args.message.guild.id)['player'];
+    let pl = utils.getPlaylist(args.playlists, args.message.guild.id);
 
     if (pl.selectList.length > 0) {
       let selection = args.args[0];

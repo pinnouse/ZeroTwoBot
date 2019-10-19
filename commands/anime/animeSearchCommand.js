@@ -83,7 +83,7 @@ module.exports = {
           animeTitle.slice(1).forEach((name, index) => {
             if (index > 0)
             animeDescription += ", ";
-            animeDescription += ` *\` ${name} \`* `;
+            animeDescription += ` *\`${name}\`* `;
           });
           animeDescription += '\n';
         }

@@ -4,6 +4,8 @@ const { RichEmbed } = require('discord.js');
 
 const { homeUrl } = require('../config.json');
 
+const Playlist = require('./playlist');
+
 module.exports = {
   escapeRegExp: function(strToReplace) {
     return strToReplace.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
@@ -154,5 +156,15 @@ module.exports = {
     } else {
       return client.channels.filter(channel => channel.type === 'voice' && channel.members.find(member => member.id === users)).first() || undefined;
     }
+  },
+  /**
+   * Gets the playlist for specified ID if exists, otherwise create one
+   * @param {Map<import('discord.js').Snowflake,import('./playlist')>} playlists Map of all the current playlists
+   * @param {import('discord.js').Snowflake} guildId ID of the guild to check for
+   */
+  getPlaylist: function(playlists, guildId) {
+    if (!playlists.has(guildId))
+      playlists.set(guildId, new Playlist(guildId, 0));
+    return playlists.get(guildId);
   }
 };
