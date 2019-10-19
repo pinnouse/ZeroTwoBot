@@ -29,8 +29,7 @@ module.exports = {
     let playLocale = args.locale['voice']['play'];
 
     const vChannel = utils.getVoiceChannel(args.client, args.message.author.id);
-    const joined = vChannel && args.client.voiceConnections.find(vConn => { return vConn.channel.id === vChannel.id; });
-    if (!joined)
+    if (!vChannel || !vChannel.connection)
       await joinCommand.executeCommand(args);
       
     let pl = utils.getPlaylist(args.playlists, args.message.guild.id);
@@ -43,7 +42,7 @@ module.exports = {
         args.audioController.playSong(
           result,
           pl,
-          utils.getVoiceChannel(args.client, args.message.author.id).connection,
+          vChannel.connection,
           args.message.channel,
           args.locale
         );
