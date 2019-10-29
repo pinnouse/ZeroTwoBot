@@ -7,7 +7,7 @@ module.exports = {
   category: 'general',
   aliases: ['avatar'],
   reqArgs: ['username'],
-  unlimitedArgs: true,
+  unlimitedArgs: false,
   description: (locale) => { return locale['general']['avatar']; },
   executeCommand: async (args) => {
     let locale = args.locale['general']['avatar'];

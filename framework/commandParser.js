@@ -217,7 +217,7 @@ class CommandParser {
     if (!message.guild.available) return;
     let lang = langPrefs.has(message.guild.id) ? langPrefs.get(message.guild.id) : config.defaultLang;
     let locale = locales.get(lang);
-    let hasArgs = command.optArgs && command.reqArgs;
+    let hasArgs = command.optArgs || command.reqArgs;
     if (command.superCmd && command.superCmd.length)
       args.shift();
 
@@ -244,7 +244,7 @@ class CommandParser {
       );
     }
     //Check too many arguments
-    else if (hasArgs && args.length > command.optArgs.length + command.reqArgs.length && command.unlimitedArgs !== true) {
+    else if (hasArgs && command.optArgs && args.length > command.optArgs.length + command.reqArgs.length && command.unlimitedArgs !== true) {
       message.channel.send(
         utils.getRichEmbed(
           this.client,
