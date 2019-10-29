@@ -299,8 +299,9 @@ class CommandParser {
               `\nuser        : ${message.author.tag} (${message.author.id})` +
               `\nserver      : ${message.guild.name} (${message.guild.id})` +
               `\ntime        : ${new Date().toLocaleString()}` +
-              `\nsucceeeded  : ${e}` +
-              `\npassed args : ${JSON.stringify(args)}`
+              `\nerror       : ${e}` +
+              `\npassed args : ${JSON.stringify(args)}` +
+              e.stack ? `\nstack       : ${e.stack}` : ''
             );
           return;
         }
