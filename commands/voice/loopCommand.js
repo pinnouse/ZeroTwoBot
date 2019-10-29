@@ -15,12 +15,14 @@ module.exports = {
   executeCommand: async (args) => {
     let locale = args.locale['voice']['loop'];
     let pl = utils.getPlaylist(args.playlists, args.message.guild.id);
+
+    const keys = Object.keys(LOOP_MODE);
     if (args.args.length > 0) {
-      var loopStr = "` " + Object.keys(LOOP_MODE).join(" `, ` ") + " `";
+      var loopStr = "`" + keys.join("`, `") + "`";
 
       if (args.args[0] != parseInt(args.args[0])) {
-        if (Object.keys(LOOP_MODE).indexOf(args.args[0].toUpperCase()) >= 0) {
-          pl.loopMode = args.args[0].toUpperCase();
+        if (keys.indexOf(args.args[0].toUpperCase()) >= 0) {
+          pl.loopMode = keys.indexOf(args.args[0].toUpperCase());
         } else {
           await args.message.channel.send(
             utils.getRichEmbed(
@@ -36,7 +38,7 @@ module.exports = {
           return 'false (not a loop mode - str)';
         }
       } else {
-        if (parseInt(args.args[0]) >= 0 && parseInt(args.args[0]) < Object.keys(LOOP_MODE).length) {
+        if (parseInt(args.args[0]) >= 0 && parseInt(args.args[0]) < keys.length) {
           pl.loopMode = parseInt(args.args[0])
         } else {
           await args.message.channel.send(
@@ -62,7 +64,7 @@ module.exports = {
         locale.title,
         utils.replace(
           locale.set,
-          Object.keys(LOOP_MODE)[pl.loopMode]
+          keys[pl.loopMode]
         )
       )
     );
