@@ -210,6 +210,10 @@ class CommandParser {
    * @param {string} prefix command prefix for sending to command
    */
   callCommand(command, message, args, prefix) {
+    if (!message.guild) {
+      message.channel.send("Sorry, I only respond in servers. Please join a server to use me.");
+      return
+    }
     if (!message.guild.available) return;
     let lang = langPrefs.has(message.guild.id) ? langPrefs.get(message.guild.id) : config.defaultLang;
     let locale = locales.get(lang);
