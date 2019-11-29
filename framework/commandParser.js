@@ -299,10 +299,10 @@ class CommandParser {
               `\nuser        : ${message.author.tag} (${message.author.id})` +
               `\nserver      : ${message.guild.name} (${message.guild.id})` +
               `\ntime        : ${new Date().toLocaleString()}` +
-              `\nerror       : ${e}` +
-              `\npassed args : ${JSON.stringify(args)}` +
-              e.stack ? `\nstack       : ${e.stack}` : ''
+              `\nerror       : ${e.message || e}` +
+              `\npassed args : ${JSON.stringify(args)}`
             );
+            e.stack && console.log(e.stack);
           return;
         }
         throw e;
