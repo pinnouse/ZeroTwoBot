@@ -15,6 +15,7 @@ class Command {
      * @param {boolean} nsfw Is command an NSFW command.
      * @param {Array<string>} permissions All required permissions to execute the command.
      * @param {boolean} showCommand Whether or not to display the command in 'help'.
+     * @param {}
      * @param {function} executeCommand The function to be executed when the command is run.
      */
     constructor(

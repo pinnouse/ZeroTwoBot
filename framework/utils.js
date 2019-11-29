@@ -13,7 +13,9 @@ module.exports = {
   replace: function(strToReplace) {
     for(let i = 1; i < arguments.length; i++) {
       let regex = new RegExp(`\\{${i - 1}\\}`, 'g');
-      strToReplace = strToReplace.replace(regex, arguments[i]);
+      if (typeof arguments[i] === "string")
+        arguments[i] = arguments[i].replace('$', '$ ');
+      strToReplace = strToReplace.replace(regex, arguments[i]).replace('$ ', '$');
     }
 
     return strToReplace;
@@ -23,7 +25,7 @@ module.exports = {
     if (!permissionArray || !permissionArray.length)
       return "";
     permissionArray.forEach((permission, index) => {
-      permStr += `${(rawString===true) ? ((index>0) ? "+": "") : "` "}${
+      permStr += `${(rawString===true) ? ((index>0) ? "+": "") : "`"}${
         permission
           .replace("ADMINISTRATOR", "Administrator")
           .replace("CREATE_INSTANT_INVITE", "Create Instant Invite")
@@ -53,10 +55,10 @@ module.exports = {
           .replace("MANAGE_ROLES", "Manage Roles")
           .replace("MANAGE_WEBHOOKS", "Manage Webhooks")
           .replace("MANAGE_EMOJIS", "Manage Emojis")
-        } ${(rawString===true) ? "" : " ` "}`;
+        }${(rawString===true) ? "" : "` "}`;
     });
 
-    return permStr;
+    return permStr.trim();
   },
   /**
    * Turns 'map' to a JSON object.
@@ -95,6 +97,7 @@ module.exports = {
       command.reqArgs.forEach(arg => {
         argsLayout += this.replace(commandLayoutLocale.requiredArgs, arg);
       });
+      argsLayout += " ";
     }
 
     if (command.optArgs) {
@@ -103,22 +106,29 @@ module.exports = {
       });
     }
 
-    let usage = prefix;
+    let usage = prefix + " ";
     if (command.superCmd) {
-      command.superCmd.sort().forEach((alias, index) => {
-        if (index > 0)
-          usage += commandLayoutLocale.divider;
-        usage += `${alias}`;
-      });
+      usage += command.superCmd
+        .sort()
+        .map(alias => {
+          return this.replace(commandLayoutLocale.command, alias);
+        })
+        .join(commandLayoutLocale.divider);
       usage += " ";
     }
-    command.aliases.sort().forEach((alias, index) => {
-      if (index > 0)
-        usage += commandLayoutLocale.divider;
-      usage += `${alias}`;
-    });
+    usage += command.aliases
+        .sort()
+        .map(alias => {
+          console.log(this.replace(commandLayoutLocale.command, alias));
+          return this.replace(commandLayoutLocale.command, alias);
+        })
+        .join(commandLayoutLocale.divider);
     usage += " ";
-    return this.replace(commandLayoutLocale.content, usage, argsLayout);
+    console.log(commandLayoutLocale.content);
+    console.log(usage);
+    console.log(argsLayout);
+    console.log(this.replace(commandLayoutLocale.content, usage, argsLayout).trim());
+    return this.replace(commandLayoutLocale.content, usage, argsLayout).trim();
   },
   /**
    * Creates and returns a Discord RichEmbed for sending messages.
