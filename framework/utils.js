@@ -119,15 +119,10 @@ module.exports = {
     usage += command.aliases
         .sort()
         .map(alias => {
-          console.log(this.replace(commandLayoutLocale.command, alias));
           return this.replace(commandLayoutLocale.command, alias);
         })
         .join(commandLayoutLocale.divider);
     usage += " ";
-    console.log(commandLayoutLocale.content);
-    console.log(usage);
-    console.log(argsLayout);
-    console.log(this.replace(commandLayoutLocale.content, usage, argsLayout).trim());
     return this.replace(commandLayoutLocale.content, usage, argsLayout).trim();
   },
   /**
