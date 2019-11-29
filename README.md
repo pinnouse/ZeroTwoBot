@@ -32,7 +32,7 @@ Built using the [DiscordJS](https://discord.js.org) library.
 - Osu! (Players, WIP)
 - League of Legends (WIP)
 
-For a full list of commands, visit the website: [here](http://zerotwo.gnowbros.com)
+For a full list of commands, visit the website: [here](https://z2b.xyz/commands)
 
 ## Self-Hosting
 ### Installation
