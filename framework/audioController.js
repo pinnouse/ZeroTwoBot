@@ -130,7 +130,7 @@ class AudioController {
    * @param {object} localeToUse Language locale to use
    */
   endHandler (reason, playlist, voiceConnection, textChannel, localeToUse) {
-    if (reason !== 'leave') {
+    if (reason !== 'leave' && reason !== 'stop') {
       switch (playlist.loopMode) {
         case LOOP_MODE.LIST:
           playlist.songs.push(playlist.songs.shift());
@@ -142,6 +142,8 @@ class AudioController {
           playlist.songs.splice(0, 1);
           break;
       }
+    } else {
+      playlist.songs = [];
     }
 
     if (playlist.songs.length > 0 && playlist.status !== PLAYER_STATUS.OFF) {
@@ -150,7 +152,7 @@ class AudioController {
     } else {
       playlist.status = PLAYER_STATUS.OFF;
       playlist.songs = [];
-      if (reason !== 'leave') {
+      if (reason !== 'leave' && reason !== 'stop') {
         textChannel.send(
           utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
             localeToUse['audioController'].doneStream

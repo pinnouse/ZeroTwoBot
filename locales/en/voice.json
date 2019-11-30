@@ -2,16 +2,16 @@
   "join": {
     "title": "Join",
     "description": "Joins the voice channel you are connected to if able to",
-    "content": ":speaker: Joining voice channel:`{0}`",
+    "content": ":speaker: Joining voice channel: `{0}`",
     "errors": {
-      "failed": ":no_entry_sign: Could not connect to voice channel:`{0}`",
+      "failed": ":no_entry_sign: Could not connect to voice channel: `{0}`",
       "noChannel": ":no_entry_sign: You must be connected to a voice channel to use this command"
     }
   },
   "leave": {
     "title": "Leave",
     "description": "Leaves the voice channel you are connected to",
-    "content": ":mute: Left voice channel:`{0}`",
+    "content": ":mute: Left voice channel: `{0}`",
     "errors": {
       "noChannel": ":no_entry_sign: Could not find a voice channel you are connected to"
     }
@@ -28,7 +28,7 @@
   "play": {
     "title": "Play",
     "description": "Searches YouTube for the song requested or adds song to queue",
-    "noResults": ":x: Sorry, no results were found for your query:`{0}`",
+    "noResults": ":x: Sorry, no results were found for your query: `{0}`",
     "listResults": "Results found for the query:`{0}`\nUse {1} to select one of the following.\n{2}",
     "errors": {
       "searchFail": ":no_entry_sign: Could not connect to YouTube, an error has occured. Please try again later.",
@@ -40,12 +40,12 @@
     "description": "Gets the current queue for the server",
     "content": ":minidisc: **Now Playing:** {0}\n**Duration:** {1}\n**Loop:** {2}\n**Queue:**\n{3}",
     "noSongs": "There are no songs in queue.",
-    "noPlaying": ":minidisc: There are no songs playing right now. You can queue songs using the`play`command."
+    "noPlaying": ":minidisc: There are no songs playing right now. You can queue songs using the `play` command."
   },
   "select": {
     "title": "Select",
-    "description": "Selects a song searched by the`play`command",
-    "content": "You have selected:`{0}`",
+    "description": "Selects a song searched by the `play` command",
+    "content": "You have selected: `{0}`",
     "errors": {
       "notIndex": ":no_entry_sign: Sorry that item does not exist, make sure to select from: {0}"
     }

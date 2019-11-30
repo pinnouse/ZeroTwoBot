@@ -7,7 +7,7 @@ const { LOOP_MODE } = require('../../framework/playerDefs');
 module.exports = {
   name: 'leave',
   category: 'voice',
-  aliases: ['leave', 'l'],
+  aliases: ['stop', 'st', 'leave', 'l'],
   optArgs: [],
   reqArgs: [],
   permissions: [],
