@@ -121,7 +121,7 @@ class AudioController {
       }
       this.setGuild(textChannel.guild.id, {
         dispatcher: voiceConnection.playStream(stream, streamOptions),
-        toMsg: this.shouldMessage(textChannel.guild.is)
+        toMsg: this.shouldMessage(textChannel.guild.id)
       });
 
       this.shouldMessage(textChannel.guild.id) &&
