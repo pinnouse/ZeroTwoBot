@@ -25,8 +25,6 @@ module.exports = {
         return 'Not a valid response';
     }
 
-    console.log(args.args);
-
     switch(args.args[0]) {
         case "yes":
         case "y":
