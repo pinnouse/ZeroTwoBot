@@ -161,7 +161,7 @@ class AudioController {
    */
   endHandler (reason, playlist, voiceConnection, textChannel, localeToUse) {
     if (reason !== 'leave' && reason !== 'stop') {
-      switch (playlist.loopMode) {
+      switch (Object.keys(LOOP_MODE)[playlist.loopMode]) {
         case LOOP_MODE.LIST:
           playlist.songs.push(playlist.songs.shift());
           break;
