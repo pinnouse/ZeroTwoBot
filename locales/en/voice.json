@@ -25,6 +25,15 @@
       "notValid": ":no_entry_sign: Sorry, that is not a valid looping mode.\nValid loop modes are: {0}"
     }
   },
+  "noMessage": {
+    "title": "No Message",
+    "description": "Sets whether or not to say when the next song plays",
+    "yes": ":bell: Next song messages turned on.",
+    "no": ":no_bell: Next song messages turned off.",
+    "errors": {
+      "notOption": ":no_entry_sign: Incorrect option, make sure to use only:\n`yes` `no` `on` and `off`"
+    }
+  },
   "play": {
     "title": "Play",
     "description": "Searches YouTube for the song requested or adds song to queue",
