@@ -142,6 +142,8 @@ class AudioController {
           playlist.songs.splice(0, 1);
           break;
       }
+    } else {
+      playlist.songs = [];
     }
 
     if (playlist.songs.length > 0 && playlist.status !== PLAYER_STATUS.OFF) {
