@@ -63,7 +63,7 @@ module.exports = {
         0xffcd2b,
         locale.title,
         utils.replace(
-          locale.set,
+          args.args.length > 0 ? locale.set : locale.get,
           keys[pl.loopMode]
         )
       )

@@ -2,6 +2,8 @@
 
 const utils = require('../../framework/utils');
 
+const { LOOP_MODE } = require('../../framework/playerDefs');
+
 module.exports = {
   name: 'now playing',
   category: 'voice',
@@ -13,6 +15,8 @@ module.exports = {
   executeCommand: async (args) => {
     let locale = args.locale['voice']['nowplaying'];
     let pl = utils.getPlaylist(args.playlists, args.message.guild.id);
+    const keys = Object.keys(LOOP_MODE);
+
     if (pl.songs.length > 0) {
       let songList = "";
       if (pl.songs.length == 1)
@@ -32,7 +36,7 @@ module.exports = {
             locale.content,
             pl.songs[0].title,
             pl.songs[0].duration,
-            pl.loopMode,
+            keys[pl.loopMode],
             songList
           )
         )

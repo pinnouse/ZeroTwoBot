@@ -4,6 +4,7 @@
  * Guild definition for handling audio playback
  * @typedef {Object} Guild
  * @property {import('discord.js').StreamDispatcher} dispatcher
+ * @property {Boolean} toMsg
  */
 
 const ytdl = require('ytdl-core');
@@ -40,11 +41,11 @@ class AudioController {
    * Sets the stream dispatcher of the guild map
    * 
    * @param {Snowflake} guildId ID of the guild to set
-   * @param {import('discord.js').StreamDispatcher} dispatcher Copy of the stream dispatcher
+   * @param {import('discord.js').StreamDispatcher} guild Copy of the stream dispatcher
    */
-  setGuild (guildId, dispatcher) {
+  setGuild (guildId, guild) {
     try {
-      this.guilds.set(guildId, { dispatcher: dispatcher });
+      this.guilds.set(guildId, guild);
     } catch(e) {
       console.error(e);
     }
@@ -68,6 +69,31 @@ class AudioController {
    */
   removeGuild (guildId) {
     this.guilds.has(guildId) && this.guilds.delete(guildId);
+  }
+  
+  /**
+   * Stops/allows messages to be sent upon song end for the given guild.
+   * 
+   * @param {import('discord.js').Snowflake} guildId The ID of the guild to update.
+   * @param {Boolean} toMsg Set to true to message when songs end and next plays.
+   */
+  setMessageOnEnd (guildId, toMsg) {
+    if (this.getGuild(guildId)) {
+      this.setGuild(guildId, {
+        dispatcher: this.getGuild(guildId).dispatcher,
+        toMsg: toMsg
+      });
+    }
+  }
+
+  /**
+   * Returns whether or not to send a message after song end.
+   * 
+   * @param {import('discord.js').Snowflake} guildId The ID of the guild to check.
+   * @returns {Boolean}
+   */
+  shouldMessage (guildId) {
+    return this.getGuild(guildId) ? this.getGuild(guildId).toMsg : true;
   }
 
   /**
@@ -93,8 +119,12 @@ class AudioController {
         )
         return;
       }
-      this.setGuild(textChannel.guild.id, voiceConnection.playStream(stream, streamOptions));
+      this.setGuild(textChannel.guild.id, {
+        dispatcher: voiceConnection.playStream(stream, streamOptions),
+        toMsg: this.shouldMessage(textChannel.guild.id)
+      });
 
+      this.shouldMessage(textChannel.guild.id) &&
       textChannel.send(
         utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
           utils.replace(localeToUse['audioController'].nowPlaying,
@@ -130,12 +160,12 @@ class AudioController {
    * @param {object} localeToUse Language locale to use
    */
   endHandler (reason, playlist, voiceConnection, textChannel, localeToUse) {
-    if (reason !== 'leave') {
-      switch (playlist.loopMode) {
-        case LOOP_MODE.LIST:
+    if (reason !== 'leave' && reason !== 'stop') {
+      switch (Object.keys(LOOP_MODE)[playlist.loopMode]) {
+        case 'LIST':
           playlist.songs.push(playlist.songs.shift());
           break;
-        case LOOP_MODE.SINGLE:
+        case 'SINGLE':
           //Do Nothing
           break;
         default:
@@ -152,14 +182,14 @@ class AudioController {
     } else {
       playlist.status = PLAYER_STATUS.OFF;
       playlist.songs = [];
-      if (reason !== 'leave') {
+      if (reason !== 'leave' && reason !== 'stop') {
         textChannel.send(
           utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
             localeToUse['audioController'].doneStream
           )
         );
         voiceConnection.channel.leave();
-        this.setGuild()
+        this.removeGuild();
       }
     }
 

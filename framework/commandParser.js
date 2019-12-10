@@ -82,14 +82,18 @@ class CommandParser {
     // TODO: Switch to some database manager for server preferences
 
     console.log("Reading Custom Prefixes...");
-    readFile('prefixPrefs.json', 'utf-8').then(data => {
-      customPrefixes = utils.JSONToMap(data);
-    });
+    if (fs.existsSync('prefixPrefs.json')) {
+      readFile('prefixPrefs.json', 'utf-8').then(data => {
+        customPrefixes = utils.JSONToMap(data);
+      });
+    }
 
     console.log("Reading Custom Locales...");
-    readFile('localePrefs.json', 'utf-8').then(data => {
-      langPrefs = utils.JSONToMap(data);
-    });
+    if (fs.existsSync('localePrefs.json')) {
+      readFile('localePrefs.json', 'utf-8').then(data => {
+        langPrefs = utils.JSONToMap(data);
+      });
+    }
   }
 
   /** Loads all the commands */
