@@ -31,7 +31,8 @@
     "yes": ":bell: Next song messages turned on.",
     "no": ":no_bell: Next song messages turned off.",
     "errors": {
-      "notOption": ":no_entry_sign: Incorrect option, make sure to use only:\n`yes` `no` `on` and `off`"
+      "notOption": ":no_entry_sign: Incorrect option, make sure to use only:\n`yes` `no` `on` and `off`",
+      "noQueue": ":no_entry_sign: There is no option to set.\nMake sure the bot is playing music first."
     }
   },
   "play": {
