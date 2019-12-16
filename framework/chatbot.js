@@ -34,13 +34,16 @@ class ChatModule {
         switch(item) {
           case 'time':
             sentence = this.getTime();
-          break;
+            break;
           case 'name':
             sentence = this.client.user.username;
-          break;
+            break;
           case 'news':
 
-          break;
+            break;
+          case 'website':
+            sentence = config.homeUrl || "*No website set for this bot.*"
+            break;
         }
       } else {
         sentence = sentence.replace(/[<]?EOS[>]?/gim, '');
