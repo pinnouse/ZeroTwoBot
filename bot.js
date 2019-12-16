@@ -64,9 +64,10 @@ client.on('guildDelete', guild => {
 
 client.on('message', message => {
   if (message.author.bot) return;
+  console.log(message);
 
   //Mention, that means use the chatbot
-  if (message.content.startsWith(`<@${client.user.id}>`))
+  if (message.content.startsWith(`<@!${client.user.id}>`))
     chatModule.sendMessage(message);
   //For parsing commands
   else
