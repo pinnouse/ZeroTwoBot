@@ -50,6 +50,8 @@ let ready = false;
 client.on('ready', () => {
   console.log(`Bot is ready, logged in as: ${client.user.tag}\nwith prefix: ${prefix}`);
   ready = true;
+  setActivity();
+  setInterval(setActivity, 1000 * 60 * 5);
 });
 
 client.on('guildCreate', guild => {
@@ -64,10 +66,10 @@ client.on('guildDelete', guild => {
 
 client.on('message', message => {
   if (message.author.bot) return;
-  console.log(message);
 
   //Mention, that means use the chatbot
-  if (message.content.startsWith(`<@!${client.user.id}>`))
+  let mentionedRE = new RegExp(`^\<\@(!)?${client.user.id}\>`);
+  if (mentionedRE.test(message.content))
     chatModule.sendMessage(message);
   //For parsing commands
   else
@@ -95,7 +97,7 @@ let activities = [];
 function getActivity(index) {
   return activities[index];
 }
-setInterval(() => {
+function setActivity() {
   i++;
   if (i >= activities.length) i = 0;
   try {
@@ -110,7 +112,7 @@ setInterval(() => {
     //Error setting activity
     console.error(e);
   }
-}, 1000 * 60 * 5);
+}
 
 ///Server portion
 const express = require('express');
@@ -133,7 +135,7 @@ app.post('/', (req, res) => {
     
     res.write(JSON.stringify(botInfo));
   } else {
-    res.writeHead(401, { 'Content-Type': 'text/html' });
+    res.writeHead(403, { 'Content-Type': 'text/html' });
     res.write('Sorry, you are unauthorized to access this site');
   }
   res.end();
