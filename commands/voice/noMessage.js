@@ -25,6 +25,18 @@ module.exports = {
         return 'Not a valid response';
     }
 
+    if (!args.audioController.getGuild(args.message.guild.id)) {
+        args.message.channel.send(
+            utils.getRichEmbed(
+                args.client,
+                0xff0000,
+                noMessageLocale.title,
+                noMessageLocale['errors'].noQueue
+            )
+        )
+        return "Not in channel."
+    }
+
     switch(args.args[0]) {
         case "yes":
         case "y":

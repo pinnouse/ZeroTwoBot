@@ -1,7 +1,7 @@
 'use strict';
 
 
-/** Class representing definign a command. */
+/** Class representing defining a command. */
 class Command {
     /**
      * A command
@@ -15,7 +15,7 @@ class Command {
      * @param {boolean} nsfw Is command an NSFW command.
      * @param {Array<string>} permissions All required permissions to execute the command.
      * @param {boolean} showCommand Whether or not to display the command in 'help'.
-     * @param {}
+     * @param locale THe locale of the command in JSON format
      * @param {function} executeCommand The function to be executed when the command is run.
      */
     constructor(
@@ -28,6 +28,7 @@ class Command {
         nsfw,
         permissions,
         showCommand,
+        locale,
         executeCommand,
     ) {
         this.name = name
@@ -39,6 +40,7 @@ class Command {
         this.nsfw = nsfw
         this.permissions = permissions
         this.showCommand = showCommand
+        this.locale = locale
         this.executeCommand = executeCommand
     }
 }
