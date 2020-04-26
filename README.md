@@ -77,13 +77,11 @@ If no `testToken` is specified, the `token` value will be used instead.
 
 ## Contact
 
-> **Discord:** `pinnouse#7766`
+> **Discord (main contact):** `pinnouse#7766`
 >
 > **Support Channel:** [invite](https://discord.gg/XZXD2gU)
 >
-> **Home Website:** [link](https://gnowbros.com)
->
-> **Email:** [futawong@owo.soy](mailto:futawong@owo.soy)
+> **Home Website:** [link](https://nwong.xyz)
 
 ## License
 GPL v3
