@@ -24,8 +24,8 @@ module.exports = {
         args.locale['general']['stats'].title
       )
       .addField(headers.botHash, args.client.user.tag, true)
-      .addField(headers.voiceConnections, args.client.voiceConnections.size, true)
-      .addField(headers.guildsUsers, `${args.client.guilds.size} : ${(()=>{let count = 0; args.client.guilds.forEach(guild => count += guild.memberCount); return count;})()}`, true)
+      .addField(headers.voiceConnections, args.client.voice.connections.size, true)
+      .addField(headers.guildsUsers, `${args.client.guilds.cache.size} : ${args.client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)}`, true)
       .addField(headers.uptime, prettyms(args.client.uptime), true)
       .addField(headers.locale, config.defaultLang, true)
       .addField(headers.prefix, config.prefix, true)

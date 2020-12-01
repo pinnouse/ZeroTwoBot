@@ -1,6 +1,6 @@
 'use strict';
 
-const request = require('request-promise-native');
+const axios = require('axios');
 
 const utils = require('../../framework/utils');
 
@@ -31,19 +31,18 @@ module.exports = {
 
     let user = args.args[(args.args.length > 1) ? 1 : 0];
     let mode = (args.args.length > 1) ? args.args[0] : 0;
-    var options = {
-      uri: 'https://osu.ppy.sh/api/get_user',
-      qs: {
+
+    const { data } = await axios({
+      url: 'https://osu.ppy.sh/api/get_user',
+      params: {
         k: oapi,
         u: user,
-        m: mode
+        m: mode,
       }, headers: {
-        'User-Agent': 'Request'
-      },
-      json: true
-    };
-
-    let response = (await request(options))[0];
+        'User-Agent': `Discord Bot ${args.client.user.tag}`,
+      }
+    });
+    let response = data[0];
 
     let finished = false;
 
