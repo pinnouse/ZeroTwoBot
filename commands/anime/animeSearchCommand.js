@@ -16,7 +16,7 @@ module.exports = {
   permissions: [],
   description: (locale) => { return locale['anime']['search']; },
   executeCommand: async ({args, locale, client, message}) => {
-    let locale = locale['anime']['search'];
+    locale = locale['anime']['search'];
     var query = `
     query SearchQuery($search: String) {
       Media (search: $search, type: ANIME) {

@@ -31,7 +31,7 @@ module.exports = {
         }
       }
     }`;
-    
+
     const { status, data: result } = await axios({
       url: 'https://graphql.anilist.co',
       method: 'POST',
@@ -49,7 +49,7 @@ module.exports = {
       message.channel.send(
         utils.getRichEmbed(client, 0xff0000, locale.title, locale.errorResponse)
       );
-      return 'failure: ' + reason.message;
+      return 'failure: ' + result;
     }
     let media = result.data.Page.media;
     var output = utils.getRichEmbed(client, 0x00a1ff, locale.title,

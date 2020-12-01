@@ -30,7 +30,7 @@ module.exports = {
       await joinCommand.executeCommand(context);
       voiceConnection = utils.getVoiceConnection(client, message.author.id);
     }
-    
+
     let pl = utils.getPlaylist(playlists, message.guild.id);
     let query = args.join(" ");
     let regex = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\v|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9\_\-]{11})/;
@@ -106,7 +106,7 @@ module.exports = {
 
 async function getSong(url) {
   try {
-    const { status, data: results } = await axios({
+    const { data: results } = await axios({
       url: 'https://www.googleapis.com/youtube/v3/videos',
       params: {
         id: url,
@@ -128,7 +128,7 @@ async function getSong(url) {
 async function searchYouTube(query) {
   //Get the videos
   try {
-    const { status, data: results } = await axios({
+    const { data: results } = await axios({
       url: 'https://www.googleapis.com/youtube/v3/search',
       params: {
         part: 'snippet',

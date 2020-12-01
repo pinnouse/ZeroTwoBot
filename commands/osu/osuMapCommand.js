@@ -24,15 +24,6 @@ module.exports = {
       // parse args
       let beatMap = re.exec(args[0])[1];
 
-      var options = {
-        uri: `https://osu.ppy.sh/osu/${beatMap}`,
-        method: "GET",
-        encoding: "binary",
-        headers: {
-          'User-Agent': 'Request'
-        }
-      }
-
       let mods = ojsama.modbits.none;
       let accPercent, combo, nmisses;
       // console.log(args);
