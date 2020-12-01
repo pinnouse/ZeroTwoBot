@@ -22,7 +22,7 @@ module.exports = {
         utils.replace(
           pingLocale.pong,
           message.createdTimestamp - args.message.createdTimestamp,
-          args.client.ping
+          args.client.ws.ping
         )
       )
     );
