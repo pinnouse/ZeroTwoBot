@@ -102,7 +102,7 @@ function setActivity() {
   if (i >= activities.length) i = 0;
   try {
     activities = [
-      [`${client.guilds.size} server(s)`, { type: "WATCHING" }],
+      [`${client.guilds.cache.size} server(s)`, { type: "WATCHING" }],
       [`${client.voice.connections.size} voice channel(s)`, { type: "STREAMING" }],
       [`z2b.xyz`, { url: 'https://z2b.xyz', type: "PLAYING" }],
       [`to your commands 💝`, { type: "LISTENING" }]
