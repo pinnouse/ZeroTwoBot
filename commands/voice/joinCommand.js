@@ -14,7 +14,7 @@ module.exports = {
     let joinLocale = args.locale['voice']['join'];
 
     //Find author's voice channel
-    let channel = args.message.member.voiceChannel;
+    let channel = args.message.member?.voice.channel;
 
     if (channel) {
       await args.message.channel.send(utils.getRichEmbed(args.client, 0x0affda, joinLocale.title, utils.replace(joinLocale.content, channel.name)));

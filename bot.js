@@ -1,5 +1,5 @@
 // ZeroTwoBot - A simple Discord bot with diverse functionality
-// Copyright (C) 2019  Nicholas Wong
+// Copyright (C) 2020  Nicholas Wong
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -64,24 +64,24 @@ client.on('guildDelete', guild => {
     console.log(`Left guild: ${guild.name} (id:${guild.id})`);
 });
 
-client.on('message', message => {
+client.on('message', async message => {
   if (message.author.bot) return;
 
   //Mention, that means use the chatbot
   let mentionedRE = new RegExp(`^\<\@(!)?${client.user.id}\>`);
   if (mentionedRE.test(message.content))
-    chatModule.sendMessage(message);
+    await chatModule.sendMessage(message);
   //For parsing commands
   else
-    commandParser.receiveMessage(message);
+    await commandParser.receiveMessage(message);
 });
 
-client.on('voiceStateUpdate', oldMember => {
-  if (client.voiceConnections.has(oldMember.guild.id)) {
-    var voiceChannel = client.voiceConnections.get(oldMember.guild.id).channel;
+client.on('voiceStateUpdate', async oldMember => {
+  if (client.voice.connections.has(oldMember.guild.id)) {
+    let voiceChannel = client.voice.connections.get(oldMember.guild.id).channel;
     if (voiceChannel.members.size <= 1) {
       commandParser.audioController.endPlayback(oldMember.guild.id);
-      voiceChannel.leave();
+      await voiceChannel.leave();
     }
   }
 });
@@ -103,7 +103,7 @@ function setActivity() {
   try {
     activities = [
       [`${client.guilds.size} server(s)`, { type: "WATCHING" }],
-      [`${client.voiceConnections.size} voice channel(s)`, { type: "STREAMING" }],
+      [`${client.voice.connections.size} voice channel(s)`, { type: "STREAMING" }],
       [`z2b.xyz`, { url: 'https://z2b.xyz', type: "PLAYING" }],
       [`to your commands 💝`, { type: "LISTENING" }]
     ];

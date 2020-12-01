@@ -54,7 +54,8 @@ Example (do not include the `"// ..."`):
     "gapi"        : "GOOGLE_API_KEY", //YouTube functionality
     "oapi"        : "OSU_API_KEY", //osu! functionality
     "owners"      : ["ARRAY_OF_OWNER_IDS (can be obtained by doing '\@username#tag'"], //So you can use the kill command
-    "chatbotUrl"  : "URL_OF_CHATBOT", //Configured like ReinaChat (https://github.com/pinnouse/ReinaChat)
+    "chatbotUrl"  : "https://chat.owo.soy", //Configured like Amadeus (https://github.com/pinnouse/amadeus)
+    "chatbotAuth" : "Basic YOUR_AUTH_TOKEN", //Contact to inquire about obtaining a token
     "serverPort"  : 8080, //Port for the builtin backend HTML server
     "accessKey"   : "SECRET", //Set a key to keep the bot server safe, passed as a GET 'key=' argument
     "defaultLang" : "en" //Set to whichever language is supported (found in ./locales/)
@@ -62,7 +63,7 @@ Example (do not include the `"// ..."`):
 ```
 
 ### Testing
-If testing the bot, the script you should use is: `npm run devel`
+If testing the bot, the script you should use is: `npm run dev`
 <br />
 **Note:** This requires you to have in your ` config.json `:
 

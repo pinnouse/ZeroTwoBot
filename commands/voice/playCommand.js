@@ -1,6 +1,6 @@
 'use strict';
 
-const request = require("request-promise-native");
+const axios = require('axios');
 
 const config = require('../../config.json');
 const GOOGLE_API = config.gapi;
@@ -21,33 +21,36 @@ module.exports = {
   unlimitedArgs: true,
   permissions: [],
   description: (locale) => { return locale['voice']['play']; },
-  executeCommand: async (args) => {
-    let playLocale = args.locale['voice']['play'];
+  executeCommand: async (context) => {
+    const {args, client, message, locale, playlists, audioController, prefix} = context;
+    let playLocale = locale['voice']['play'];
 
-    const vChannel = utils.getVoiceChannel(args.client, args.message.author.id);
-    if (!vChannel || !vChannel.connection)
-      await joinCommand.executeCommand(args);
-      
-    let pl = utils.getPlaylist(args.playlists, args.message.guild.id);
-    let query = args.args.join(" ");
+    let voiceConnection = utils.getVoiceConnection(client, message.author.id);
+    if (!voiceConnection) {
+      await joinCommand.executeCommand(context);
+      voiceConnection = utils.getVoiceConnection(client, message.author.id);
+    }
+    
+    let pl = utils.getPlaylist(playlists, message.guild.id);
+    let query = args.join(" ");
     let regex = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\v|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9\_\-]{11})/;
     if (regex.test(query)) {
       let result = await getSong(query.match(regex)[1]);
       if (result) {
         pl.songs.push(result);
-        args.audioController.playSong(
+        await audioController.playSong(
           result,
           pl,
-          vChannel.connection,
-          args.message.channel,
-          args.locale
+          voiceConnection,
+          message.channel,
+          locale
         );
         return 'Searched song (link)';
       }
 
-      await args.message.channel.send(
+      await message.channel.send(
         utils.getRichEmbed(
-          args.client,
+          client,
           0xff0000,
           playLocale.title,
           playLocale['errors'].incorrectURL
@@ -59,8 +62,8 @@ module.exports = {
       var value = await searchYouTube(query);
       try {
         if (value.length < 1) {
-          args.message.channel.send(
-            utils.getRichEmbed(args.client, 0xff0000, playLocale.title,
+          await message.channel.send(
+            utils.getRichEmbed(client, 0xff0000, playLocale.title,
               utils.replace(playLocale.noResults, query)
             )
           );
@@ -70,7 +73,7 @@ module.exports = {
         pl.selectList = value;
         // console.log(value);
 
-        let selectUsage = `\`${args.prefix}`;
+        let selectUsage = `\`${prefix}`;
         selectCommand.aliases.forEach((alias, ind) => {
           if (ind > 0) selectUsage += " | `";
           selectUsage += `${alias}\``;
@@ -82,8 +85,8 @@ module.exports = {
           songList += `\n\`[\`[\`${i+1}\`](${song.getURL()})\`]\` - \`${song.duration}\` ${song.title}`;
         });
 
-        await args.message.channel.send(
-          utils.getRichEmbed(args.client, 0xcccccc, playLocale.title, 
+        await message.channel.send(
+          utils.getRichEmbed(client, 0xcccccc, playLocale.title, 
             utils.replace(playLocale.listResults, 
               query, selectUsage, songList
             )
@@ -92,31 +95,25 @@ module.exports = {
 
         return 'Searched songs';
       } catch (e) {
-        args.message.channel.send(
-          utils.getRichEmbed(args.client, 0xff0000, playLocale.title, playLocale['errors'].searchFail)
+        await message.channel.send(
+          utils.getRichEmbed(client, 0xff0000, playLocale.title, playLocale['errors'].searchFail)
         );
-        return `false (search failed ${e})`;
+        return `failed: (search failed ${e})`;
       }
     }
   }
 }
 
 async function getSong(url) {
-  var options = {
-    uri: 'https://www.googleapis.com/youtube/v3/videos',
-    qs: {
-      id: url,
-      part: 'snippet,contentDetails',
-      key: GOOGLE_API
-    },
-    headers: {
-      'User-Agent': 'Request'
-    },
-    json: true
-  };
-
   try {
-    var results = await request(options);
+    const { status, data: results } = await axios({
+      url: 'https://www.googleapis.com/youtube/v3/videos',
+      params: {
+        id: url,
+        part: 'snippet,contentDetails',
+        key: GOOGLE_API,
+      },
+    });
     return results ? new Song(
       results.items[0].snippet.title,
       'youtube',
@@ -130,24 +127,18 @@ async function getSong(url) {
 
 async function searchYouTube(query) {
   //Get the videos
-  var searchOptions = {
-    uri: 'https://www.googleapis.com/youtube/v3/search',
-    qs: {
-      part: 'snippet',
-      maxResults: '5',
-      safeSearch: 'none',
-      type: 'video',
-      q: query,
-      key: GOOGLE_API
-    },
-    headers: {
-      'User-Agent': 'Request'
-    },
-    json: true
-  };
-
   try {
-    var results = await request(searchOptions);
+    const { status, data: results } = await axios({
+      url: 'https://www.googleapis.com/youtube/v3/search',
+      params: {
+        part: 'snippet',
+        maxResults: '5',
+        safeSearch: 'none',
+        type: 'video',
+        q: query,
+        key: GOOGLE_API
+      },
+    });
     let tempSongs = [];
     let ids = [];
     results.items.forEach(val => {
@@ -163,20 +154,15 @@ async function searchYouTube(query) {
     });
 
     // Get times of videos
-    var timeOptions = {
-      uri: 'https://www.googleapis.com/youtube/v3/videos',
-      qs: {
+    const { data: timeResults } = await axios({
+      url: 'https://www.googleapis.com/youtube/v3/videos',
+      params: {
         part: 'contentDetails',
         id: ids.join(','),
-        key: GOOGLE_API
-      },
-      headers: {
-        'User-Agent': 'Request'
-      },
-      json: true
-    };
-    results = await request(timeOptions);
-    results.items.forEach(conDetails => {
+        key: GOOGLE_API,
+      }
+    })
+    timeResults.items.forEach(conDetails => {
       tempSongs.forEach(s => {
         if (s.id == conDetails.id) { 
           s.duration = parseTime(conDetails.contentDetails.duration);
@@ -185,6 +171,7 @@ async function searchYouTube(query) {
     });
     return tempSongs;
   } catch (e) {
+    console.error(e);
     return e;
   }
 }

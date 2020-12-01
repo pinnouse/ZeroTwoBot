@@ -1,6 +1,6 @@
 'use strict';
 
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 const { homeUrl } = require('../config.json');
 
@@ -131,10 +131,10 @@ module.exports = {
    * @param {import('discord.js').ColorResolvable} color Resolvable colour preferably in hex string
    * @param {(string|null)} title Title to give rich embed
    * @param {string?} description The body of rich embed
-   * @returns {import('discord.js').RichEmbed} The created RichEmbed
+   * @returns {import('discord.js').MessageEmbed} The created RichEmbed
    */
   getRichEmbed: function(client, color, title, description) {
-    return new RichEmbed()
+    return new MessageEmbed()
       .setColor(color || 0xffffff)
       .setAuthor(title || client.user.username, client.user.displayAvatarURL, homeUrl || "")
       .setDescription(description || "")
@@ -148,7 +148,7 @@ module.exports = {
    * @param {(import('discord.js').User[]|import('discord.js').Snowflake)} users Number of users to check
    * @returns {?(Map.<import('discord.js').Snowflake,import('discord.js').VoiceChannel>|import('discord.js').VoiceChannel)} Voice channels in
    */
-  getVoiceChannel: function(client, users) {
+  getVoiceConnection: function(client, users) {
     if (users.constructor === Array) {
       let channels = new Map();
       users.forEach(uid => {
@@ -159,7 +159,8 @@ module.exports = {
   
       return (channels.size > 0) ? channels : undefined;
     } else {
-      return client.channels.filter(channel => channel.type === 'voice' && channel.members.find(member => member.id === users)).first() || undefined;
+      return client.voice.connections.find(connection => connection.channel.members.find(member => member.id == users)) || undefined;
+      // return client.channels.cache.filter(channel => channel.type === 'voice' && channel.members.find(member => member.id === users)).first() || undefined;
     }
   },
   /**

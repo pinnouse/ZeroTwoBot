@@ -22,16 +22,16 @@ module.exports = {
         let song = pl.selectList[selection-1];
         pl.songs.push(song);
         pl.selectList = [];
-        args.audioController.playSong(
+        await args.audioController.playSong(
           song,
           pl,
-          utils.getVoiceChannel(args.client, args.message.author.id).connection,
+          utils.getVoiceConnection(args.client, args.message.author.id),
           args.message.channel,
           args.locale
         );
         return 'Played song';
       } else {
-        args.message.channel.send(
+        await args.message.channel.send(
           utils.getRichEmbed(args.client, 0xff0000, selLocale.title, 
             utils.replace(selLocale.errors.notIndex,
               (pl.selectList.length === 1) ? '<1>' : `<1-${pl.selectList.length}`

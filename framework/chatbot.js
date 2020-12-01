@@ -1,6 +1,6 @@
 'use strict';
 
-const request = require('request-promise-native');
+const axios = require('axios');
 
 const config = require('../config.json');
 
@@ -12,21 +12,23 @@ class ChatModule {
     this.chatbotUrl = config.chatbotUrl;
   }
 
-  sendMessage(message) {
-    let options = {
-      uri: this.chatbotUrl,
-      qs: {
-        s: message.content.slice(`<@${this.client.user.id}>`.length)
-      },
-      headers: {
-        'User-Agent': 'Request'
-      },
-      json: true
-    };
-    request(options)
-    .then(success => {
-      // console.log(success);
-      let sentence = success['out_sentence'];
+  async sendMessage(message) {
+    try {
+      const { status, data } = await axios({
+        url: this.chatbotUrl,
+        method: 'POST',
+        data: {
+          inputs: [message.content.slice(`<@${this.client.user.id}>`.length),],
+        },
+        headers: {
+          'Authorization': config.chatbotAuth,
+        },
+      })
+      if (status !== 200) {
+        console.error('Could not reach chatbot server');
+        return false;
+      }
+      let sentence = data['response'];
       let cmdRE = new RegExp(/\$([a-z]+)/, 'gim');
       if (cmdRE.test(sentence)) {
         cmdRE = new RegExp(/\$([a-z]+)/, 'gim');
@@ -51,11 +53,14 @@ class ChatModule {
         sentence = sentence.replace('&gt;', '>').replace('&lt;', '<');
       }
       message.channel.send(utils.getRichEmbed(this.client, 0xffffff, this.client.user.username, sentence));
-    }).catch(reason => {
-      if (this.client.devMode)
-        console.log(reason);
-      message.channel.send(utils.getRichEmbed(this.client, 0xff0000, this.client.user.username, "Something has happened whilst connecting to the server"));
-    });
+    } catch(e) {
+      if (e.response) {
+        console.error('Could not reach chatbot server', e.response.data);
+      } else {
+        console.error(e);
+      }
+      message.channel.send(utils.getRichEmbed(this.client, 0xff0000, this.client.user.username, "Something has happened whilst connecting to the server,\nplease contact the bot owner."));
+    }
   }
 
   getTime() {

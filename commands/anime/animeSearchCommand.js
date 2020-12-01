@@ -2,7 +2,7 @@
 
 const utils = require('../../framework/utils');
 
-const request = require('request-promise-native');
+const axios = require('axios');
 
 const ANILIST_PREFIX = 'https://anilist.co/anime/';
 
@@ -15,8 +15,8 @@ module.exports = {
   unlimitedArgs: true,
   permissions: [],
   description: (locale) => { return locale['anime']['search']; },
-  executeCommand: async (args) => {
-    let locale = args.locale['anime']['search'];
+  executeCommand: async ({args, locale, client, message}) => {
+    let locale = locale['anime']['search'];
     var query = `
     query SearchQuery($search: String) {
       Media (search: $search, type: ANIME) {
@@ -46,23 +46,28 @@ module.exports = {
         }
       }
     }`;
-    var options = {
-      url: 'https://graphql.anilist.co',
-      method: 'POST',
-      headers: {
-        'User-Agent': 'request',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: {
-        query: query,
-        variables: { search: args.args.join(" ") }
-      },
-      json: true
-    };
 
     try {
-      var result = await request(options);
+      const { status, data: result } = await axios({
+        url: 'https://graphql.anilist.co',
+        method: 'POST',
+        headers: {
+          'User-Agent': `Discord Bot ${client.user.tag}`,
+        },
+        data: {
+          query,
+          variables: { search: args.args.join(" ") },
+        }
+      })
+
+      if (status !== 200) {
+        client.devMode && console.log('Error querying anilist', result);
+        await message.channel.send(
+          utils.getRichEmbed(client, 0xff0000, locale.title, locale.errorResponse)
+        );
+        return 'failure: ' + result;
+      }
+
       let anime = result.data.Media;
         
         let animeTitle = [];
@@ -99,7 +104,7 @@ module.exports = {
           .replace('RELEASING', 'airing')
           .replace('NOT_YET_RELEASED', 'not released') : "";
           
-        var output = utils.getRichEmbed(args.client, 0x00a1ff, locale.title, animeDescription).setThumbnail(anime.coverImage['large']);
+        var output = utils.getRichEmbed(client, 0x00a1ff, locale.title, animeDescription).setThumbnail(anime.coverImage['large']);
         output.setTitle(animeTitle[0]);
         
         output.addField('Status', animeStatus, true).addField('Episodes', `${anime.episodes != 1 ? anime.episodes + "eps (" + anime.duration + "mins)" : anime.duration + "mins"}`, true);
@@ -110,11 +115,11 @@ module.exports = {
           output.addField('Aired', dateStr);
         }
         output.addField('Score', `${anime.meanScore / 10.0}/10`);
-        args.message.channel.send(output);
+        message.channel.send(output);
         return 'success';
     } catch (e) {
-      args.message.channel.send(
-        utils.getRichEmbed(args.client, 0xff0000, locale.title, locale.errorResponse)
+      message.channel.send(
+        utils.getRichEmbed(client, 0xff0000, locale.title, locale.errorResponse)
       );
       return 'failure: ' + e.message;
     }

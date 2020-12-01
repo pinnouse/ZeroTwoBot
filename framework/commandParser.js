@@ -56,12 +56,17 @@ var playlists = new Map();
 
 /** Parses commands for user */
 class CommandParser {
+
+  /**
+   * 
+   * @param {import('discord.js').Client} client 
+   */
   constructor(client) {
     this.client = client;
     this.audioController = new AudioController(client);
 
     //Clear all voice channels first
-    client.channels.filter(channel => { return channel.type === 'voice'; }).forEach(channel => { channel.leave(); });
+    client.channels.cache.filter(channel => { return channel.type === 'voice'; }).forEach(channel => { channel.leave(); });
 
     //Build commands
     try {
@@ -105,43 +110,47 @@ class CommandParser {
 
     console.log('\x1b[32m%s\x1b[0m', "Loading commands...");
     glob.sync('commands/*/*.js').forEach((file) => {
-      let tempCommand = require('../' + file);
-
-      if (
-        !tempCommand.name ||
-        !tempCommand.category ||
-        !tempCommand.aliases ||
-        typeof tempCommand.description !== 'function' ||
-        typeof tempCommand.executeCommand !== 'function'
-        ) {
-        if (this.client.devMode) console.log(`Skipping '${tempCommand.name || file}', incorrect formatting`);
-        return;
-      }
-
-      if (this.client.devMode) process.stdout.write(`'${tempCommand.name}' command... `);
-
-      let catCommands = tempMapCommands.get(tempCommand.category) || [];
-      if (catCommands.find(cmd => { return tempCommand.name === cmd.name; }))
-        throw new Error(`Commands sharing same name: ${tempCommand.name}`);
-      
-      catCommands.push(tempCommand);
-      tempMapCommands.set(tempCommand.category, catCommands);
-
-      //Check for duplicate aliases
-      tempMapCommands.forEach((category) => {
-        category.filter(cmd => { return tempCommand.name !== cmd.name; }).forEach((cmd) => {
-          cmd.aliases.forEach((cmdAlias) => {
-            if (tempCommand.aliases.includes(cmdAlias) && //Aliases
-              ((!tempCommand.superCmd && !cmd.superCmd) || //Have different super commands so it doesn't matter sharing aliases
-              (tempCommand.superCmd || cmd.superCmd && tempCommand.superCmd === cmd.superCmd))
-              ) {
-              throw new Error(`Commands '${cmd.name}' and '${tempCommand.name}' share the alias: '${cmdAlias}'`);
-            }
+      try {
+        let tempCommand = require('../' + file);
+  
+        if (
+          !tempCommand.name ||
+          !tempCommand.category ||
+          !tempCommand.aliases ||
+          typeof tempCommand.description !== 'function' ||
+          typeof tempCommand.executeCommand !== 'function'
+          ) {
+          if (this.client.devMode) console.log(`Skipping '${tempCommand.name || file}', incorrect formatting`);
+          return;
+        }
+  
+        if (this.client.devMode) process.stdout.write(`'${tempCommand.name}' command... `);
+  
+        let catCommands = tempMapCommands.get(tempCommand.category) || [];
+        if (catCommands.find(cmd => { return tempCommand.name === cmd.name; }))
+          throw new Error(`Commands sharing same name: ${tempCommand.name}`);
+        
+        catCommands.push(tempCommand);
+        tempMapCommands.set(tempCommand.category, catCommands);
+  
+        //Check for duplicate aliases
+        tempMapCommands.forEach((category) => {
+          category.filter(cmd => { return tempCommand.name !== cmd.name; }).forEach((cmd) => {
+            cmd.aliases.forEach((cmdAlias) => {
+              if (tempCommand.aliases.includes(cmdAlias) && //Aliases
+                ((!tempCommand.superCmd && !cmd.superCmd) || //Have different super commands so it doesn't matter sharing aliases
+                (tempCommand.superCmd || cmd.superCmd && tempCommand.superCmd === cmd.superCmd))
+                ) {
+                throw new Error(`Commands '${cmd.name}' and '${tempCommand.name}' share the alias: '${cmdAlias}'`);
+              }
+            });
           });
         });
-      });
+      } catch (e) {
+        this.client.devMode && console.error(`Failed to load command ${file}`) ^ console.error(e);
+      }
 
-      if (this.client.devMode) process.stdout.write("DONE!\r\n");
+      this.client.devMode && process.stdout.write("DONE!\r\n");
     });
 
     //Set to new map
@@ -178,14 +187,14 @@ class CommandParser {
    * 
    * @param {import('discord.js').Message} message DiscordJS message
    */
-  receiveMessage(message) {
+  async receiveMessage(message) {
     var prefix = config.prefix;
     if (message.guild && customPrefixes.has(message.guild.id)) {
       prefix = customPrefixes.get(message.guild.id);
     }
 
     if (message.content.startsWith(prefix)) {
-      var regex = new RegExp("^" + utils.escapeRegExp(prefix) + "[a-zA-Z0-9][a-zA-Z0-9 _\\-\\/]*", "im");
+      var regex = new RegExp("^" + utils.escapeRegExp(prefix) + "[a-zA-Z0-9][\\w \\-\\/]*", "im");
       if (regex.test(message.content)) {
         var msg = message.content.substring(prefix.length).trim();
         var args = msg.split(" ");
@@ -197,8 +206,7 @@ class CommandParser {
             cmd = category.find(cmd => { return !cmd.superCmd && cmd.aliases && cmd.aliases.includes(command); });
           }
           if (cmd) {
-            this.callCommand(cmd, message, args, prefix);
-            return;
+            return await this.callCommand(cmd, message, args, prefix);
           }
         }
       }
@@ -213,7 +221,7 @@ class CommandParser {
    * @param {Array<string>} args information of the message string to be sent to command
    * @param {string} prefix command prefix for sending to command
    */
-  callCommand(command, message, args, prefix) {
+  async callCommand(command, message, args, prefix) {
     if (!message.guild) {
       message.channel.send("Sorry, I only respond in servers. Please join a server to use me.");
       return
@@ -271,21 +279,22 @@ class CommandParser {
     }
     //Execute the given command
     else {
-      command.executeCommand({
-        message: message,
-        args: args,
-        client: this.client,
-        commands: commands,
-        prefix: prefix,
-        customPrefixes: customPrefixes,
-        langPrefs: langPrefs,
-        language: lang,
-        locale: locale,
-        locales: locales,
-        playlists: playlists,
-        audioController: this.audioController,
-        commandParser: this
-      }).then(success => {
+      try {
+        let success = await command.executeCommand({
+          message: message,
+          args: args,
+          client: this.client,
+          commands: commands,
+          prefix: prefix,
+          customPrefixes: customPrefixes,
+          langPrefs: langPrefs,
+          language: lang,
+          locale: locale,
+          locales: locales,
+          playlists: playlists,
+          audioController: this.audioController,
+          commandParser: this
+        });
         if (this.client.devMode) {
           console.log("\n----------------[Command]----------------" +
             `\ncommand     : ${command.name}` +
@@ -295,22 +304,20 @@ class CommandParser {
             `\nresult      : ${success || "unsure (no return value)"}` +
             `\npassed args : ${JSON.stringify(args)}`
             );
-          }
-        }).catch(e => {
-          if (!this.client.devMode) {
-            console.log("\n----------------[ Error ]----------------" +
-              `\ncommand     : ${command.name}` +
-              `\nuser        : ${message.author.tag} (${message.author.id})` +
-              `\nserver      : ${message.guild.name} (${message.guild.id})` +
-              `\ntime        : ${new Date().toLocaleString()}` +
-              `\nerror       : ${e.message || e}` +
-              `\npassed args : ${JSON.stringify(args)}`
-            );
-            e.stack && console.log(e.stack);
-          return;
         }
-        throw e;
-      });
+        return success;
+      } catch(e) {
+        console.log("\n----------------[ Error ]----------------" +
+          `\ncommand     : ${command.name}` +
+          `\nuser        : ${message.author.tag} (${message.author.id})` +
+          `\nserver      : ${message.guild.name} (${message.guild.id})` +
+          `\ntime        : ${new Date().toLocaleString()}` +
+          `\nerror       : ${e.message || e}` +
+          `\npassed args : ${JSON.stringify(args)}`
+        );
+        e.stack && console.log(e.stack);
+        return e;
+      }
     }
   }
 

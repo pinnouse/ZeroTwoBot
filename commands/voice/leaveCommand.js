@@ -17,14 +17,14 @@ module.exports = {
     let pl = utils.getPlaylist(args.playlists, args.message.guild.id);
     
     pl.status = LOOP_MODE.OFF;
-    if (args.audioController.getGuild(args.message.guild.id) !== false)
-      args.audioController.getGuild(args.message.guild.id).dispatcher.end('leave');
+    pl.songs = [];
+    args.audioController.endPlayback(args.message.guild.id);
     
-    if (args.message.author.client.channels.filter(ch => { return ch.type === 'voice'; }).size > 0) {
+    if (args.message.author.client.channels.cache.filter(ch => { return ch.type === 'voice'; }).size > 0) {
       let leftChannel = false;
 
       //Find author's voice channel
-      let channels = args.message.author.client.channels.filter(channel => { return channel.type === 'voice' });
+      let channels = args.message.author.client.channels.cache.filter(channel => { return channel.type === 'voice' });
       
       await channels.forEach(async (channel) => {
         if (channel.members.has(args.message.author.id)) {

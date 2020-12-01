@@ -11,10 +11,9 @@ const ytdl = require('ytdl-core');
 
 const utils = require('./utils');
 
-var options = {
+const options = {
   filter: 'audioonly',
-  quality: 251,
-  highWaterMark: 1<<25
+  quality: 'highestaudio'
 };
 
 const { PLAYER_STATUS, LOOP_MODE } = require('./playerDefs');
@@ -55,7 +54,7 @@ class AudioController {
    * Retrieves a guild with a dispatcher object attached if exists otherwise
    * will return false
    * 
-   * @param {Snowflake} guildId ID of the guild
+   * @param {import('discord.js').Snowflake} guildId ID of the guild
    * @returns {Guild|Boolean}
    */
   getGuild (guildId) {
@@ -105,27 +104,27 @@ class AudioController {
    * @param {import('discord.js').TextChannel} textChannel The Discord Text Channel to send messages to
    * @param {object} localeToUse Language locale to text to
    */
-  playSong (song, playlist, voiceConnection, textChannel, localeToUse) {
+  async playSong (song, playlist, voiceConnection, textChannel, localeToUse) {
     // console.log('playlist');
     // console.log(playlist);
     if (playlist.status === PLAYER_STATUS.OFF || playlist.status === PLAYER_STATUS.NEXT) {
       let stream = ytdl(song.getURL(), options);
       
       playlist.status = PLAYER_STATUS.STREAMING;
-      let streamOptions = { seek: 0, volume: 1 };
+      const streamOptions = { seek: 0, volume: 1 };
       if (voiceConnection == null) {
-        textChannel.send(
+        await textChannel.send(
           utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title, localeToUse['audioController']['errors'].noVC)
         )
         return;
       }
       this.setGuild(textChannel.guild.id, {
-        dispatcher: voiceConnection.playStream(stream, streamOptions),
+        dispatcher: voiceConnection.play(stream, streamOptions),
         toMsg: this.shouldMessage(textChannel.guild.id)
       });
 
       this.shouldMessage(textChannel.guild.id) &&
-      textChannel.send(
+      await textChannel.send(
         utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
           utils.replace(localeToUse['audioController'].nowPlaying,
             song.title, song.duration
@@ -135,12 +134,13 @@ class AudioController {
 
       var controller = this;
 
-      this.getGuild(textChannel.guild.id).dispatcher.on('end', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeToUse) });
+      this.getGuild(textChannel.guild.id).dispatcher.on('speaking', value => { if (value === 1) return; controller.endHandler('end', playlist, voiceConnection, textChannel, localeToUse) });
+      this.getGuild(textChannel.guild.id).dispatcher.on('close', () => { console.log('closed'); });
 
       this.getGuild(textChannel.guild.id).dispatcher.on('error', reason => { controller.endHandler(reason, playlist, voiceConnection, textChannel, localeToUse) });
     } //end 'OFF' || 'NEXT'
     else if (playlist.status === PLAYER_STATUS.STREAMING) {
-      textChannel.send(
+      await textChannel.send(
         utils.getRichEmbed(this.client, 0xffdd22, localeToUse['audioController'].title,
           utils.replace(localeToUse['audioController'].addToQueue,
           song.title, song.duration
@@ -159,7 +159,7 @@ class AudioController {
    * @param {import('discord.js').TextChannel} textChannel Discord Text Channel that initial messages were sent in
    * @param {object} localeToUse Language locale to use
    */
-  endHandler (reason, playlist, voiceConnection, textChannel, localeToUse) {
+  async endHandler (reason, playlist, voiceConnection, textChannel, localeToUse) {
     if (reason !== 'leave' && reason !== 'stop') {
       switch (Object.keys(LOOP_MODE)[playlist.loopMode]) {
         case 'LIST':
@@ -178,18 +178,18 @@ class AudioController {
 
     if (playlist.songs.length > 0 && playlist.status !== PLAYER_STATUS.OFF) {
       playlist.status = PLAYER_STATUS.NEXT
-      this.playSong(playlist.songs[0], playlist, voiceConnection, textChannel, localeToUse);
+      await this.playSong(playlist.songs[0], playlist, voiceConnection, textChannel, localeToUse);
     } else {
       playlist.status = PLAYER_STATUS.OFF;
       playlist.songs = [];
       if (reason !== 'leave' && reason !== 'stop') {
-        textChannel.send(
+        await textChannel.send(
           utils.getRichEmbed(this.client, 0xffffff, localeToUse['audioController'].title,
             localeToUse['audioController'].doneStream
           )
         );
-        voiceConnection.channel.leave();
-        this.removeGuild();
+        await voiceConnection.channel.leave();
+        this.removeGuild(textChannel.guild.id);
       }
     }
 
@@ -218,7 +218,7 @@ class AudioController {
           )
         )
       );
-      this.getGuild(textChannel.guild.id).dispatcher.end('skip');
+      this.getGuild(textChannel.guild.id).dispatcher.end();
     }
   }
 
@@ -228,7 +228,9 @@ class AudioController {
    * @param {import('discord.js').Snowflake} guildId ID of the guild connected to that should be destroyed
    */
   endPlayback (guildId) {
-    this.getGuild(guildId) && !this.getGuild(guildId).dispatcher.destroyed && this.getGuild(guildId).dispatcher.end('leave');
+    let guild = this.getGuild(guildId);
+    if (!guild || !guild.dispatcher) return;
+    guild.dispatcher.end();
   }
 }
 
