@@ -56,7 +56,7 @@ module.exports = {
         },
         data: {
           query,
-          variables: { search: args.args.join(" ") },
+          variables: { search: args.join(" ") },
         }
       })
 
