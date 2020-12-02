@@ -125,9 +125,9 @@ app.post('/', (req, res) => {
   if (req.body.key === accessKey) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     var botInfo = {
-      guilds: Array.from(client.guilds.entries()),
+      guilds: Array.from(client.guilds.cache.entries()),
       ping: client.ping,
-      avatar: client.user.displayAvatarURL,
+      avatar: client.user.displayAvatarURL(),
       tag: client.user.tag,
       commands: commandParser.getCommands(),
       prefix: prefix
