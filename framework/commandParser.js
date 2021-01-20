@@ -297,6 +297,14 @@ class CommandParser {
             );
           }
         }).catch(e => {
+          message.channel.send(utils.getRichEmbed(
+              this.client,
+              0xf0000
+            )
+            .setTitle(`⚠️ An error occured`)
+            .setDescription(`The following information might help:`)
+            .addField(`Error Information:`, `${e}`)
+            )
           if (!this.client.devMode) {
             console.log("\n----------------[ Error ]----------------" +
               `\ncommand     : ${command.name}` +
