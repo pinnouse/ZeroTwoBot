@@ -64,6 +64,10 @@ client.on('guildDelete', guild => {
     console.log(`Left guild: ${guild.name} (id:${guild.id})`);
 });
 
+client.on('messageUpdate', async (oldMessage, newMessage) => {
+  await commandParser.receiveMessage(newMessage)
+});
+
 client.on('message', message => {
   if (message.author.bot) return;
 
