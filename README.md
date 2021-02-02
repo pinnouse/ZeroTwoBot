@@ -58,7 +58,8 @@ Example (do not include the `"// ..."`):
     "chatbotAuth" : "Basic YOUR_AUTH_TOKEN", //Contact to inquire about obtaining a token
     "serverPort"  : 8080, //Port for the builtin backend HTML server
     "accessKey"   : "SECRET", //Set a key to keep the bot server safe, passed as a GET 'key=' argument
-    "defaultLang" : "en" //Set to whichever language is supported (found in ./locales/)
+    "defaultLang" : "en", //Set to whichever language is supported (found in ./locales/)
+    "edit_commands": false //If someone edits a message, and if it's a valid command, execute it. Set to true if you want to use it
 }
 ```
 
