@@ -76,6 +76,14 @@ client.on('message', async message => {
     await commandParser.receiveMessage(message);
 });
 
+client.on('messageUpdate', async (oldMessage, newMessage) => {
+if(oldMessage.content === newMessage.content || config.edit_commands === false || message.author.bot) {
+return;
+}
+
+await commandParser.receiveMessage(newMessage);
+});
+
 client.on('voiceStateUpdate', async oldMember => {
   if (client.voice.connections.has(oldMember.guild.id)) {
     let voiceChannel = client.voice.connections.get(oldMember.guild.id).channel;
