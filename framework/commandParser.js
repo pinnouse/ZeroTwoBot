@@ -244,6 +244,17 @@ class CommandParser {
         )
       );
     }
+    // Check if bot has permissions to "execute" the command
+    else if(command.clientperms && command.clientperms.length > 0 && !message.guild.me.hasPermission(command.clientperms, false, false)) {
+      message.channel.send(
+        utils.getRichEmbed(
+          this.client,
+          0xff0000,
+          locale.botInternal.errorTitle,
+utils.replace(locale.botInternal.noClientPerms, utils.getPermissionsString(command.clientperms))
+        )
+      );
+    } 
     //Check NSFW
     else if (command.nsfw && !message.channel.nsfw) {
       message.channel.send(
