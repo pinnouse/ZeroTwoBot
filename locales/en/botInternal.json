@@ -3,5 +3,6 @@
   "notPermissible": ":no_entry_sign: You require the following permissions to use this command: {0}",
   "nsfw": ":no_entry_sign: Must be in an NSFW channel",
   "tooFewArgs": "Not enough parameters specified, correct usage:\n  {0}",
-  "tooManyArgs": "Too many parameters specified, correct usage:\n  {0}"
+  "tooManyArgs": "Too many parameters specified, correct usage:\n  {0}",
+  "noClientPerms": "I do no have permission to do that!"
 }
