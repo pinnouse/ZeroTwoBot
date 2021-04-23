@@ -107,6 +107,10 @@ class AudioController {
   async playSong (song, playlist, voiceConnection, textChannel, localeToUse) {
     // console.log('playlist');
     // console.log(playlist);
+    if (!song) {
+      this.endPlayback(textChannel.guild.id);
+      return;
+    }
     if (playlist.status === PLAYER_STATUS.OFF || playlist.status === PLAYER_STATUS.NEXT) {
       let stream = ytdl(song.getURL(), options);
       
